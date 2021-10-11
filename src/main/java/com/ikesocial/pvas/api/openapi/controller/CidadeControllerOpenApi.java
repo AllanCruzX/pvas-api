@@ -1,6 +1,6 @@
 package com.ikesocial.pvas.api.openapi.controller;
 
-import java.util.List;
+import org.springframework.hateoas.CollectionModel;
 
 import com.ikesocial.pvas.api.exceptionhandler.Problem;
 import com.ikesocial.pvas.api.model.output.CidadeModel;
@@ -17,7 +17,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 public interface CidadeControllerOpenApi {
 
 	@ApiOperation("Lista as cidades")
-	List<CidadeModel> listar();
+	CollectionModel<CidadeModel> listar();
 
 	
 	@ApiOperation("Lista as cidades por estado ID")
@@ -27,7 +27,7 @@ public interface CidadeControllerOpenApi {
 		@ApiResponse(responseCode = "404", description = "Estado não encontrada", 
 				content = @Content(schema = @Schema(implementation = Problem.class)))
 		})
-	List<CidadeModel> listarCidadesPorEstado(@ApiParam(value = "ID de um estado", example = "1", required = true) Long estadoId);
+	CollectionModel<CidadeModel> listarCidadesPorEstado(@ApiParam(value = "ID de um estado", example = "1", required = true) Long estadoId);
 	
 	
 	@ApiOperation("Busca uma cidade por ID")

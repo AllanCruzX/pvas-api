@@ -55,7 +55,7 @@ public class EstadoController implements EstadoControllerOpenApi {
 
 		List<Estado> estados = (List<Estado>) estadoRepository.findAll();
 
-		List<EstadoModel> estdosModel = estadoModelAssembler.toCollectionModel(estados);
+		List<EstadoModel> estdosModel = (List<EstadoModel>) estadoModelAssembler.toCollectionModel(estados);
 
 		return ResponseEntity.ok().cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS).cachePublic()).eTag(eTag)
 				.body(estdosModel);

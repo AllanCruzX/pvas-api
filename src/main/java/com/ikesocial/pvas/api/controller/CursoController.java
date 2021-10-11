@@ -1,10 +1,9 @@
 package com.ikesocial.pvas.api.controller;
 
-import java.util.List;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ikesocial.pvas.api.ResourceUriHelper;
 import com.ikesocial.pvas.api.assembler.CursoModelAssembler;
 import com.ikesocial.pvas.api.assembler.disassembler.CursoInputDisassembler;
 import com.ikesocial.pvas.api.model.input.CursoInput;
@@ -57,10 +57,9 @@ public class CursoController implements CursoControllerOpenApi {
 	
 	@Override
 	@GetMapping("/pessoa-fisica/{codigoPessoaFisica}")
-	public List<CursoModel> buscarCursosDaPessoaFisica (@PathVariable String codigoPessoaFisica) {
+	public CollectionModel<CursoModel> buscarCursosDaPessoaFisica (@PathVariable String codigoPessoaFisica) {
 		
 		try {
-			
 			cadastroAssistenteSocialService.buscarOuFalhar(codigoPessoaFisica);
 			return cursoModelAssembler.toCollectionModel(cursoRepository.lirtarCursosDaPessoaFisica(codigoPessoaFisica));
 		} catch (AssistenteSocialNaoEncontradoException e) {
@@ -81,11 +80,12 @@ public class CursoController implements CursoControllerOpenApi {
 			
 			CursoModel cursoModel = cursoModelAssembler.toModel(curso);
 			
+			ResourceUriHelper.addUriInResponseHeader(cursoModel.getId());
+			
 			return cursoModel;
 		} catch (AssistenteSocialNaoEncontradoException e) {
 			throw new NegocioException(e.getMessage(), e);
 		}
-		
 		
 	}
 	

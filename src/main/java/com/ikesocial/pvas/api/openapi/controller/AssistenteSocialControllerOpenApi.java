@@ -1,16 +1,12 @@
 package com.ikesocial.pvas.api.openapi.controller;
 
-import java.util.List;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
 
 import com.ikesocial.pvas.api.exceptionhandler.Problem;
 import com.ikesocial.pvas.api.model.input.AssistenteSocialInput;
 import com.ikesocial.pvas.api.model.output.AssistenteSocialModel;
 import com.ikesocial.pvas.api.model.output.AssistenteSocialResumoModel;
-import com.ikesocial.pvas.api.model.output.SexoModel;
 import com.ikesocial.pvas.domain.filter.AssistenteSocialFilter;
 
 import io.swagger.annotations.Api;
@@ -63,8 +59,5 @@ public interface AssistenteSocialControllerOpenApi {
 			@ApiResponse(responseCode = "404", description = "Assistente social não encontrada", content = @Content(schema = @Schema(implementation = Problem.class))) })
 	void inativar(
 			@ApiParam(value = "Código de uma assistente social", example = "fc60f245-6c65-4302-9025-89a9d05346a6", required = true) String codigoAssistenteSocial);
-
-	@ApiOperation("Lista de sexos dos assistente sociais")
-	ResponseEntity<List<SexoModel>> listarSexo();
 
 }

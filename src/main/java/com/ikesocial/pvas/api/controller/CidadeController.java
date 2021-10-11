@@ -3,6 +3,7 @@ package com.ikesocial.pvas.api.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,15 +37,13 @@ public class CidadeController implements CidadeControllerOpenApi {
 	private CidadeModelAssembler cidadeModelAssembler;
 
 	@GetMapping
-	public List<CidadeModel> listar() {
+	public CollectionModel<CidadeModel> listar() {
 		
-		List<Cidade> todasCidades = (List<Cidade>) cidadeRepository.findAll();
-		
-		return cidadeModelAssembler.toCollectionModel(todasCidades);
+		 return cidadeModelAssembler.toCollectionModel(cidadeRepository.findAll());
 	}
 	
-	@GetMapping("/{estadoId}")
-	public List<CidadeModel> listarCidadesPorEstado(@PathVariable Long estadoId) {
+	@GetMapping("/estados/{estadoId}")
+	public CollectionModel<CidadeModel> listarCidadesPorEstado(@PathVariable Long estadoId) {
 		
 		Estado estado = cadastroEstadoService.buscarOuFalhar(estadoId);
 		
@@ -57,7 +56,7 @@ public class CidadeController implements CidadeControllerOpenApi {
 	@GetMapping("/{cidadeId}")
 	public CidadeModel buscar(@PathVariable Long cidadeId) {
 		Cidade cidade = cadastroCidadeService.buscarOuFalhar(cidadeId);
-		
+						
 		return cidadeModelAssembler.toModel(cidade);
 	}
 

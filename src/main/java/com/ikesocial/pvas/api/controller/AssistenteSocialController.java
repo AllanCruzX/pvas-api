@@ -1,7 +1,6 @@
 package com.ikesocial.pvas.api.controller;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import javax.validation.Valid;
 
@@ -11,10 +10,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,12 +25,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ikesocial.pvas.api.assembler.AssistenteSocialModelAssembler;
 import com.ikesocial.pvas.api.assembler.AssistenteSocialResumoModelAssembler;
-import com.ikesocial.pvas.api.assembler.SexoModelAssembler;
 import com.ikesocial.pvas.api.assembler.disassembler.AssistentesSociaisInputDisassembler;
 import com.ikesocial.pvas.api.model.input.AssistenteSocialInput;
 import com.ikesocial.pvas.api.model.output.AssistenteSocialModel;
 import com.ikesocial.pvas.api.model.output.AssistenteSocialResumoModel;
-import com.ikesocial.pvas.api.model.output.SexoModel;
 import com.ikesocial.pvas.api.openapi.controller.AssistenteSocialControllerOpenApi;
 import com.ikesocial.pvas.domain.exception.CidadeNaoEncontradoException;
 import com.ikesocial.pvas.domain.exception.CursoNaoEncontradoException;
@@ -45,7 +40,6 @@ import com.ikesocial.pvas.domain.exception.IdiomaNaoEncontradoException;
 import com.ikesocial.pvas.domain.exception.NegocioException;
 import com.ikesocial.pvas.domain.filter.AssistenteSocialFilter;
 import com.ikesocial.pvas.domain.model.PessoaFisica;
-import com.ikesocial.pvas.domain.model.enums.Sexo;
 import com.ikesocial.pvas.domain.repository.AssistenteSocialRepository;
 import com.ikesocial.pvas.domain.service.CadastroAssistenteSocialService;
 
@@ -67,11 +61,7 @@ public class AssistenteSocialController implements AssistenteSocialControllerOpe
 
 	@Autowired
 	private AssistentesSociaisInputDisassembler assistentesSociaisInputDisassembler;
-	
-	@Autowired
-	private SexoModelAssembler sexoModelAssembler;
 
-	@Override
 	@GetMapping
 	public Page<AssistenteSocialResumoModel> listar(AssistenteSocialFilter assistenteSocialFilter , @RequestParam(required = false) boolean incluirInativos , @PageableDefault(size = 20) Pageable pageable) {
 		
@@ -91,14 +81,12 @@ public class AssistenteSocialController implements AssistenteSocialControllerOpe
 
 	}
 
-	@Override
 	@GetMapping("/{codigoAssistenteSocial}")
 	public AssistenteSocialModel buscar(@PathVariable String codigoAssistenteSocial) {
 
 		return assistenteSocialModelAssembler.toModel(cadastroAssistenteSocialService.buscarOuFalhar(codigoAssistenteSocial));
 	}
 
-	@Override
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public AssistenteSocialModel adicionar(@RequestBody @Valid AssistenteSocialInput assistenteSocialInput) {
@@ -122,7 +110,6 @@ public class AssistenteSocialController implements AssistenteSocialControllerOpe
 
 	}
 	
-	@Override
 	@PutMapping("/{codigoPessoaFisica}")
 	public AssistenteSocialModel atualizar(@PathVariable String codigoPessoaFisica, @RequestBody @Valid AssistenteSocialInput assistenteSocialInput) {
 		try {
@@ -145,34 +132,16 @@ public class AssistenteSocialController implements AssistenteSocialControllerOpe
 		}
 	}
 
-	@Override
 	@PutMapping("/{codigoAssistenteSocial}/ativo")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void ativar(@PathVariable  String codigoAssistenteSocial) {
 		cadastroAssistenteSocialService.ativar(codigoAssistenteSocial);
 	}
 
-	@Override
 	@DeleteMapping("/{codigoAssistenteSocial}/ativo")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void inativar(@PathVariable  String codigoAssistenteSocial) {
 		cadastroAssistenteSocialService.inativar(codigoAssistenteSocial);
 	}
-	
-	@Override
-	@GetMapping("/sexo")
-	public ResponseEntity<List<SexoModel>> listarSexo(){
-		
-		 List<Sexo> sexos = Sexo.valores();
-		 
-		 List<SexoModel> sexosModel = sexoModelAssembler.toCollectionModel(sexos);
-		 
-		 return ResponseEntity.ok()
-					.cacheControl(CacheControl.maxAge(30, TimeUnit.DAYS).cachePublic())
-					.body(sexosModel);
-		
-	}
-	
-	
 
 }

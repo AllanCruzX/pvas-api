@@ -1,6 +1,6 @@
 package com.ikesocial.pvas.api.openapi.controller;
 
-import java.util.List;
+import org.springframework.hateoas.CollectionModel;
 
 import com.ikesocial.pvas.api.exceptionhandler.Problem;
 import com.ikesocial.pvas.api.model.input.CursoInput;
@@ -27,7 +27,7 @@ public interface CursoControllerOpenApi {
 	@ApiResponses({
 			@ApiResponse(responseCode = "400", description = "Código da assistente soccial inválido", content = @Content(schema = @Schema(implementation = Problem.class))),
 			@ApiResponse(responseCode = "404", description = "Curso não encontrado", content = @Content(schema = @Schema(implementation = Problem.class))) })
-	List<CursoModel> buscarCursosDaPessoaFisica(
+	CollectionModel<CursoModel> buscarCursosDaPessoaFisica(
 			@ApiParam(value = "Código de uma assistente social", example = "fc60f245-6c65-4302-9025-89a9d05346a6", required = true) String codigoAssistenteSocial);
 
 	@ApiOperation("Cadastra um curso")
