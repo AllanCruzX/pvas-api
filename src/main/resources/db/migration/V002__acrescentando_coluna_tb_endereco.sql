@@ -1,0 +1,2 @@
+ALTER TABLE endereco 
+ADD COLUMN principal BIT(1) NOT NULL AFTER id;

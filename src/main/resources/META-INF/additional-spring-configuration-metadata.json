@@ -1,0 +1,52 @@
+{"properties": [
+  {
+    "name": "pvas.storage.local.diretorio-fotos",
+    "type": "java.lang.String",
+    "description": "A description for 'pvas.storage.local.diretorio-fotos'"
+  },
+  {
+    "name": "pvas.storage.s3.bucket",
+    "type": "java.lang.String",
+    "description": "A description for 'pvas.storage.s3.bucket'"
+  },
+  {
+    "name": "pvas.storage.s3.regiao",
+    "type": "java.lang.String",
+    "description": "A description for 'pvas.storage.s3.regiao'"
+  },
+  {
+    "name": "pvas.storage.s3.diretorio-fotos",
+    "type": "java.lang.String",
+    "description": "A description for 'pvas.storage.s3.diretorio-fotos'"
+  },
+  {
+    "name": "pvas.storage.s3.id-chave-acesso-secreta",
+    "type": "java.lang.String",
+    "description": "A description for 'pvas.storage.s3.id-chave-acesso-secreta'"
+  },
+  {
+    "name": "pvas.storage.tipo",
+    "type": "java.lang.String",
+    "description": "A description for 'pvas.storage.tipo'"
+  },
+  {
+    "name": "pvas.email.sandbox.destinatario",
+    "type": "java.lang.String",
+    "description": "A description for 'pvas.email.sandbox.destinatario'"
+  },
+  {
+    "name": "pvas.client.viacep.url",
+    "type": "java.lang.String",
+    "description": "A description for 'pvas.client.viacep.url'"
+  },
+  {
+    "name": "pvas.client.viacep.path",
+    "type": "java.lang.String",
+    "description": "A description for 'pvas.client.viacep.path'"
+  },
+  {
+    "name": "spring.cloud.refresh.enabled",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.cloud.refresh.enabled'"
+  }
+]}
