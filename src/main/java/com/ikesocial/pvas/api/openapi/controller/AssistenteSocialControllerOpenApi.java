@@ -1,7 +1,8 @@
 package com.ikesocial.pvas.api.openapi.controller;
 
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.hateoas.PagedModel;
+import org.springframework.http.ResponseEntity;
 
 import com.ikesocial.pvas.api.exceptionhandler.Problem;
 import com.ikesocial.pvas.api.model.input.AssistenteSocialInput;
@@ -21,7 +22,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 public interface AssistenteSocialControllerOpenApi {
 
 	@ApiOperation("Lista de assistentes sociais")
-	Page<AssistenteSocialResumoModel> listar(
+	PagedModel<AssistenteSocialResumoModel> listar(
 			@ApiParam(name = "corpo", value = "Representação de filtro da assistente social") AssistenteSocialFilter assistenteSocialFilter,
 			boolean incluirInativos, Pageable pageable);
 
@@ -50,14 +51,14 @@ public interface AssistenteSocialControllerOpenApi {
 	@ApiResponses({
 			@ApiResponse(responseCode = "204", description = "Assistente Ativada", content = @Content(schema = @Schema(implementation = Problem.class))),
 			@ApiResponse(responseCode = "404", description = "Assistente social não encontrada", content = @Content(schema = @Schema(implementation = Problem.class))) })
-	void ativar(
+	 ResponseEntity<Void> ativar(
 			@ApiParam(value = "Código de uma assistente social", example = "fc60f245-6c65-4302-9025-89a9d05346a6" , required = true) String codigoAssistenteSocial);
 
 	@ApiOperation("Inativar assistente social por código")
 	@ApiResponses({
 			@ApiResponse(responseCode = "204", description = "Assistente Inativada", content = @Content(schema = @Schema(implementation = Problem.class))),
 			@ApiResponse(responseCode = "404", description = "Assistente social não encontrada", content = @Content(schema = @Schema(implementation = Problem.class))) })
-	void inativar(
+	 ResponseEntity<Void> inativar(
 			@ApiParam(value = "Código de uma assistente social", example = "fc60f245-6c65-4302-9025-89a9d05346a6", required = true) String codigoAssistenteSocial);
 
 }

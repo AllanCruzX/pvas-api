@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import com.ikesocial.pvas.domain.filter.AssistenteSocialEstatisticaFilter;
 import com.ikesocial.pvas.domain.model.Endereco;
-import com.ikesocial.pvas.domain.model.PessoaFisica;
+import com.ikesocial.pvas.domain.model.AssistenteSocial;
 import com.ikesocial.pvas.domain.model.dto.AssistenteSocialEstatistica;
 import com.ikesocial.pvas.domain.service.AssistenteSocialQueryService;
 
@@ -28,7 +28,7 @@ public class AssistenteSocialQueryServiceImpl implements AssistenteSocialQuerySe
 
 		var builder = manager.getCriteriaBuilder();
 		var query = builder.createQuery(AssistenteSocialEstatistica.class);
-		var root = query.from(PessoaFisica.class);
+		var root = query.from(AssistenteSocial.class);
 		var predicates = new ArrayList<Predicate>();
 		
 //		var functionConvertTzDataCadastro = builder.function(
@@ -64,7 +64,7 @@ public class AssistenteSocialQueryServiceImpl implements AssistenteSocialQuerySe
 			
 			if(filtro.getEstadoId() != null) {
 				
-				Join<Endereco, PessoaFisica> joinEstadoPessoaFisica = root.join("enderecos").join("cidade").join("estado");
+				Join<Endereco, AssistenteSocial> joinEstadoPessoaFisica = root.join("enderecos").join("cidade").join("estado");
 				predicates.add(builder.equal((joinEstadoPessoaFisica).get("id"), filtro.getEstadoId()));
 				
 			}

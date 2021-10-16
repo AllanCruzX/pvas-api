@@ -4,7 +4,7 @@ import java.util.Optional;
 
 import com.ikesocial.pvas.domain.exception.NegocioException;
 import com.ikesocial.pvas.domain.model.Documento;
-import com.ikesocial.pvas.domain.model.PessoaFisica;
+import com.ikesocial.pvas.domain.model.AssistenteSocial;
 import com.ikesocial.pvas.domain.model.builder.DocumentoBuilder;
 import com.ikesocial.pvas.domain.model.enums.TipoDocumento;
 import com.ikesocial.pvas.domain.repository.AssistenteSocialRepository;
@@ -13,14 +13,14 @@ public class CpfStrategy implements DocumentoStrategy {
 
 	@Override
 	public Documento definirDocumento(Documento documento, CadastroEstadoService estadoService,
-			AssistenteSocialRepository assistenteSocialRepository, PessoaFisica pessoaFisica) {
+			AssistenteSocialRepository assistenteSocialRepository, AssistenteSocial assistenteSocial) {
 
 		validaCpfExistente(documento, assistenteSocialRepository);
 		
 		Documento documentoNovo = new DocumentoBuilder()
 											.comCodigo(documento.getCodigo())
 											.comTipoDocumento(TipoDocumento.CPF)
-											.comPessoaFisica(pessoaFisica)
+											.comPessoaFisica(assistenteSocial)
 											.construir();
 
 

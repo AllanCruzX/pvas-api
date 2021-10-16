@@ -1,10 +1,10 @@
 package com.ikesocial.pvas.api.controller;
 
 import java.time.OffsetDateTime;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.CacheControl;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +18,6 @@ import org.springframework.web.filter.ShallowEtagHeaderFilter;
 import com.ikesocial.pvas.api.assembler.EstadoModelAssembler;
 import com.ikesocial.pvas.api.model.output.EstadoModel;
 import com.ikesocial.pvas.api.openapi.controller.EstadoControllerOpenApi;
-import com.ikesocial.pvas.domain.model.Estado;
 import com.ikesocial.pvas.domain.repository.EstadoRepository;
 import com.ikesocial.pvas.domain.service.CadastroEstadoService;
 
@@ -38,7 +37,7 @@ public class EstadoController implements EstadoControllerOpenApi {
 
 	@Override
 	@GetMapping
-	public ResponseEntity<List<EstadoModel>> listar(ServletWebRequest request) {
+	public ResponseEntity<CollectionModel<EstadoModel>> listar(ServletWebRequest request) {
 		ShallowEtagHeaderFilter.disableContentCaching(request.getRequest());
 
 		String eTag = VALOR_INICIAL;
@@ -53,9 +52,7 @@ public class EstadoController implements EstadoControllerOpenApi {
 			return null;
 		}
 
-		List<Estado> estados = (List<Estado>) estadoRepository.findAll();
-
-		List<EstadoModel> estdosModel = (List<EstadoModel>) estadoModelAssembler.toCollectionModel(estados);
+		CollectionModel<EstadoModel> estdosModel = estadoModelAssembler.toCollectionModel(estadoRepository.findAll());
 
 		return ResponseEntity.ok().cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS).cachePublic()).eTag(eTag)
 				.body(estdosModel);

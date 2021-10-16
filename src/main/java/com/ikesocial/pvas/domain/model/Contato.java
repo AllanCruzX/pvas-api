@@ -49,5 +49,29 @@ public class Contato implements Serializable {
 	public boolean eUmEmail () {
 		return this.getTipoContato().equals(TipoContato.EMAIL);
 	}
+	
+	public boolean eUmCelular () {
+		return this.getTipoContato().equals(TipoContato.CELULAR);
+	}
+	
+	public boolean eUmFacebook () {
+		return this.getTipoContato().equals(TipoContato.FACEBOOK);
+	}
+	
+	public boolean eUmIstagran () {
+		return this.getTipoContato().equals(TipoContato.INSTAGRAN);
+	}
+	
+	public boolean eUmLinkedin () {
+		return this.getTipoContato().equals(TipoContato.LINKEDIN);
+	}
+	
+	public boolean eUmSite () {
+		return this.getTipoContato().equals(TipoContato.SITE);
+	}
+	
+	public boolean eUmYoutube () {
+		return this.getTipoContato().equals(TipoContato.YOUTUBE);
+	}
 
 }

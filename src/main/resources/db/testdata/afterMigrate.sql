@@ -12,10 +12,10 @@ delete from experiecia_profissional;
 delete from foto_pessoa;
 delete from idioma;
 delete from pessoa;
-delete from pessoa_fisica;
-delete from pessoa_fisica_especializacao;
-delete from pessoa_fisica_idioma;
-delete from pessoa_fisica_sub_especialidade;
+delete from assistente_social;
+delete from assistente_social_especializacao;
+delete from assistente_social_idioma;
+delete from assistente_social_sub_especialidade;
 delete from pessoa_juridica;
 delete from sub_especialidade;
 
@@ -72,27 +72,27 @@ insert into documento(codigo, tipo_documento, pessoa_id) values ('76038003070', 
 insert into documento(codigo, tipo_documento,estado_id ,pessoa_id) values ('0000001', 'CARTEIRA_PROFISSIONAL',1, 1);
 insert into documento(codigo, tipo_documento,estado_id ,pessoa_id) values ('2255881', 'CARTEIRA_PROFISSIONAL',1, 2);
 
-insert into pessoa_fisica (pessoa_fisica_id , nome_mae, nome_pai, data_nascimento, pne, sexo, estado_civil) values (1 , 'Maria Alice' , 'Albertino' , '1970-07-15' , 0 ,'MASCULINO' , 'CASADO');
-insert into pessoa_fisica (pessoa_fisica_id , nome_mae, nome_pai, data_nascimento, pne, sexo, estado_civil) values (2 , 'Edivaldina' , 'Nenê' , '1988-01-11' , 0 ,'FEMININO' , 'CASADO');
+insert into assistente_social (assistente_social_id , nome_mae, nome_pai, data_nascimento, pne, sexo, estado_civil) values (1 , 'Maria Alice' , 'Albertino' , '1970-07-15' , 0 ,'MASCULINO' , 'CASADO');
+insert into assistente_social (assistente_social_id , nome_mae, nome_pai, data_nascimento, pne, sexo, estado_civil) values (2 , 'Edivaldina' , 'Nenê' , '1988-01-11' , 0 ,'FEMININO' , 'CASADO');
 
-insert into curso (nome, chaga_horaria, pessoa_fisica_id) values ('Assistente social autônomo' , '60 h', 1);
-insert into curso (nome, chaga_horaria, pessoa_fisica_id) values ('Assistente social autônomo' , '60 h', 2);
+insert into curso (nome, chaga_horaria, assistente_social_id) values ('Assistente social autônomo' , 60, 1);
+insert into curso (nome, chaga_horaria, assistente_social_id) values ('Assistente social autônomo IKE' , 100, 2);
 
 insert into idioma (id , nome) values (1, 'Português');
 insert into idioma (id , nome) values (2, 'Inglês ');
 
-insert into pessoa_fisica_idioma (pessoa_fisica_id , idioma_id) values (1,1);
-insert into pessoa_fisica_idioma (pessoa_fisica_id , idioma_id) values (2,1);
+insert into assistente_social_idioma (assistente_social_id , idioma_id) values (1,1);
+insert into assistente_social_idioma (assistente_social_id , idioma_id) values (2,1);
 
 insert into especializacao (id , nome) values (1 , 'Mestrado');
 insert into especializacao (id , nome) values (2 , 'Doutorado');
 
-insert into pessoa_fisica_especializacao (pessoa_fisica_id, especializacao_id) values (1,1);
-insert into pessoa_fisica_especializacao (pessoa_fisica_id, especializacao_id) values (2,2);
+insert into assistente_social_especializacao (assistente_social_id, especializacao_id) values (1,1);
+insert into assistente_social_especializacao (assistente_social_id, especializacao_id) values (2,2);
 
-insert into pessoa_fisica_sub_especialidade (pessoa_fisica_id , sub_especialidade_id) values(1,1);
-insert into pessoa_fisica_sub_especialidade (pessoa_fisica_id , sub_especialidade_id) values(2,1);
-insert into pessoa_fisica_sub_especialidade (pessoa_fisica_id , sub_especialidade_id) values(2,2);
+insert into assistente_social_sub_especialidade (assistente_social_id , sub_especialidade_id) values(1,1);
+insert into assistente_social_sub_especialidade (assistente_social_id , sub_especialidade_id) values(2,1);
+insert into assistente_social_sub_especialidade (assistente_social_id , sub_especialidade_id) values(2,2);
 
-insert into experiecia_profissional (id, nome_empresa , atividade , data_inicio   , empresa_atual , pessoa_fisica_id) values (1,'Petobras','Da assistencia no Pre-sal', utc_timestamp ,   true , 1);
-insert into experiecia_profissional (id, nome_empresa , atividade , data_inicio  , empresa_atual , pessoa_fisica_id) values (2,'IkeSocial','CEO da empresa', utc_timestamp ,  true , 2);
+insert into experiecia_profissional (id, nome_empresa , atividade , data_inicio   , empresa_atual , assistente_social_id) values (1,'Petobras','Da assistencia no Pre-sal', utc_timestamp ,   true , 1);
+insert into experiecia_profissional (id, nome_empresa , atividade , data_inicio  , empresa_atual , assistente_social_id) values (2,'IkeSocial','CEO da empresa', utc_timestamp ,  true , 2);

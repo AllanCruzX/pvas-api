@@ -31,13 +31,13 @@ public class Curso  implements Serializable{
 	@Column(name = "nome", length = 100, nullable = false)
 	private String nome;
 	
-	@Column(name = "chaga_horaria", length = 100, nullable = false)
-	private String chagaHoraria;
+	@Column(name = "chaga_horaria", nullable = false)
+	private Long chagaHoraria;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "pessoa_fisica_id",
-				foreignKey = @ForeignKey(name = "fk_curso_pessoa_fisica"),
+	@JoinColumn(name = "assistente_social_id",
+				foreignKey = @ForeignKey(name = "fk_curso_assistente_social"),
 				nullable = false)
-	private PessoaFisica pessoaFisica;
+	private AssistenteSocial assistenteSocial;
 
 }

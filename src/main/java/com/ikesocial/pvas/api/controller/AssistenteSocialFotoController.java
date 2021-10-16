@@ -28,8 +28,9 @@ import com.ikesocial.pvas.api.model.input.FotoAssistenteSocialInput;
 import com.ikesocial.pvas.api.model.output.FotoAssistenteSocialModel;
 import com.ikesocial.pvas.api.openapi.controller.AssistenteSocialFotoControllerOpenApi;
 import com.ikesocial.pvas.domain.exception.EntidadeNaoEncontradaException;
+import com.ikesocial.pvas.domain.exception.NegocioException;
 import com.ikesocial.pvas.domain.model.FotoPessoa;
-import com.ikesocial.pvas.domain.model.PessoaFisica;
+import com.ikesocial.pvas.domain.model.AssistenteSocial;
 import com.ikesocial.pvas.domain.service.CadastroAssistenteSocialService;
 import com.ikesocial.pvas.domain.service.CatalogoFotoAssistenteSocial;
 import com.ikesocial.pvas.domain.service.FotoStorageService;
@@ -55,7 +56,7 @@ public class AssistenteSocialFotoController implements AssistenteSocialFotoContr
 	public FotoAssistenteSocialModel atualizarFoto(@PathVariable String codigoAssistenteSocial,
 			@Valid FotoAssistenteSocialInput fotoAssistenteSocialInput , @RequestPart(required = true) MultipartFile arquivo) throws IOException {
 
-		PessoaFisica assistenteSocial = cadastroAssistenteSocialService
+		AssistenteSocial assistenteSocial = cadastroAssistenteSocialService
 				.buscarOuFalharAssistenteSocialSemComplementos(codigoAssistenteSocial);
 		
 		FotoPessoa foto = new FotoPessoa();
@@ -73,7 +74,7 @@ public class AssistenteSocialFotoController implements AssistenteSocialFotoContr
 
 	@GetMapping(produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE, MediaType.APPLICATION_JSON_VALUE})
 	public ResponseEntity<?> servirFoto(@PathVariable String codigoAssistenteSocial,
-			@RequestHeader(name = "accept") String acceptHeader) throws HttpMediaTypeNotAcceptableException {
+			@RequestHeader(name = "accept") String acceptHeader)  {
 		
 		
 		if (acceptHeader.equals(MediaType.APPLICATION_JSON_VALUE)) {
@@ -86,8 +87,9 @@ public class AssistenteSocialFotoController implements AssistenteSocialFotoContr
 			
 			List<MediaType> mediaTypesAceitas = MediaType.parseMediaTypes(acceptHeader);
 			
-			verificarCompatibilidadeMediaType(mediaTypeFoto, mediaTypesAceitas);
-
+			
+				verificarCompatibilidadeMediaType(mediaTypeFoto, mediaTypesAceitas);
+		
 			FotoRecuperada fotoRecuperada = fotoStorage.recuperar(fotoAssistenteSocial.getNomeArquivo());
 
 			if (fotoRecuperada.temUrl()) {
@@ -103,7 +105,10 @@ public class AssistenteSocialFotoController implements AssistenteSocialFotoContr
 
 		} catch (EntidadeNaoEncontradaException e) {
 			return ResponseEntity.notFound().build();
+		}catch (HttpMediaTypeNotAcceptableException e) {
+			throw new NegocioException(e.getCause().getMessage(), e);
 		}
+ 
 	}
 	
 	

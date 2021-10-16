@@ -49,26 +49,23 @@ public class CursoController implements CursoControllerOpenApi {
 	private CadastroAssistenteSocialService cadastroAssistenteSocialService;
 
 
-	@Override
 	@GetMapping("/{cursoId}")
 	public CursoModel buscar(@PathVariable Long cursoId) {
 		return cursoModelAssembler.toModel(cadastroCursoService.buscarOuFalhar(cursoId));
 	}
 	
-	@Override
-	@GetMapping("/pessoa-fisica/{codigoPessoaFisica}")
-	public CollectionModel<CursoModel> buscarCursosDaPessoaFisica (@PathVariable String codigoPessoaFisica) {
+	@GetMapping("/assitente-social/{codigoAssistenteSocial}")
+	public CollectionModel<CursoModel> buscarCursosAssistenteSocial (@PathVariable String codigoAssistenteSocial) {
 		
 		try {
-			cadastroAssistenteSocialService.buscarOuFalhar(codigoPessoaFisica);
-			return cursoModelAssembler.toCollectionModel(cursoRepository.lirtarCursosDaPessoaFisica(codigoPessoaFisica));
+			cadastroAssistenteSocialService.buscarOuFalhar(codigoAssistenteSocial);
+			return cursoModelAssembler.toCollectionModel(cursoRepository.lirtarCursosAssistenteSocial(codigoAssistenteSocial));
 		} catch (AssistenteSocialNaoEncontradoException e) {
 			
 			throw new NegocioException(e.getMessage(), e);
 		}
 	}
 	
-	@Override
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public CursoModel adicionar(@RequestBody @Valid CursoInput cursoInput) {
@@ -89,7 +86,6 @@ public class CursoController implements CursoControllerOpenApi {
 		
 	}
 	
-	@Override
 	@PutMapping("/{cursoId}")
 	public CursoModel atualizar(@PathVariable Long cursoId, @RequestBody @Valid CursoInput cursoInput) {
 		try {
@@ -106,7 +102,6 @@ public class CursoController implements CursoControllerOpenApi {
 		}
 	}
 	
-	@Override
 	@DeleteMapping("/{cursoId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void remover(@PathVariable Long cursoId) {

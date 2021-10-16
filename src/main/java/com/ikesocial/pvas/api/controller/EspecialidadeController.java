@@ -3,6 +3,7 @@ package com.ikesocial.pvas.api.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,11 +32,11 @@ public class EspecialidadeController implements EspecialidadeControllerOpenApi  
 
 	@Override
 	@GetMapping
-	public List<EspecialidadeModel> listar() {
+	public CollectionModel<EspecialidadeModel> listar() {
 		
 		List<Especialidade> especialidades = especialidadeRepository.findAll();
 		
-		List<EspecialidadeModel> especialidadesModel = especialidadeModelAssembler.toCollectionModel(especialidades);
+		CollectionModel<EspecialidadeModel> especialidadesModel = especialidadeModelAssembler.toCollectionModel(especialidades);
 		
 		return especialidadesModel;
 	}

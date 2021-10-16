@@ -1,7 +1,6 @@
 package com.ikesocial.pvas.api.openapi.controller;
 
-import java.util.List;
-
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.context.request.ServletWebRequest;
 
@@ -20,7 +19,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 public interface EstadoControllerOpenApi {
 
 	@ApiOperation("Lista os estados")
-	ResponseEntity<List<EstadoModel>> listar(ServletWebRequest request);
+	ResponseEntity<CollectionModel<EstadoModel>> listar(ServletWebRequest request);
 
 	@ApiOperation("Busca um estado por ID")
 	@ApiResponses({

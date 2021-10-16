@@ -15,9 +15,9 @@ create table contato (
 
 create table curso (
 		id bigint not null auto_increment, 
-		chaga_horaria varchar(100) not null, 
+		chaga_horaria bigint not null, 
 		nome varchar(100) not null, 
-		pessoa_fisica_id bigint not null, 
+		assistente_social_id bigint not null, 
 		primary key (id)		
 ) engine=InnoDB default charset=utf8;
 
@@ -72,7 +72,7 @@ create table experiecia_profissional (
 		data_inicio date, empresa_atual bit, 
 		nome_empresa varchar(100), 
 		sem_experiencia bit, 
-		pessoa_fisica_id bigint not null, 
+		assistente_social_id bigint not null, 
 		primary key (id)		
 ) engine=InnoDB default charset=utf8;
 
@@ -100,33 +100,33 @@ create table pessoa (
 		primary key (id)	
 ) engine=InnoDB default charset=utf8;
 
-create table pessoa_fisica (
+create table assistente_social (
 		data_nascimento date not null, 
 		estado_civil varchar(50) not null, 
 		nome_mae varchar(100), 
 		nome_pai varchar(100), 
 		pne bit not null, 
 		sexo varchar(20) not null, 
-		pessoa_fisica_id bigint not null, 
-		primary key (pessoa_fisica_id)
+		assistente_social_id bigint not null, 
+		primary key (assistente_social_id)
 ) engine=InnoDB default charset=utf8;
 
-create table pessoa_fisica_especializacao (
-		pessoa_fisica_id bigint not null, 
+create table assistente_social_especializacao (
+		assistente_social_id bigint not null, 
 		especializacao_id bigint not null, 
-		primary key (pessoa_fisica_id, especializacao_id)
+		primary key (assistente_social_id, especializacao_id)
 ) engine=InnoDB default charset=utf8;
 
-create table pessoa_fisica_idioma (
-		pessoa_fisica_id bigint not null, 
+create table assistente_social_idioma (
+		assistente_social_id bigint not null, 
 		idioma_id bigint not null, 
-		primary key (pessoa_fisica_id, idioma_id)
+		primary key (assistente_social_id, idioma_id)
 ) engine=InnoDB default charset=utf8;
 
-create table pessoa_fisica_sub_especialidade (
-		pessoa_fisica_id bigint not null, 
+create table assistente_social_sub_especialidade (
+		assistente_social_id bigint not null, 
 		sub_especialidade_id bigint not null, 
-		primary key (pessoa_fisica_id, sub_especialidade_id)
+		primary key (assistente_social_id, sub_especialidade_id)
 ) engine=InnoDB default charset=utf8;
 
 create table pessoa_juridica (
@@ -148,8 +148,8 @@ foreign key (estado_id) references estado (id);
 alter table contato add constraint fk_contato_pessoa 
 foreign key (pessoa_id) references pessoa (id);
 
-alter table curso add constraint fk_curso_pessoa_fisica 
-foreign key (pessoa_fisica_id) references pessoa_fisica (pessoa_fisica_id);
+alter table curso add constraint fk_curso_assistente_social 
+foreign key (assistente_social_id) references assistente_social (assistente_social_id);
 
 alter table documento add constraint fk_documento_estado 
 foreign key (estado_id) references estado (id);
@@ -163,32 +163,32 @@ foreign key (cidade_id) references cidade (id);
 alter table endereco add constraint fk_endereco_pessoa 
 foreign key (pessoa_id) references pessoa (id);
 
-alter table experiecia_profissional add constraint fk_experiecia_profissional_pessoa_fisica 
-foreign key (pessoa_fisica_id) references pessoa_fisica (pessoa_fisica_id);
+alter table experiecia_profissional add constraint fk_experiecia_profissional_assistente_social 
+foreign key (assistente_social_id) references assistente_social (assistente_social_id);
 
 alter table foto_pessoa add constraint fk_foto_pessoa_pessoa 
 foreign key (pessoa_id) references pessoa (id);
 
-alter table pessoa_fisica add constraint fk_pessoa_fisica_pessoa 
-foreign key (pessoa_fisica_id) references pessoa (id);
+alter table assistente_social add constraint fk_assistente_social_pessoa 
+foreign key (assistente_social_id) references pessoa (id);
 
-alter table pessoa_fisica_especializacao add constraint fk_especializacao_pessoa_fisica 
+alter table assistente_social_especializacao add constraint fk_especializacao_assistente_social 
 foreign key (especializacao_id) references especializacao (id);
 
-alter table pessoa_fisica_especializacao add constraint fk_pessoa_fisica_especializacao 
-foreign key (pessoa_fisica_id) references pessoa_fisica (pessoa_fisica_id);
+alter table assistente_social_especializacao add constraint fk_assistente_social_especializacao 
+foreign key (assistente_social_id) references assistente_social (assistente_social_id);
 
-alter table pessoa_fisica_idioma add constraint fk_idioma_pessoa_fisica 
+alter table assistente_social_idioma add constraint fk_idioma_assistente_social 
 foreign key (idioma_id) references idioma (id);
 
-alter table pessoa_fisica_idioma add constraint fk_pessoa_fisica_idioma 
-foreign key (pessoa_fisica_id) references pessoa_fisica (pessoa_fisica_id);
+alter table assistente_social_idioma add constraint fk_assistente_social_idioma 
+foreign key (assistente_social_id) references assistente_social (assistente_social_id);
 
-alter table pessoa_fisica_sub_especialidade add constraint fk_sub_especialidade_pessoa_fisica 
+alter table assistente_social_sub_especialidade add constraint fk_sub_especialidade_assistente_social 
 foreign key (sub_especialidade_id) references sub_especialidade (id);
 
-alter table pessoa_fisica_sub_especialidade add constraint fk_pessoa_fisica_sub_especialidade 
-foreign key (pessoa_fisica_id) references pessoa_fisica (pessoa_fisica_id);
+alter table assistente_social_sub_especialidade add constraint fk_assistente_social_sub_especialidade 
+foreign key (assistente_social_id) references assistente_social (assistente_social_id);
 
 alter table pessoa_juridica add constraint fk_pessoa_juridica_pessoa 
 foreign key (pessoa_juridica_id) references pessoa (id);

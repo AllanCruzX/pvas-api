@@ -1,8 +1,9 @@
 package com.ikesocial.pvas.api.controller;
 
-import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,12 +13,14 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ikesocial.pvas.api.assembler.SubEspecialidadeModelAssembler;
 import com.ikesocial.pvas.api.model.output.SubEspecialidadeModel;
 import com.ikesocial.pvas.api.openapi.controller.SubEspecialidadeControllerOpenApi;
+import com.ikesocial.pvas.domain.exception.AssistenteSocialNaoEncontradoException;
+import com.ikesocial.pvas.domain.exception.NegocioException;
 import com.ikesocial.pvas.domain.model.SubEspecialidade;
 import com.ikesocial.pvas.domain.repository.SubEspecialidadeRepository;
 import com.ikesocial.pvas.domain.service.CadastroSubEspecialidadeService;
 
 @RestController
-@RequestMapping(path = "/subespecialidades", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = "/sub-especialidades", produces = MediaType.APPLICATION_JSON_VALUE)
 public class SubEspecialidadeController implements SubEspecialidadeControllerOpenApi {
 
 	@Autowired
@@ -31,11 +34,8 @@ public class SubEspecialidadeController implements SubEspecialidadeControllerOpe
 
 	@Override
 	@GetMapping
-	public List<SubEspecialidadeModel> listar() {
-
-		List<SubEspecialidade> subespecialidades = (List<SubEspecialidade>) subEspecialidadeRepository.findAll();
-
-		return subEspecialidadeModelAssembler.toCollectionModel(subespecialidades);
+	public CollectionModel<SubEspecialidadeModel> listar() {
+		return subEspecialidadeModelAssembler.toCollectionModel(subEspecialidadeRepository.findAll());
 	}
 
 	@Override
@@ -45,6 +45,24 @@ public class SubEspecialidadeController implements SubEspecialidadeControllerOpe
 		return subEspecialidadeModelAssembler
 				.toModel(cadastroSubEspecialidadeService.buscarOuFalhar(subEspecialidadeId));
 
+	}
+
+	@GetMapping("/assistente-social/{codigoAssistenteSocial}")
+	public CollectionModel<SubEspecialidadeModel> buscarSubEspecialidadeAssistenteSocial(
+			@PathVariable String codigoAssistenteSocial) {
+
+		Set<SubEspecialidade> subEspecialidades = null;
+
+		try {
+
+			subEspecialidades = cadastroSubEspecialidadeService
+					.listarSubEspecialidadeAssistenteSocial(codigoAssistenteSocial);
+
+		} catch (AssistenteSocialNaoEncontradoException e) {
+			throw new NegocioException(e.getMessage(), e);
+		}
+
+		return subEspecialidadeModelAssembler.toCollectionModel(subEspecialidades);
 	}
 
 }

@@ -8,6 +8,7 @@ import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
 
+import com.ikesocial.pvas.api.PvasLinks;
 import com.ikesocial.pvas.api.controller.CursoController;
 import com.ikesocial.pvas.api.model.output.CursoModel;
 import com.ikesocial.pvas.domain.model.Curso;
@@ -18,6 +19,9 @@ public class CursoModelAssembler  extends RepresentationModelAssemblerSupport<Cu
 	@Autowired
 	private ModelMapper modelMapper;
 	
+	@Autowired
+	private PvasLinks pvasLinks;
+	
 	public CursoModelAssembler() {
 		super(CursoController.class, CursoModel.class);
 	}
@@ -25,10 +29,9 @@ public class CursoModelAssembler  extends RepresentationModelAssemblerSupport<Cu
 	@Override
 	public CursoModel toModel(Curso curso) {
 		CursoModel cursoModel = createModelWithId(curso.getId() , curso);
-		
 		modelMapper.map(curso, cursoModel);
 		
-		cursoModel.add(linkTo(CursoController.class).withRel("cursos"));
+		cursoModel.add(pvasLinks.linkToCursos("cursos"));
 		
 		return cursoModel;
 	}

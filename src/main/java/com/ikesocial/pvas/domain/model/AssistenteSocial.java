@@ -18,7 +18,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ikesocial.pvas.domain.model.enums.EstadoCivil;
 import com.ikesocial.pvas.domain.model.enums.Sexo;
 
@@ -28,10 +27,10 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "pessoa_fisica")
-@PrimaryKeyJoinColumn(name = "pessoa_fisica_id", foreignKey = @ForeignKey(name = "fk_pessoa_fisica_pessoa") )
+@Table(name = "assistente_social")
+@PrimaryKeyJoinColumn(name = "assistente_social_id", foreignKey = @ForeignKey(name = "fk_assistente_social_pessoa") )
 @Inheritance(strategy = InheritanceType.JOINED)
-public class PessoaFisica extends Pessoa {
+public class AssistenteSocial extends Pessoa {
 	private static final long serialVersionUID = 1L;
 
 	@Column(name = "nome_mae" , length = 100)
@@ -54,37 +53,34 @@ public class PessoaFisica extends Pessoa {
 	@Enumerated(EnumType.STRING)
 	private EstadoCivil estadoCivil;
 	
-	@OneToMany(mappedBy ="pessoaFisica" ,  fetch = FetchType.LAZY)
+	@OneToMany(mappedBy ="assistenteSocial" ,  fetch = FetchType.LAZY)
 	private Set<ExperienciaProfissional> experieciasProfissionais;
 	
-	@OneToMany(mappedBy ="pessoaFisica" ,  fetch = FetchType.LAZY)
+	@OneToMany(mappedBy ="assistenteSocial" ,  fetch = FetchType.LAZY)
 	private Set<Curso> cursos;
 	
-	@JsonIgnore
 	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "pessoa_fisica_idioma", 
-		joinColumns = @JoinColumn(name = "pessoa_fisica_id",  
-			foreignKey = @ForeignKey(name = "fk_pessoa_fisica_idioma")), 
+	@JoinTable(name = "assistente_social_idioma", 
+		joinColumns = @JoinColumn(name = "assistente_social_id",  
+			foreignKey = @ForeignKey(name = "fk_assistente_social_idioma")), 
 		inverseJoinColumns = @JoinColumn(name = "idioma_id", 
-			foreignKey = @ForeignKey(name = "fk_idioma_pessoa_fisica")))
+			foreignKey = @ForeignKey(name = "fk_idioma_assistente_social")))
 	private Set<Idioma> idiomas;
 	
-	@JsonIgnore
 	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "pessoa_fisica_especializacao", 
-		joinColumns = @JoinColumn(name = "pessoa_fisica_id",  
-			foreignKey = @ForeignKey(name = "fk_pessoa_fisica_especializacao")), 
+	@JoinTable(name = "assistente_social_especializacao", 
+		joinColumns = @JoinColumn(name = "assistente_social_id",  
+			foreignKey = @ForeignKey(name = "fk_assistente_social_especializacao")), 
 		inverseJoinColumns = @JoinColumn(name = "especializacao_id", 
-			foreignKey = @ForeignKey(name = "fk_especializacao_pessoa_fisica")))
+			foreignKey = @ForeignKey(name = "fk_especializacao_assistente_social")))
 	private Set<Especializacao> especializacoes;
 	
-	@JsonIgnore
 	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "pessoa_fisica_sub_especialidade", 
-		joinColumns = @JoinColumn(name = "pessoa_fisica_id",  
-			foreignKey = @ForeignKey(name = "fk_pessoa_fisica_sub_especialidade")), 
+	@JoinTable(name = "assistente_social_sub_especialidade", 
+		joinColumns = @JoinColumn(name = "assistente_social_id",  
+			foreignKey = @ForeignKey(name = "fk_assistente_social_sub_especialidade")), 
 		inverseJoinColumns = @JoinColumn(name = "sub_especialidade_id", 
-			foreignKey = @ForeignKey(name = "fk_sub_especialidade_pessoa_fisica")))
+			foreignKey = @ForeignKey(name = "fk_sub_especialidade_assistente_social")))
 	private Set<SubEspecialidade> subEspecialidades;
 
 }

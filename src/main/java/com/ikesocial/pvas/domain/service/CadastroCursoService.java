@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ikesocial.pvas.domain.exception.CursoEmUsoException;
 import com.ikesocial.pvas.domain.exception.CursoNaoEncontradoException;
 import com.ikesocial.pvas.domain.model.Curso;
-import com.ikesocial.pvas.domain.model.PessoaFisica;
+import com.ikesocial.pvas.domain.model.AssistenteSocial;
 import com.ikesocial.pvas.domain.repository.CursoRepository;
 
 @Service
@@ -33,9 +33,9 @@ public class CadastroCursoService {
 
 	private void preparaCurso(Curso curso) {
 		
-		PessoaFisica pessoaFisica = pessoaFisicaService.buscarOuFalharAssistenteSocialSemComplementos(curso.getPessoaFisica().getCodigo());
+		AssistenteSocial assistenteSocial = pessoaFisicaService.buscarOuFalharAssistenteSocialSemComplementos(curso.getAssistenteSocial().getCodigo());
 		
-		curso.setPessoaFisica(pessoaFisica);
+		curso.setAssistenteSocial(assistenteSocial);
 	}
 
 	@Transactional

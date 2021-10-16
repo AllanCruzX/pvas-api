@@ -12,30 +12,30 @@ import org.springframework.util.StringUtils;
 import com.ikesocial.pvas.domain.filter.AssistenteSocialFilter;
 import com.ikesocial.pvas.domain.model.Contato;
 import com.ikesocial.pvas.domain.model.Documento;
-import com.ikesocial.pvas.domain.model.PessoaFisica;
+import com.ikesocial.pvas.domain.model.AssistenteSocial;
 
 public class AssistenteSocialSpecs {
 
-	public static Specification<PessoaFisica> porId(Long id) {
+	public static Specification<AssistenteSocial> porId(Long id) {
 		return (root, query, builder) -> builder.equal(root.get("id"), id);
 	}
 	
-	public static Specification<PessoaFisica> ativos() {
+	public static Specification<AssistenteSocial> ativos() {
 		return (root, query, builder) -> builder.equal(root.get("ativo"), true);
 	}
 
 	@SuppressWarnings("unchecked")
-	public static Specification<PessoaFisica> usandoFiltro(AssistenteSocialFilter filtro ) {
+	public static Specification<AssistenteSocial> usandoFiltro(AssistenteSocialFilter filtro ) {
 
 		return (root, query, builder) -> {
 
-			Fetch<Contato, PessoaFisica> joinContatoPessoaFisica = null;
-			Fetch<Documento, PessoaFisica> joinDocumentoPessoFisica = null;
+			Fetch<Contato, AssistenteSocial> joinContatoAssistenteSocial = null;
+			Fetch<Documento, AssistenteSocial> joinDocumentoAssistenteSocial = null;
 
-			if (PessoaFisica.class.equals(query.getResultType())) {
+			if (AssistenteSocial.class.equals(query.getResultType())) {
 
-				joinContatoPessoaFisica = root.fetch("contatos");
-				joinDocumentoPessoFisica = root.fetch("documentos");
+				joinContatoAssistenteSocial = root.fetch("contatos");
+				joinDocumentoAssistenteSocial = root.fetch("documentos");
 
 			}
 
@@ -52,13 +52,13 @@ public class AssistenteSocialSpecs {
 
 			if (StringUtils.hasText(filtro.getCpf())) {
 				predicates.add(
-						builder.like(builder.trim(((Path<PessoaFisica>) joinDocumentoPessoFisica).get("codigo")),
+						builder.like(builder.trim(((Path<AssistenteSocial>) joinDocumentoAssistenteSocial).get("codigo")),
 								"%" + filtro.getCpf() + "%"));
 			}
 
 			if (StringUtils.hasText(filtro.getEmail())) {
 				predicates.add(builder.like(
-						builder.upper(builder.trim(((Path<PessoaFisica>) joinContatoPessoaFisica).get("descricao"))),
+						builder.upper(builder.trim(((Path<AssistenteSocial>) joinContatoAssistenteSocial).get("descricao"))),
 						"%" + filtro.getEmail() + "%"));
 			}
 

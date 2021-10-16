@@ -68,6 +68,15 @@ public class Pessoa extends AbstractAggregateRoot<Pessoa> implements Serializabl
 			   cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	private Set<Endereco> enderecos = new HashSet<Endereco>();
 	
+
+	@PrePersist
+	private void gerarCodigo() {
+		setCodigo(UUID.randomUUID().toString());
+		
+		registerEvent(new PessoaCadastradaEvent(this));
+	}
+	
+	
 	public void ativar() {
 		setDataIntivacao(null);
 		setAtivo(true);
@@ -78,11 +87,21 @@ public class Pessoa extends AbstractAggregateRoot<Pessoa> implements Serializabl
 		setAtivo(false);
 	}
 	
-	@PrePersist
-	private void gerarCodigo() {
-		setCodigo(UUID.randomUUID().toString());
-		
-		registerEvent(new PessoaCadastradaEvent(this));
-	}	
+	public boolean isInativo() {
+	    return !isAtivo();
+	}
+
+	public boolean isAtivo() {
+	    return this.ativo;
+	}
+	
+	public boolean inativacaoPermitida() {
+	    return isAtivo();
+	}
+	
+	public boolean ativacaoPermitida() {
+	    return isInativo();
+	}
+
 
 }

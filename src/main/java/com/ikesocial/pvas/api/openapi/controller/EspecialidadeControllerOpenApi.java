@@ -1,6 +1,6 @@
 package com.ikesocial.pvas.api.openapi.controller;
 
-import java.util.List;
+import org.springframework.hateoas.CollectionModel;
 
 import com.ikesocial.pvas.api.exceptionhandler.Problem;
 import com.ikesocial.pvas.api.model.output.EspecialidadeModel;
@@ -17,7 +17,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 public interface EspecialidadeControllerOpenApi {
 
 	@ApiOperation("Lista as especialidades")
-	List<EspecialidadeModel> listar();
+	CollectionModel<EspecialidadeModel> listar();
 
 	@ApiOperation("Busca uma especialidade por ID")
 	@ApiResponses({

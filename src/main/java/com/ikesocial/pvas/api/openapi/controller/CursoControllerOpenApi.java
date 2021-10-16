@@ -21,19 +21,19 @@ public interface CursoControllerOpenApi {
 	@ApiResponses({
 			@ApiResponse(responseCode = "400", description = "ID do curso inválido", content = @Content(schema = @Schema(implementation = Problem.class))),
 			@ApiResponse(responseCode = "404", description = "Curso não encontrada", content = @Content(schema = @Schema(implementation = Problem.class))) })
-	CursoModel buscar(@ApiParam(value = "ID de um curso", example = "1") Long cursoId);
+	CursoModel buscar(@ApiParam(value = "ID de um curso", example = "1", required = true) Long cursoId);
 
-	@ApiOperation("Busca um curso pelo código da assistente soccial")
+	@ApiOperation("Busca os curso que pertence ao assistente soccial")
 	@ApiResponses({
 			@ApiResponse(responseCode = "400", description = "Código da assistente soccial inválido", content = @Content(schema = @Schema(implementation = Problem.class))),
 			@ApiResponse(responseCode = "404", description = "Curso não encontrado", content = @Content(schema = @Schema(implementation = Problem.class))) })
-	CollectionModel<CursoModel> buscarCursosDaPessoaFisica(
+	CollectionModel<CursoModel> buscarCursosAssistenteSocial(
 			@ApiParam(value = "Código de uma assistente social", example = "fc60f245-6c65-4302-9025-89a9d05346a6", required = true) String codigoAssistenteSocial);
 
 	@ApiOperation("Cadastra um curso")
 	@ApiResponses({
 			@ApiResponse(responseCode = "201", description = "Curso cadastrado", content = @Content(schema = @Schema(implementation = Problem.class))) })
-	CursoModel adicionar(@ApiParam(name = "corpo", value = "Representação de uma novo curso", required = true) CursoInput cursoInput);
+	CursoModel adicionar(@ApiParam(name = "corpo", value = "Representação de um novo curso", required = true) CursoInput cursoInput);
 
 	@ApiOperation("Atualiza um curso por ID")
 	@ApiResponses({

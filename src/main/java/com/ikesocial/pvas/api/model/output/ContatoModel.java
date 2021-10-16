@@ -1,12 +1,17 @@
 package com.ikesocial.pvas.api.model.output;
 
+import org.springframework.hateoas.RepresentationModel;
+import org.springframework.hateoas.server.core.Relation;
+
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
+
+@Relation(collectionRelation = "contatos")
 @Getter
 @Setter
-public class ContatoModel {
+public class ContatoModel extends RepresentationModel<ContatoModel>{
 	
 	@ApiModelProperty(example = "71992587456")
 	private String celular;

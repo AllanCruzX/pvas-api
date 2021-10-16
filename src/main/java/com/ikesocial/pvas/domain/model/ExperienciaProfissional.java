@@ -48,9 +48,21 @@ public class ExperienciaProfissional  implements Serializable{
 	private Boolean semExperiencia;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "pessoa_fisica_id",
-				foreignKey = @ForeignKey(name = "fk_experiecia_profissional_pessoa_fisica"),
+	@JoinColumn(name = "assistente_social_id",
+				foreignKey = @ForeignKey(name = "fk_experiecia_profissional_assistente_social"),
 				nullable = false)
-	private PessoaFisica pessoaFisica;
+	private AssistenteSocial assistenteSocial;
+	
+	public void naoTemExperienciaProfissional() {
+		setSemExperiencia(true);
+		setDataInicio(null);
+		setDataFim(null);
+		setEmpresaAtual(false);
+	}
+	
+	public void eEmpresaAtual() {
+		setEmpresaAtual(true);
+		setDataFim(null);
+	}
 	
 }

@@ -7,15 +7,15 @@ import org.springframework.data.domain.Pageable;
 
 import com.ikesocial.pvas.domain.filter.AssistenteSocialFilter;
 import com.ikesocial.pvas.domain.model.FotoPessoa;
-import com.ikesocial.pvas.domain.model.PessoaFisica;
+import com.ikesocial.pvas.domain.model.AssistenteSocial;
 
 public interface AssistenteSocialRepositoryQueries {
 	
-	Page<PessoaFisica> listarComFiltro(AssistenteSocialFilter assistenteSocialFilter ,  Pageable pageRequest);
+	Page<AssistenteSocial> listarComFiltro(AssistenteSocialFilter assistenteSocialFilter ,  Pageable pageRequest);
 	
-	Page<PessoaFisica> listarComFiltroAtivos(AssistenteSocialFilter assistenteSocialFilter ,  Pageable pageRequest);
+	Page<AssistenteSocial> listarComFiltroAtivos(AssistenteSocialFilter assistenteSocialFilter ,  Pageable pageRequest);
 	
-	Optional<PessoaFisica> buscarPorCodigo(String codigo);
+	Optional<AssistenteSocial> buscarPorCodigo(String codigo);
 
 	FotoPessoa save (FotoPessoa foto);
 	

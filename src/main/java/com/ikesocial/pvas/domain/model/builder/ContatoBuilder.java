@@ -1,7 +1,7 @@
 package com.ikesocial.pvas.domain.model.builder;
 
 import com.ikesocial.pvas.domain.model.Contato;
-import com.ikesocial.pvas.domain.model.PessoaFisica;
+import com.ikesocial.pvas.domain.model.AssistenteSocial;
 import com.ikesocial.pvas.domain.model.enums.TipoContato;
 
 public class ContatoBuilder {
@@ -23,9 +23,9 @@ public class ContatoBuilder {
 		return this;
 	}
 	
-	public ContatoBuilder comPessoaFisica(PessoaFisica pessoaFisica) {
-		contato.setPessoa(new PessoaFisica());
-		contato.setPessoa(pessoaFisica);
+	public ContatoBuilder comPessoaFisica(AssistenteSocial assistenteSocial) {
+		contato.setPessoa(new AssistenteSocial());
+		contato.setPessoa(assistenteSocial);
 		return this;
 	}
 	

@@ -4,20 +4,20 @@ import org.modelmapper.Converter;
 import org.modelmapper.spi.MappingContext;
 
 import com.ikesocial.pvas.api.model.input.AssistenteSocialInput;
-import com.ikesocial.pvas.domain.model.PessoaFisica;
+import com.ikesocial.pvas.domain.model.AssistenteSocial;
 
-public class ConverterAssistenteSocialInputEmAssistenteSocial implements  Converter <AssistenteSocialInput, PessoaFisica>{
+public class ConverterAssistenteSocialInputEmAssistenteSocial implements  Converter <AssistenteSocialInput, AssistenteSocial>{
 	
 	
 
 	@Override
-	public PessoaFisica convert(MappingContext<AssistenteSocialInput, PessoaFisica> context) {
+	public AssistenteSocial convert(MappingContext<AssistenteSocialInput, AssistenteSocial> context) {
 		
 		if (context.getSource() == null) {
 			return null;
 		}
 		
-			PessoaFisica assistenteSocial = new AssistenteSocialInputEmAssistenteSocialBuilder()
+			AssistenteSocial assistenteSocial = new AssistenteSocialInputEmAssistenteSocialBuilder()
 					.comNome(context.getSource().getNome())
 					.comNomeMae(context.getSource().getNomeMae())
 					.comDataNascimento(context.getSource().getDataNascimento())

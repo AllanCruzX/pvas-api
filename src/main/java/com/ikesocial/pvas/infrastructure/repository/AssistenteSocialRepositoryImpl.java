@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ikesocial.pvas.domain.filter.AssistenteSocialFilter;
 import com.ikesocial.pvas.domain.model.FotoPessoa;
-import com.ikesocial.pvas.domain.model.PessoaFisica;
+import com.ikesocial.pvas.domain.model.AssistenteSocial;
 import com.ikesocial.pvas.domain.repository.AssistenteSocialRepository;
 import com.ikesocial.pvas.domain.repository.AssistenteSocialRepositoryQueries;
 import com.ikesocial.pvas.infrastructure.repository.spec.AssistenteSocialSpecs;
@@ -31,7 +31,7 @@ public class AssistenteSocialRepositoryImpl implements AssistenteSocialRepositor
 	private AssistenteSocialRepository assistenteSocialRepository;
 
 	@Override
-	public Page<PessoaFisica> listarComFiltro(AssistenteSocialFilter assistenteSocialFilter , Pageable pageRequest) {
+	public Page<AssistenteSocial> listarComFiltro(AssistenteSocialFilter assistenteSocialFilter , Pageable pageRequest) {
 		
 		return assistenteSocialRepository.findAll(
 				AssistenteSocialSpecs.usandoFiltro(assistenteSocialFilter ),pageRequest);
@@ -39,7 +39,7 @@ public class AssistenteSocialRepositoryImpl implements AssistenteSocialRepositor
 	}
 	
 	@Override
-	public Page<PessoaFisica> listarComFiltroAtivos(AssistenteSocialFilter assistenteSocialFilter, Pageable pageRequest) {
+	public Page<AssistenteSocial> listarComFiltroAtivos(AssistenteSocialFilter assistenteSocialFilter, Pageable pageRequest) {
 		
 		return assistenteSocialRepository.findAll(
 				AssistenteSocialSpecs.usandoFiltro(assistenteSocialFilter ).and(AssistenteSocialSpecs.ativos()),pageRequest);
@@ -47,11 +47,11 @@ public class AssistenteSocialRepositoryImpl implements AssistenteSocialRepositor
 
 
 	@Override
-	public Optional<PessoaFisica> buscarPorCodigo(String codigo) {
+	public Optional<AssistenteSocial> buscarPorCodigo(String codigo) {
 		
 		var jpql = new StringBuilder();
 		
-		jpql.append(" SELECT DISTINCT  pf  FROM  PessoaFisica pf ");
+		jpql.append(" SELECT DISTINCT  pf  FROM  AssistenteSocial pf ");
 		jpql.append(" INNER JOIN FETCH pf.contatos ");
 		jpql.append(" INNER JOIN FETCH pf.documentos pfd ");
 		jpql.append(" LEFT  JOIN FETCH pfd.estado ");
@@ -68,7 +68,7 @@ public class AssistenteSocialRepositoryImpl implements AssistenteSocialRepositor
 		jpql.append(" AND  pf.codigo = :codigo ");
 		
 		
-		TypedQuery<PessoaFisica> query = manager.createQuery(jpql.toString(), PessoaFisica.class);
+		TypedQuery<AssistenteSocial> query = manager.createQuery(jpql.toString(), AssistenteSocial.class);
 		query.setParameter("codigo", codigo);
 		 
 		return Optional.of(query.getSingleResult());

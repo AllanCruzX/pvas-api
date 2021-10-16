@@ -23,7 +23,7 @@ import com.ikesocial.pvas.domain.model.Especializacao;
 import com.ikesocial.pvas.domain.model.Estado;
 import com.ikesocial.pvas.domain.model.ExperienciaProfissional;
 import com.ikesocial.pvas.domain.model.Idioma;
-import com.ikesocial.pvas.domain.model.PessoaFisica;
+import com.ikesocial.pvas.domain.model.AssistenteSocial;
 import com.ikesocial.pvas.domain.model.SubEspecialidade;
 import com.ikesocial.pvas.domain.model.enums.EstadoCivil;
 import com.ikesocial.pvas.domain.model.enums.Sexo;
@@ -32,10 +32,10 @@ import com.ikesocial.pvas.domain.model.enums.TipoDocumento;
 
 public class AssistenteSocialInputEmAssistenteSocialBuilder {
 
-	private PessoaFisica assistenteSocial;
+	private AssistenteSocial assistenteSocial;
 
 	public AssistenteSocialInputEmAssistenteSocialBuilder() {
-		assistenteSocial = new PessoaFisica();
+		assistenteSocial = new AssistenteSocial();
 	}
 
 	public AssistenteSocialInputEmAssistenteSocialBuilder comId(Long id) {
@@ -261,7 +261,7 @@ public class AssistenteSocialInputEmAssistenteSocialBuilder {
 		return this;
 	}
 
-	public PessoaFisica construir() {
+	public AssistenteSocial construir() {
 		return this.assistenteSocial;
 	}
 

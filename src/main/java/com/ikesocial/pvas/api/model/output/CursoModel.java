@@ -18,7 +18,7 @@ public class CursoModel extends RepresentationModel<CursoModel> {
 	@ApiModelProperty(example = "Assistente social autônomo")
 	private String nome;
 	
-	@ApiModelProperty(example = "200")
-	private String chagaHoraria;
+	@ApiModelProperty(example = "50")
+	private Long chagaHoraria;
 
 }

@@ -16,7 +16,7 @@ import com.ikesocial.pvas.domain.model.Endereco;
 import com.ikesocial.pvas.domain.model.Especializacao;
 import com.ikesocial.pvas.domain.model.ExperienciaProfissional;
 import com.ikesocial.pvas.domain.model.Idioma;
-import com.ikesocial.pvas.domain.model.PessoaFisica;
+import com.ikesocial.pvas.domain.model.AssistenteSocial;
 import com.ikesocial.pvas.domain.model.SubEspecialidade;
 import com.ikesocial.pvas.domain.model.builder.ContatoBuilder;
 import com.ikesocial.pvas.domain.model.builder.EnderecoBuilder;
@@ -54,7 +54,7 @@ public class CadastroAssistenteSocialService {
 	private EmailService emailService;
 
 	@Transactional
-	public PessoaFisica salvar(PessoaFisica assistenteSocial) {
+	public AssistenteSocial salvar(AssistenteSocial assistenteSocial) {
 		
 		assistenteSocialRepository.detach(assistenteSocial);
 		
@@ -73,19 +73,19 @@ public class CadastroAssistenteSocialService {
 	
 	@Transactional
 	public void ativar(String codigoAssistenteSocial) {
-		PessoaFisica pessoaFisicaAtual = buscarOuFalhar(codigoAssistenteSocial);
+		AssistenteSocial pessoaFisicaAtual = buscarOuFalhar(codigoAssistenteSocial);
 		
 		pessoaFisicaAtual.ativar();
 	}
 	
 	@Transactional
 	public void inativar(String codigoAssistenteSocial) {
-		PessoaFisica assistenteSocial = buscarOuFalhar(codigoAssistenteSocial);
+		AssistenteSocial assistenteSocial = buscarOuFalhar(codigoAssistenteSocial);
 		
 		assistenteSocial.inativar();
 	}
 
-	public PessoaFisica buscarOuFalhar(String codigo) {
+	public AssistenteSocial buscarOuFalhar(String codigo) {
 		
 		try {
 			return assistenteSocialRepository.buscarPorCodigo(codigo).get();
@@ -95,7 +95,7 @@ public class CadastroAssistenteSocialService {
 		}
 	}
 	
-	public PessoaFisica buscarOuFalharAssistenteSocialSemComplementos(String codigo) {
+	public AssistenteSocial buscarOuFalharAssistenteSocialSemComplementos(String codigo) {
 		
 			return assistenteSocialRepository.findByCodigo(codigo)
 												.orElseThrow(() -> new AssistenteSocialNaoEncontradoException(codigo));
@@ -103,7 +103,7 @@ public class CadastroAssistenteSocialService {
 	}
 	
 	
-	private void preparaSubEspecialidade(PessoaFisica assistenteSocial) {
+	private void preparaSubEspecialidade(AssistenteSocial assistenteSocial) {
 		if(assistenteSocial.getSubEspecialidades() != null && !assistenteSocial.getSubEspecialidades().isEmpty()) {
 			Set<SubEspecialidade> subEspecialidades = assistenteSocial
 														.getSubEspecialidades()
@@ -115,7 +115,7 @@ public class CadastroAssistenteSocialService {
 		}
 	}
 	
-	private void preparaIdioma(PessoaFisica assistenteSocial) {
+	private void preparaIdioma(AssistenteSocial assistenteSocial) {
 		
 		if(assistenteSocial.getIdiomas() != null && !assistenteSocial.getIdiomas().isEmpty()) {
 			
@@ -130,7 +130,7 @@ public class CadastroAssistenteSocialService {
 	}
 	
 	
-	private void preparaCurso(PessoaFisica assistenteSocial) {
+	private void preparaCurso(AssistenteSocial assistenteSocial) {
 		
 		if( assistenteSocial.getCursos()!= null && !assistenteSocial.getCursos().isEmpty()) {
 		
@@ -144,7 +144,7 @@ public class CadastroAssistenteSocialService {
 		}
 	}
 
-	private void preparaEspecializacao(PessoaFisica assistenteSocial) {
+	private void preparaEspecializacao(AssistenteSocial assistenteSocial) {
 		
 		if(assistenteSocial.getEspecializacoes() != null && !assistenteSocial.getEspecializacoes().isEmpty()) {
 		
@@ -158,7 +158,7 @@ public class CadastroAssistenteSocialService {
 		}
 	}
 	
-	private void preparaExperienciaProfissional(PessoaFisica assistenteSocial) {
+	private void preparaExperienciaProfissional(AssistenteSocial assistenteSocial) {
 		
 		if(assistenteSocial.getExperieciasProfissionais()!= null && !assistenteSocial.getExperieciasProfissionais().isEmpty()) { 
 		
@@ -171,7 +171,7 @@ public class CadastroAssistenteSocialService {
 		}
 	}
 
-	private void preparaEndereco(PessoaFisica assistenteSocial) {
+	private void preparaEndereco(AssistenteSocial assistenteSocial) {
 		Set<Endereco> enderecos = assistenteSocial.getEnderecos()
 						.stream()
 						.map(endereco -> montaEndereco(endereco ,assistenteSocial ) )
@@ -180,7 +180,7 @@ public class CadastroAssistenteSocialService {
 		assistenteSocial.setEnderecos(enderecos);
 	}
 	
-	private void preparaContato(PessoaFisica assistenteSocial) {
+	private void preparaContato(AssistenteSocial assistenteSocial) {
 		
 		emailService.validaEmailfExistente(assistenteSocial.getContatos()); 
 	   	    
@@ -194,7 +194,7 @@ public class CadastroAssistenteSocialService {
 	}
 	
 	
-	private void preparaDocumento(PessoaFisica assistenteSocial) {
+	private void preparaDocumento(AssistenteSocial assistenteSocial) {
 		
 		Set<Documento> documentos = assistenteSocial.getDocumentos()
 						.stream()
@@ -204,7 +204,7 @@ public class CadastroAssistenteSocialService {
 		assistenteSocial.setDocumentos(documentos);
 	}
 	
-	private Documento montaDocumento (Documento documento , PessoaFisica assistenteSocial) {
+	private Documento montaDocumento (Documento documento , AssistenteSocial assistenteSocial) {
 		
 		TipoDocumento tipo = documento.getTipoDocumento();
 		
@@ -216,7 +216,7 @@ public class CadastroAssistenteSocialService {
 		
 	}
 	
-	private Endereco  montaEndereco(Endereco endereco , PessoaFisica assistenteSocial){
+	private Endereco  montaEndereco(Endereco endereco , AssistenteSocial assistenteSocial){
 		
 		Endereco enderecoMontado = new EnderecoBuilder()
 											.comCep(endereco.getCep())
@@ -234,7 +234,7 @@ public class CadastroAssistenteSocialService {
 		
 	}
 	
-	private Contato  montaContato(Contato contato, PessoaFisica assistenteSocial) {
+	private Contato  montaContato(Contato contato, AssistenteSocial assistenteSocial) {
 		
 		Contato contatoMontado = new ContatoBuilder()
 											.comDescricao(contato.getDescricao())

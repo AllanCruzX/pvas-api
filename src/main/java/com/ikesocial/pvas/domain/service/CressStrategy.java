@@ -4,7 +4,7 @@ import java.util.Optional;
 
 import com.ikesocial.pvas.domain.exception.NegocioException;
 import com.ikesocial.pvas.domain.model.Documento;
-import com.ikesocial.pvas.domain.model.PessoaFisica;
+import com.ikesocial.pvas.domain.model.AssistenteSocial;
 import com.ikesocial.pvas.domain.model.builder.DocumentoBuilder;
 import com.ikesocial.pvas.domain.model.enums.TipoDocumento;
 import com.ikesocial.pvas.domain.repository.AssistenteSocialRepository;
@@ -13,7 +13,7 @@ import com.ikesocial.pvas.domain.repository.AssistenteSocialRepository;
 public class CressStrategy implements DocumentoStrategy {
 	
 	@Override
-	public Documento definirDocumento(Documento documento , CadastroEstadoService estadoService , AssistenteSocialRepository assistenteSocialRepository , PessoaFisica pessoaFisica ) {
+	public Documento definirDocumento(Documento documento , CadastroEstadoService estadoService , AssistenteSocialRepository assistenteSocialRepository , AssistenteSocial assistenteSocial ) {
 
 		validaCressExistente(documento, documento.getEstado().getId() , estadoService , assistenteSocialRepository );
 
@@ -21,7 +21,7 @@ public class CressStrategy implements DocumentoStrategy {
 										.comCodigo(documento.getCodigo())
 										.comTipoDocumento(TipoDocumento.CARTEIRA_PROFISSIONAL)
 										.comEstado(estadoService.buscarOuFalhar(documento.getEstado().getId()))
-										.comPessoaFisica(pessoaFisica)
+										.comPessoaFisica(assistenteSocial)
 										.construir();
 
 		return documentoNovo;

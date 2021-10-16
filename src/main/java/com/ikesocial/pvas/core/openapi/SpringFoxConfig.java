@@ -72,7 +72,9 @@ public class SpringFoxConfig implements WebMvcConfigurer  {
 					  new Tag("Estados", "Gerencia os estados"),
 					  new Tag("Enderecos", "Consulta os endereços"),
 					  new Tag("Especialidades", "Gerencia as especialidades"),
+					  new Tag("Especializacoes", "Gerencia as especializações "),
 					  new Tag("Cursos", "Gerencia os cursos"),
+					  new Tag("Experiências profissionais", "Gerencia as experiências profissionais"),
 					  new Tag("SubEspecialidades", "Gerencia as subespecialidades"),
 					  new Tag("Estatísticas", "Estatísticas da PVAS"),
 				 	  new Tag("Assistentes Sociais", "Gerencia as sssistentes sociais"));

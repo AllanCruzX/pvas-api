@@ -5,12 +5,12 @@ import org.modelmapper.spi.MappingContext;
 
 import com.ikesocial.pvas.api.model.builder.AssistenteSocialModelBuilder;
 import com.ikesocial.pvas.api.model.output.AssistenteSocialModel;
-import com.ikesocial.pvas.domain.model.PessoaFisica;
+import com.ikesocial.pvas.domain.model.AssistenteSocial;
 
-public  class ConverterAssistenteSocialEmAssistenteSocialModel implements Converter <PessoaFisica, AssistenteSocialModel> {
+public  class ConverterAssistenteSocialEmAssistenteSocialModel implements Converter <AssistenteSocial, AssistenteSocialModel> {
 
 	@Override
-	public AssistenteSocialModel convert(MappingContext<PessoaFisica, AssistenteSocialModel> context) {
+	public AssistenteSocialModel convert(MappingContext<AssistenteSocial, AssistenteSocialModel> context) {
 		
 		if (context.getSource() == null) {
 			return null;
