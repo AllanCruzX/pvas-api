@@ -27,6 +27,7 @@ import com.ikesocial.pvas.api.assembler.AssistenteSocialModelAssembler;
 import com.ikesocial.pvas.api.assembler.AssistenteSocialResumoModelAssembler;
 import com.ikesocial.pvas.api.assembler.disassembler.AssistentesSociaisInputDisassembler;
 import com.ikesocial.pvas.api.model.input.AssistenteSocialInput;
+import com.ikesocial.pvas.api.model.input.SenhaInput;
 import com.ikesocial.pvas.api.model.output.AssistenteSocialModel;
 import com.ikesocial.pvas.api.model.output.AssistenteSocialResumoModel;
 import com.ikesocial.pvas.api.openapi.controller.AssistenteSocialControllerOpenApi;
@@ -79,8 +80,6 @@ public class AssistenteSocialController implements AssistenteSocialControllerOpe
 		
 		PagedModel<AssistenteSocialResumoModel> assistentesSociaisPageModel =  pagedResourcesAssembler
 				.toModel(assistentesSociaisPage, assistenteSocialResumoModelAssembler);
-		
-		//return pagedResourcesAssembler.toModel(assistentesSociaisPage, assistenteSocialResumoModelAssembler);
 		
 		return assistentesSociaisPageModel;
 
@@ -151,6 +150,12 @@ public class AssistenteSocialController implements AssistenteSocialControllerOpe
 		cadastroAssistenteSocialService.inativar(codigoAssistenteSocial);
 		
 		return ResponseEntity.noContent().build();
+	}
+	
+	@PutMapping("/{codigoAssistenteSocial}/senha")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void alterarSenha(@PathVariable  String codigoAssistenteSocial, @RequestBody @Valid SenhaInput senha) {
+		cadastroAssistenteSocialService.alterarSenha(codigoAssistenteSocial, senha.getSenhaAtual(), senha.getNovaSenha());
 	}
 
 }

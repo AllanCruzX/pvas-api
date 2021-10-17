@@ -11,7 +11,11 @@ delete from estado;
 delete from experiecia_profissional;
 delete from foto_pessoa;
 delete from idioma;
+delete from grupo;
+delete from grupo_permissao;
+delete from permissao;
 delete from pessoa;
+delete from pessoa_grupo;
 delete from assistente_social;
 delete from assistente_social_especializacao;
 delete from assistente_social_idioma;
@@ -32,6 +36,8 @@ alter table estado auto_increment = 1;
 alter table experiecia_profissional auto_increment = 1;
 alter table foto_pessoa auto_increment = 1;
 alter table idioma auto_increment = 1;
+alter table grupo auto_increment = 1;
+alter table permissao auto_increment = 1;
 alter table pessoa auto_increment = 1;
 alter table sub_especialidade auto_increment = 1;
 
@@ -55,9 +61,8 @@ insert into sub_especialidade ( nome, especialidade_id) values ('ATECAO DOMICILI
 insert into sub_especialidade (nome, especialidade_id) values ('APOIO ESCOLAR', 2);
 insert into sub_especialidade (nome, especialidade_id) values ( 'CONCURSO PUBLICO', 2);
 
-
-insert into pessoa(id, codigo , ativo, data_cadastro, nome ) values (1,'fc60f245-6c65-4302-9025-89a9d05346a6', 1 ,utc_timestamp ,'Almir Rosa');
-insert into pessoa(id, codigo , ativo, data_cadastro, nome ) values (2,'d515fb8e-17d0-11ec-9621-0242ac130002', 1 ,utc_timestamp ,'Abidjan Santos Rosa');
+insert into pessoa(id, codigo , ativo, data_cadastro, nome , senha ) values (1,'fc60f245-6c65-4302-9025-89a9d05346a6', 1 ,utc_timestamp ,'Almir Rosa' , '123');
+insert into pessoa(id, codigo , ativo, data_cadastro, nome ,  senha ) values (2,'d515fb8e-17d0-11ec-9621-0242ac130002', 1 ,utc_timestamp ,'Abidjan Santos Rosa' , '123');
 
 insert into contato(descricao, tipo_contato, pessoa_id) values ('almirrosa@ikesocial.com', 'EMAIL', 1);
 insert into contato(descricao, tipo_contato, pessoa_id) values ('7199258879', 'CELULAR', 1);
@@ -72,8 +77,17 @@ insert into documento(codigo, tipo_documento, pessoa_id) values ('76038003070', 
 insert into documento(codigo, tipo_documento,estado_id ,pessoa_id) values ('0000001', 'CARTEIRA_PROFISSIONAL',1, 1);
 insert into documento(codigo, tipo_documento,estado_id ,pessoa_id) values ('2255881', 'CARTEIRA_PROFISSIONAL',1, 2);
 
+insert into permissao (id, nome, descricao) values (1, 'CONSULTAR_ASSISTENTE_SOCIAL', 'Permite consultar assistente social');
+insert into permissao (id, nome, descricao) values (2, 'EDITAR_ASSISTENTE_SOCIAL', 'Permite editar assistente social');
+
+insert into grupo (id, nome) values (1, 'Administrador'), (2, 'Usuário'), (3, 'Secretária'), (4, 'Cadastrador');
+
+insert into grupo_permissao (grupo_id, permissao_id) values (1, 1), (1, 2), (2, 1), (2, 2), (3, 1); 
+
 insert into assistente_social (assistente_social_id , nome_mae, nome_pai, data_nascimento, pne, sexo, estado_civil) values (1 , 'Maria Alice' , 'Albertino' , '1970-07-15' , 0 ,'MASCULINO' , 'CASADO');
 insert into assistente_social (assistente_social_id , nome_mae, nome_pai, data_nascimento, pne, sexo, estado_civil) values (2 , 'Edivaldina' , 'Nenê' , '1988-01-11' , 0 ,'FEMININO' , 'CASADO');
+
+insert into pessoa_grupo (pessoa_id, grupo_id) values (1, 2), (2, 2);
 
 insert into curso (nome, chaga_horaria, assistente_social_id) values ('Assistente social autônomo' , 60, 1);
 insert into curso (nome, chaga_horaria, assistente_social_id) values ('Assistente social autônomo IKE' , 100, 2);

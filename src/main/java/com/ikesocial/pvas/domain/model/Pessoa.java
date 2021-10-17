@@ -10,11 +10,15 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
@@ -45,6 +49,9 @@ public class Pessoa extends AbstractAggregateRoot<Pessoa> implements Serializabl
 
 	@Column(name = "nome", length = 200, nullable = false)
 	private String nome;
+	
+	@Column(name = "senha", length = 255, nullable = false)
+	private String senha;
 
 	@Column(name = "data_cadastro", columnDefinition = "datetime", nullable = false)
 	@CreationTimestamp
@@ -68,6 +75,14 @@ public class Pessoa extends AbstractAggregateRoot<Pessoa> implements Serializabl
 			   cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	private Set<Endereco> enderecos = new HashSet<Endereco>();
 	
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "pessoa_grupo", 
+		joinColumns = @JoinColumn(name = "pessoa_id",
+				foreignKey = @ForeignKey(name = "fk_pessoa_grupo")),
+			inverseJoinColumns = @JoinColumn(name = "grupo_id",
+				foreignKey = @ForeignKey(name = "fk_grupo_pessoa")))
+	private Set<Grupo> grupos = new HashSet<Grupo>();
+	
 
 	@PrePersist
 	private void gerarCodigo() {
@@ -76,6 +91,22 @@ public class Pessoa extends AbstractAggregateRoot<Pessoa> implements Serializabl
 		registerEvent(new PessoaCadastradaEvent(this));
 	}
 	
+	
+	public boolean senhaCoincideCom(String senha) {
+		return getSenha().equals(senha);
+	}
+	
+	public boolean senhaNaoCoincideCom(String senha) {
+		return !senhaCoincideCom(senha);
+	}
+	
+	public boolean removerGrupo(Grupo grupo) {
+		return getGrupos().remove(grupo);
+	}
+	
+	public boolean adicionarGrupo(Grupo grupo) {
+		return getGrupos().add(grupo);
+	}
 	
 	public void ativar() {
 		setDataIntivacao(null);

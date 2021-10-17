@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 
 import com.ikesocial.pvas.api.exceptionhandler.Problem;
 import com.ikesocial.pvas.api.model.input.AssistenteSocialInput;
+import com.ikesocial.pvas.api.model.input.SenhaInput;
 import com.ikesocial.pvas.api.model.output.AssistenteSocialModel;
 import com.ikesocial.pvas.api.model.output.AssistenteSocialResumoModel;
 import com.ikesocial.pvas.domain.filter.AssistenteSocialFilter;
@@ -41,7 +42,7 @@ public interface AssistenteSocialControllerOpenApi {
 
 	@ApiOperation("Atualiza assistente social por código")
 	@ApiResponses({
-			@ApiResponse(responseCode = "200", description = "Assistente social atualizada", content = @Content(schema = @Schema(implementation = Problem.class))),
+			@ApiResponse(responseCode = "200", description = "Assistente social atualizada"),
 			@ApiResponse(responseCode = "404", description = "Assistente social não encontrada", content = @Content(schema = @Schema(implementation = Problem.class))) })
 	AssistenteSocialModel atualizar(
 			@ApiParam(value = "Código de uma assistente social", example = "fc60f245-6c65-4302-9025-89a9d05346a6" , required = true) String codigoAssistenteSocial,
@@ -49,16 +50,24 @@ public interface AssistenteSocialControllerOpenApi {
 
 	@ApiOperation("Ativar assistente social por código")
 	@ApiResponses({
-			@ApiResponse(responseCode = "204", description = "Assistente Ativada", content = @Content(schema = @Schema(implementation = Problem.class))),
+			@ApiResponse(responseCode = "204", description = "Assistente Ativada"),
 			@ApiResponse(responseCode = "404", description = "Assistente social não encontrada", content = @Content(schema = @Schema(implementation = Problem.class))) })
 	 ResponseEntity<Void> ativar(
 			@ApiParam(value = "Código de uma assistente social", example = "fc60f245-6c65-4302-9025-89a9d05346a6" , required = true) String codigoAssistenteSocial);
 
 	@ApiOperation("Inativar assistente social por código")
 	@ApiResponses({
-			@ApiResponse(responseCode = "204", description = "Assistente Inativada", content = @Content(schema = @Schema(implementation = Problem.class))),
+			@ApiResponse(responseCode = "204", description = "Assistente Inativada"),
 			@ApiResponse(responseCode = "404", description = "Assistente social não encontrada", content = @Content(schema = @Schema(implementation = Problem.class))) })
 	 ResponseEntity<Void> inativar(
 			@ApiParam(value = "Código de uma assistente social", example = "fc60f245-6c65-4302-9025-89a9d05346a6", required = true) String codigoAssistenteSocial);
+	
+	@ApiOperation("Atualiza a senha de um assistente social")
+	@ApiResponses({
+			@ApiResponse(responseCode = "204", description = "Senha alterada com sucesso"),
+			@ApiResponse(responseCode = "404", description = "Assistente social não encontrada", content = @Content(schema = @Schema(implementation = Problem.class))) })
+	void alterarSenha(@ApiParam(value = "Código de uma assistente social", example = "fc60f245-6c65-4302-9025-89a9d05346a6", required = true)  String codigoAssistenteSocial,
+			@ApiParam(name = "corpo", value = "Representação de uma nova senha", 
+			required = true) SenhaInput senha);
 
 }

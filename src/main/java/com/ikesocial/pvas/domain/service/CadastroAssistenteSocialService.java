@@ -1,5 +1,6 @@
 package com.ikesocial.pvas.domain.service;
 
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -9,25 +10,33 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ikesocial.pvas.domain.exception.AssistenteSocialNaoEncontradoException;
+import com.ikesocial.pvas.domain.exception.NegocioException;
+import com.ikesocial.pvas.domain.model.AssistenteSocial;
 import com.ikesocial.pvas.domain.model.Contato;
 import com.ikesocial.pvas.domain.model.Curso;
 import com.ikesocial.pvas.domain.model.Documento;
 import com.ikesocial.pvas.domain.model.Endereco;
 import com.ikesocial.pvas.domain.model.Especializacao;
 import com.ikesocial.pvas.domain.model.ExperienciaProfissional;
+import com.ikesocial.pvas.domain.model.Grupo;
 import com.ikesocial.pvas.domain.model.Idioma;
-import com.ikesocial.pvas.domain.model.AssistenteSocial;
 import com.ikesocial.pvas.domain.model.SubEspecialidade;
 import com.ikesocial.pvas.domain.model.builder.ContatoBuilder;
 import com.ikesocial.pvas.domain.model.builder.EnderecoBuilder;
 import com.ikesocial.pvas.domain.model.enums.TipoDocumento;
 import com.ikesocial.pvas.domain.repository.AssistenteSocialRepository;
+import com.ikesocial.pvas.domain.repository.GrupoRepository;
 
 @Service
 public class CadastroAssistenteSocialService {
 
+	
+
 	@Autowired
 	private AssistenteSocialRepository assistenteSocialRepository;
+	
+	@Autowired
+	private GrupoRepository grupoRepository;
 	
 	@Autowired
 	private CadastroEstadoService estadoService;
@@ -66,6 +75,7 @@ public class CadastroAssistenteSocialService {
 		preparaEspecializacao(assistenteSocial);
 		preparaCurso(assistenteSocial);
 		preparaExperienciaProfissional(assistenteSocial);
+		associarGrupo(assistenteSocial);
 		
 		return assistenteSocialRepository.save(assistenteSocial);
 
@@ -73,16 +83,27 @@ public class CadastroAssistenteSocialService {
 	
 	@Transactional
 	public void ativar(String codigoAssistenteSocial) {
-		AssistenteSocial pessoaFisicaAtual = buscarOuFalhar(codigoAssistenteSocial);
+		AssistenteSocial pessoaFisicaAtual = buscarOuFalharAssistenteSocialSemComplementos(codigoAssistenteSocial);
 		
 		pessoaFisicaAtual.ativar();
 	}
 	
 	@Transactional
 	public void inativar(String codigoAssistenteSocial) {
-		AssistenteSocial assistenteSocial = buscarOuFalhar(codigoAssistenteSocial);
+		AssistenteSocial assistenteSocial = buscarOuFalharAssistenteSocialSemComplementos(codigoAssistenteSocial);
 		
 		assistenteSocial.inativar();
+	}
+	
+	@Transactional
+	public void alterarSenha(String codigoAssistenteSocial, String senhaAtual, String novaSenha) {
+		AssistenteSocial assistenteSocial = buscarOuFalharAssistenteSocialSemComplementos(codigoAssistenteSocial);
+		
+		if (assistenteSocial.senhaNaoCoincideCom(senhaAtual)) {
+			throw new NegocioException("Senha atual informada não coincide com a senha do usuário.");
+		}
+		
+		assistenteSocial.setSenha(novaSenha);
 	}
 
 	public AssistenteSocial buscarOuFalhar(String codigo) {
@@ -243,6 +264,12 @@ public class CadastroAssistenteSocialService {
 											.construir();
 		return contatoMontado;
 												
+	}
+	
+	private void associarGrupo (AssistenteSocial assistenteSocial) {
+		Optional<Grupo> grupo = grupoRepository.findById(GrupoConstants.USUARIO);
+		
+		assistenteSocial.adicionarGrupo(grupo.get());
 	}
 
 }

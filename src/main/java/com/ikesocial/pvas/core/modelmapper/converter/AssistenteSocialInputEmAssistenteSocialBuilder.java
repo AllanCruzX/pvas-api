@@ -47,6 +47,10 @@ public class AssistenteSocialInputEmAssistenteSocialBuilder {
 		assistenteSocial.setNome(nome);
 		return this;
 	}
+	public AssistenteSocialInputEmAssistenteSocialBuilder comSenha(String senha) {
+		assistenteSocial.setSenha(senha);
+		return this;
+	}
 
 	public AssistenteSocialInputEmAssistenteSocialBuilder comNomeMae(String nomeMae) {
 		assistenteSocial.setNomeMae(nomeMae);

@@ -58,6 +58,7 @@ public class AssistenteSocialRepositoryImpl implements AssistenteSocialRepositor
 		jpql.append(" INNER JOIN FETCH pf.enderecos pfe ");
 		jpql.append(" INNER JOIN FETCH pfe.cidade pfec ");
 		jpql.append(" INNER JOIN FETCH pfec.estado");
+		jpql.append(" INNER JOIN FETCH pf.grupos pfg");
 		jpql.append(" LEFT  JOIN FETCH pf.experieciasProfissionais ");
 		jpql.append(" LEFT  JOIN FETCH pf.cursos ");
 		jpql.append(" LEFT  JOIN FETCH pf.idiomas ");

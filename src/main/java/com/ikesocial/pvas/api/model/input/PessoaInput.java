@@ -22,6 +22,10 @@ public class PessoaInput {
 	@LetraEAcento
 	private String nome;
 	
+	@ApiModelProperty(example = "123", required = true)
+	@NotBlank
+	private String senha;
+	
 	@Valid
 	@NotNull
 	private ContatoInput contato;

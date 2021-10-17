@@ -19,6 +19,7 @@ public class ConverterAssistenteSocialInputEmAssistenteSocial implements  Conver
 		
 			AssistenteSocial assistenteSocial = new AssistenteSocialInputEmAssistenteSocialBuilder()
 					.comNome(context.getSource().getNome())
+					.comSenha(context.getSource().getSenha())
 					.comNomeMae(context.getSource().getNomeMae())
 					.comDataNascimento(context.getSource().getDataNascimento())
 					.comSexo(context.getSource().getSexo())

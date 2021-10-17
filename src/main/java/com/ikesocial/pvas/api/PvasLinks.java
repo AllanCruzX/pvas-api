@@ -21,7 +21,10 @@ import com.ikesocial.pvas.api.controller.EspecializacaoController;
 import com.ikesocial.pvas.api.controller.EstadoCivilController;
 import com.ikesocial.pvas.api.controller.EstadoController;
 import com.ikesocial.pvas.api.controller.ExperienciaProfissionalController;
+import com.ikesocial.pvas.api.controller.GrupoController;
+import com.ikesocial.pvas.api.controller.GrupoPermissaoController;
 import com.ikesocial.pvas.api.controller.IdiomaController;
+import com.ikesocial.pvas.api.controller.PermissaoController;
 import com.ikesocial.pvas.api.controller.SexoController;
 import com.ikesocial.pvas.api.controller.SubEspecialidadeController;
 
@@ -33,6 +36,7 @@ public class PvasLinks {
 			new TemplateVariable("size", VariableType.REQUEST_PARAM),
 			new TemplateVariable("sort", VariableType.REQUEST_PARAM));
 
+	
 	public Link linkToAssistentesSociais() {
 		TemplateVariables filtroVariables = new TemplateVariables(
 				new TemplateVariable("codigo", VariableType.REQUEST_PARAM),
@@ -255,6 +259,44 @@ public class PvasLinks {
 
 	public Link linkToFotoAssistenteSocial(String codigoAssitenteSocial) {
 		return linkToFotoAssistenteSocial(codigoAssitenteSocial, IanaLinkRelations.SELF.value());
+	}
+	
+	
+	public Link linkToGrupo(Long grupoId, String rel) {
+		return linkTo(methodOn(GrupoController.class).buscar(grupoId)).withRel(rel);
+	}
+
+	public Link linkToGrupo(Long grupoId) {
+		return linkToEstado(grupoId, IanaLinkRelations.SELF.value());
+	}
+
+	public Link linkToGrupos(String rel) {
+		return linkTo(GrupoController.class).withRel(rel);
+	}
+
+	public Link linkToGrupos() {
+		return linkToGrupos(IanaLinkRelations.SELF.value());
+	}
+	
+	public Link linkToGrupoAssistenteSocial(String codigoAssitenteSocial, String rel) {
+		return linkTo(methodOn(GrupoController.class).buscarGruposAssistenteSocial(codigoAssitenteSocial)).withRel(rel);
+	}
+	
+	public Link linkToGrupoPermissoes(Long grupoId, String rel) {
+	    return linkTo(methodOn(GrupoPermissaoController.class)
+	            .listar(grupoId)).withRel(rel);
+	} 
+	
+	public Link linkToPermissoes(String rel) {
+	    return linkTo(PermissaoController.class).withRel(rel);
+	}
+
+	public Link linkToPermissoes() {
+	    return linkToPermissoes(IanaLinkRelations.SELF.value());
+	}
+
+	public Link linkToGrupoPermissoes(Long grupoId) {
+	    return linkToGrupoPermissoes(grupoId, IanaLinkRelations.SELF.value());
 	}
 
 }
