@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 
 import com.ikesocial.pvas.api.exceptionhandler.Problem;
 import com.ikesocial.pvas.api.model.output.EstadoCivilModel;
+import com.ikesocial.pvas.api.openapi.model.EstadosCivisModelOpenApi;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -17,7 +18,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 @Api(tags = "Assistentes Sociais")
 public interface EstadoCivilControllerOpenApi {
 
-	@ApiOperation("Lista de estados civis")
+	@ApiOperation(value = "Lista as formas de pagamento")
+	@io.swagger.annotations.ApiResponses(value = {
+			@io.swagger.annotations.ApiResponse(code = 200, message = "OK", response = EstadosCivisModelOpenApi.class) })
 	ResponseEntity<CollectionModel<EstadoCivilModel>> listarEstadosCivis();
 
 	@ApiOperation("Busca um estado civil por ID")

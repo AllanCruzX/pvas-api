@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 
 import com.ikesocial.pvas.api.exceptionhandler.Problem;
 import com.ikesocial.pvas.api.model.output.EspecializacaoModel;
+import com.ikesocial.pvas.api.openapi.model.EspecializacoesModelOpenApi;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -18,6 +19,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 public interface EspecializacaoControllerOpenApi {
 
 	@ApiOperation("Listar as especializacoes")
+	@io.swagger.annotations.ApiResponses(value = {
+			@io.swagger.annotations.ApiResponse(code = 200, message = "OK", response = EspecializacoesModelOpenApi.class) })
 	ResponseEntity<CollectionModel<EspecializacaoModel>> listar();
 
 	@ApiOperation("Busca uma especializacao por ID")

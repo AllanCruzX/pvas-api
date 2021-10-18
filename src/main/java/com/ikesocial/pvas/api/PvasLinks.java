@@ -16,10 +16,12 @@ import com.ikesocial.pvas.api.controller.AssistenteSocialController;
 import com.ikesocial.pvas.api.controller.AssistenteSocialFotoController;
 import com.ikesocial.pvas.api.controller.CidadeController;
 import com.ikesocial.pvas.api.controller.CursoController;
+import com.ikesocial.pvas.api.controller.EnderecoController;
 import com.ikesocial.pvas.api.controller.EspecialidadeController;
 import com.ikesocial.pvas.api.controller.EspecializacaoController;
 import com.ikesocial.pvas.api.controller.EstadoCivilController;
 import com.ikesocial.pvas.api.controller.EstadoController;
+import com.ikesocial.pvas.api.controller.EstatisticasController;
 import com.ikesocial.pvas.api.controller.ExperienciaProfissionalController;
 import com.ikesocial.pvas.api.controller.GrupoController;
 import com.ikesocial.pvas.api.controller.GrupoPermissaoController;
@@ -36,7 +38,6 @@ public class PvasLinks {
 			new TemplateVariable("size", VariableType.REQUEST_PARAM),
 			new TemplateVariable("sort", VariableType.REQUEST_PARAM));
 
-	
 	public Link linkToAssistentesSociais() {
 		TemplateVariables filtroVariables = new TemplateVariables(
 				new TemplateVariable("codigo", VariableType.REQUEST_PARAM),
@@ -260,14 +261,13 @@ public class PvasLinks {
 	public Link linkToFotoAssistenteSocial(String codigoAssitenteSocial) {
 		return linkToFotoAssistenteSocial(codigoAssitenteSocial, IanaLinkRelations.SELF.value());
 	}
-	
-	
+
 	public Link linkToGrupo(Long grupoId, String rel) {
 		return linkTo(methodOn(GrupoController.class).buscar(grupoId)).withRel(rel);
 	}
 
 	public Link linkToGrupo(Long grupoId) {
-		return linkToEstado(grupoId, IanaLinkRelations.SELF.value());
+		return linkToGrupo(grupoId, IanaLinkRelations.SELF.value());
 	}
 
 	public Link linkToGrupos(String rel) {
@@ -277,26 +277,50 @@ public class PvasLinks {
 	public Link linkToGrupos() {
 		return linkToGrupos(IanaLinkRelations.SELF.value());
 	}
-	
+
 	public Link linkToGrupoAssistenteSocial(String codigoAssitenteSocial, String rel) {
 		return linkTo(methodOn(GrupoController.class).buscarGruposAssistenteSocial(codigoAssitenteSocial)).withRel(rel);
 	}
-	
+
 	public Link linkToGrupoPermissoes(Long grupoId, String rel) {
-	    return linkTo(methodOn(GrupoPermissaoController.class)
-	            .listar(grupoId)).withRel(rel);
-	} 
-	
+		return linkTo(methodOn(GrupoPermissaoController.class).listar(grupoId)).withRel(rel);
+	}
+
 	public Link linkToPermissoes(String rel) {
-	    return linkTo(PermissaoController.class).withRel(rel);
+		return linkTo(PermissaoController.class).withRel(rel);
 	}
 
 	public Link linkToPermissoes() {
-	    return linkToPermissoes(IanaLinkRelations.SELF.value());
+		return linkToPermissoes(IanaLinkRelations.SELF.value());
 	}
 
 	public Link linkToGrupoPermissoes(Long grupoId) {
-	    return linkToGrupoPermissoes(grupoId, IanaLinkRelations.SELF.value());
+		return linkToGrupoPermissoes(grupoId, IanaLinkRelations.SELF.value());
 	}
+
+	public Link linkToEstatisticas(String rel) {
+		return linkTo(EstatisticasController.class).withRel(rel);
+	}
+
+	public Link linkToAssistenteSocialEstatisticas(String rel) {
+		TemplateVariables filtroVariables = new TemplateVariables(
+				new TemplateVariable("estadoId", VariableType.REQUEST_PARAM),
+				new TemplateVariable("dataCadastro", VariableType.REQUEST_PARAM),
+				new TemplateVariable("dataIntivacao", VariableType.REQUEST_PARAM),
+				new TemplateVariable("timeOffset", VariableType.REQUEST_PARAM));
+
+		String assistenteSocialEstatisticasUrl = linkTo(
+				methodOn(EstatisticasController.class).consultarAssistenteSocialEstatisticas(null, null)).toUri()
+						.toString();
+
+		return Link.of(UriTemplate.of(assistenteSocialEstatisticasUrl, filtroVariables), rel);
+	}
+	
+	
+	public Link linkToEndereco(String cep, String rel) {
+		return linkTo(methodOn(EnderecoController.class).buscar(cep)).withRel(rel);
+	}
+	
+	
 
 }

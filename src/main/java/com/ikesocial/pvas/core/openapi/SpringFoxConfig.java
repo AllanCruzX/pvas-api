@@ -13,8 +13,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.io.Resource;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.Links;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -24,9 +26,36 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.fasterxml.classmate.TypeResolver;
 import com.ikesocial.pvas.api.exceptionhandler.Problem;
+import com.ikesocial.pvas.api.model.output.AssistenteSocialEstatisticaModel;
 import com.ikesocial.pvas.api.model.output.AssistenteSocialResumoModel;
+import com.ikesocial.pvas.api.model.output.CidadeModel;
+import com.ikesocial.pvas.api.model.output.CursoModel;
+import com.ikesocial.pvas.api.model.output.EspecialidadeModel;
+import com.ikesocial.pvas.api.model.output.EspecializacaoModel;
+import com.ikesocial.pvas.api.model.output.EstadoCivilModel;
+import com.ikesocial.pvas.api.model.output.EstadoModel;
+import com.ikesocial.pvas.api.model.output.ExperienciaProfissionalModel;
+import com.ikesocial.pvas.api.model.output.GrupoModel;
+import com.ikesocial.pvas.api.model.output.IdiomaModel;
+import com.ikesocial.pvas.api.model.output.PermissaoModel;
+import com.ikesocial.pvas.api.model.output.SexoModel;
+import com.ikesocial.pvas.api.model.output.SubEspecialidadeModel;
 import com.ikesocial.pvas.api.openapi.model.AssistenteSociaisModelOpenApi;
+import com.ikesocial.pvas.api.openapi.model.AssistentesSociaisEstatisticasModelOpenApi;
+import com.ikesocial.pvas.api.openapi.model.CidadesModelOpenApi;
+import com.ikesocial.pvas.api.openapi.model.CursosModelOpenApi;
+import com.ikesocial.pvas.api.openapi.model.EspecialidadesModelOpenApi;
+import com.ikesocial.pvas.api.openapi.model.EspecializacoesModelOpenApi;
+import com.ikesocial.pvas.api.openapi.model.EstadosCivisModelOpenApi;
+import com.ikesocial.pvas.api.openapi.model.EstadosModelOpenApi;
+import com.ikesocial.pvas.api.openapi.model.ExperienciasProfissionaisModelOpenApi;
+import com.ikesocial.pvas.api.openapi.model.GruposModelOpenApi;
+import com.ikesocial.pvas.api.openapi.model.IdiomasModelOpenApi;
+import com.ikesocial.pvas.api.openapi.model.LinksModelOpenApi;
 import com.ikesocial.pvas.api.openapi.model.PageableModelOpenApi;
+import com.ikesocial.pvas.api.openapi.model.PermissoesModelOpenApi;
+import com.ikesocial.pvas.api.openapi.model.SexosModelOpenApi;
+import com.ikesocial.pvas.api.openapi.model.SubEspecialidadesModelOpenApi;
 
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
@@ -63,9 +92,49 @@ public class SpringFoxConfig implements WebMvcConfigurer  {
 						URL.class, URI.class, URLStreamHandler.class, Resource.class,
 						File.class, InputStream.class)
 				.directModelSubstitute(Pageable.class, PageableModelOpenApi.class)
+				.directModelSubstitute(Links.class, LinksModelOpenApi.class)
 				.alternateTypeRules(AlternateTypeRules.newRule(
-						typeResolver.resolve(Page.class, AssistenteSocialResumoModel.class),
+						typeResolver.resolve(PagedModel.class, AssistenteSocialResumoModel.class),
 						AssistenteSociaisModelOpenApi.class))
+				.alternateTypeRules(AlternateTypeRules.newRule(
+						typeResolver.resolve(CollectionModel.class, CidadeModel.class),
+						CidadesModelOpenApi.class))
+				.alternateTypeRules(AlternateTypeRules.newRule(
+				        typeResolver.resolve(CollectionModel.class, EstadoModel.class),
+				        EstadosModelOpenApi.class))
+				.alternateTypeRules(AlternateTypeRules.newRule(
+				        typeResolver.resolve(CollectionModel.class, CursoModel.class),
+				        CursosModelOpenApi.class))
+				.alternateTypeRules(AlternateTypeRules.newRule(
+				        typeResolver.resolve(CollectionModel.class, EspecialidadeModel.class),
+				        EspecialidadesModelOpenApi.class))
+				.alternateTypeRules(AlternateTypeRules.newRule(
+				        typeResolver.resolve(CollectionModel.class, EspecializacaoModel.class),
+				        EspecializacoesModelOpenApi.class))
+				.alternateTypeRules(AlternateTypeRules.newRule(
+				        typeResolver.resolve(CollectionModel.class, EstadoCivilModel.class),
+				        EstadosCivisModelOpenApi.class))
+				.alternateTypeRules(AlternateTypeRules.newRule(
+				        typeResolver.resolve(CollectionModel.class, ExperienciaProfissionalModel.class),
+				        ExperienciasProfissionaisModelOpenApi.class))
+				.alternateTypeRules(AlternateTypeRules.newRule(
+				        typeResolver.resolve(CollectionModel.class, GrupoModel.class),
+				        GruposModelOpenApi.class))
+				.alternateTypeRules(AlternateTypeRules.newRule(
+				        typeResolver.resolve(CollectionModel.class, IdiomaModel.class),
+				        IdiomasModelOpenApi.class))
+				.alternateTypeRules(AlternateTypeRules.newRule(
+				        typeResolver.resolve(CollectionModel.class, PermissaoModel.class),
+				        PermissoesModelOpenApi.class))
+				.alternateTypeRules(AlternateTypeRules.newRule(
+				        typeResolver.resolve(CollectionModel.class, SexoModel.class),
+				        SexosModelOpenApi.class))
+				.alternateTypeRules(AlternateTypeRules.newRule(
+				        typeResolver.resolve(CollectionModel.class, SubEspecialidadeModel.class),
+				        SubEspecialidadesModelOpenApi.class))
+				.alternateTypeRules(AlternateTypeRules.newRule(
+				        typeResolver.resolve(CollectionModel.class, AssistenteSocialEstatisticaModel.class),
+				        AssistentesSociaisEstatisticasModelOpenApi.class))
 				.apiInfo(apiInfo())
 				.additionalModels(typeResolver.resolve(Problem.class))
 				.tags(new Tag("Cidades", "Gerencia as cidades"),

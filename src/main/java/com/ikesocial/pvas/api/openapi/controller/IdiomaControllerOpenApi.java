@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 
 import com.ikesocial.pvas.api.exceptionhandler.Problem;
 import com.ikesocial.pvas.api.model.output.IdiomaModel;
+import com.ikesocial.pvas.api.openapi.model.IdiomasModelOpenApi;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -18,6 +19,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 public interface IdiomaControllerOpenApi {
 	
 	@ApiOperation("Listar idiomas")
+	@io.swagger.annotations.ApiResponses(value = {
+			@io.swagger.annotations.ApiResponse(code = 200, message = "OK", response = IdiomasModelOpenApi.class) })
 	ResponseEntity<CollectionModel<IdiomaModel>> listar();
 	
 	@ApiOperation("Busca um idioma por ID")

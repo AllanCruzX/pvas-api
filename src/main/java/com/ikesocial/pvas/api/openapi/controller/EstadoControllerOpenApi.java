@@ -6,6 +6,7 @@ import org.springframework.web.context.request.ServletWebRequest;
 
 import com.ikesocial.pvas.api.exceptionhandler.Problem;
 import com.ikesocial.pvas.api.model.output.EstadoModel;
+import com.ikesocial.pvas.api.openapi.model.EstadosModelOpenApi;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -19,6 +20,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 public interface EstadoControllerOpenApi {
 
 	@ApiOperation("Lista os estados")
+	@io.swagger.annotations.ApiResponses(value = {
+			@io.swagger.annotations.ApiResponse(code = 200, message = "OK", response = EstadosModelOpenApi.class) })
 	ResponseEntity<CollectionModel<EstadoModel>> listar(ServletWebRequest request);
 
 	@ApiOperation("Busca um estado por ID")

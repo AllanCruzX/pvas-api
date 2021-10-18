@@ -1,29 +1,37 @@
 package com.ikesocial.pvas.api.assembler;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
 
+import com.ikesocial.pvas.api.PvasLinks;
+import com.ikesocial.pvas.api.controller.EnderecoController;
 import com.ikesocial.pvas.api.model.output.EnderecoModel;
 import com.ikesocial.pvas.domain.model.Endereco;
 
 @Component
-public class EnderecoModelAssembler {
+public class EnderecoModelAssembler extends RepresentationModelAssemblerSupport<Endereco, EnderecoModel> {
 	
 	@Autowired
 	private ModelMapper modelMapper;
 	
+	@Autowired
+	private PvasLinks pvasLinks;
+	
+	  public EnderecoModelAssembler() {
+	        super(EnderecoController.class, EnderecoModel.class);
+	        
+	        
+	    }
+	  
+	  @Override
 	public EnderecoModel toModel(Endereco endereco) {
-		return modelMapper.map(endereco, EnderecoModel.class);
-	}
-
-	public List<EnderecoModel> toCollectionModel(List<Endereco> enderecos) {
-		return enderecos.stream()
-				.map(endereco -> toModel(endereco))
-				.collect(Collectors.toList());
+		  EnderecoModel enderecoModel = modelMapper.map(endereco, EnderecoModel.class);
+	        
+		  enderecoModel.add(pvasLinks.linkToEndereco(enderecoModel.getCep() , "endereco"));
+		  
+		  return enderecoModel;
 	}
 
 }
