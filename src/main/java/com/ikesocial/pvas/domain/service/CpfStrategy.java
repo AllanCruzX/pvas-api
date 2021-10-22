@@ -2,18 +2,24 @@ package com.ikesocial.pvas.domain.service;
 
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.ikesocial.pvas.domain.builder.DocumentoBuilder;
 import com.ikesocial.pvas.domain.exception.NegocioException;
-import com.ikesocial.pvas.domain.model.Documento;
 import com.ikesocial.pvas.domain.model.AssistenteSocial;
+import com.ikesocial.pvas.domain.model.Documento;
 import com.ikesocial.pvas.domain.model.enums.TipoDocumento;
 import com.ikesocial.pvas.domain.repository.AssistenteSocialRepository;
 
+@Service
 public class CpfStrategy implements DocumentoStrategy {
+	
+	@Autowired
+	private AssistenteSocialRepository assistenteSocialRepository;
 
 	@Override
-	public Documento definirDocumento(Documento documento, CadastroEstadoService estadoService,
-			AssistenteSocialRepository assistenteSocialRepository, AssistenteSocial assistenteSocial) {
+	public Documento definirDocumento(Documento documento, AssistenteSocial assistenteSocial) {
 
 		validaCpfExistente(documento, assistenteSocialRepository);
 		

@@ -29,7 +29,7 @@ public class LoggerInterceptor implements HandlerInterceptor {
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
 
-		log.info("[postHandle][" + request + "]" + "[Status:  " + response.getStatus() + "]");
+		log.info("[postHandle][" + request + "][Status:  " + response.getStatus() + "]");
 	}
 
 	@Override
@@ -38,7 +38,7 @@ public class LoggerInterceptor implements HandlerInterceptor {
 
 		String msnException = ex == null ? "N/A" : ex.getMessage();
 
-		log.info("[afterCompletion][" + request + "][exception: " + msnException + "]");
+		log.info("[afterCompletion][" + request + "][exception: " + msnException + "][Status:  " + response.getStatus() + "]");
 
 	}
 

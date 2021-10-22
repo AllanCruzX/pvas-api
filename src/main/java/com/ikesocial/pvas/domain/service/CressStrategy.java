@@ -2,20 +2,30 @@ package com.ikesocial.pvas.domain.service;
 
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.ikesocial.pvas.domain.builder.DocumentoBuilder;
 import com.ikesocial.pvas.domain.exception.NegocioException;
-import com.ikesocial.pvas.domain.model.Documento;
 import com.ikesocial.pvas.domain.model.AssistenteSocial;
+import com.ikesocial.pvas.domain.model.Documento;
 import com.ikesocial.pvas.domain.model.enums.TipoDocumento;
 import com.ikesocial.pvas.domain.repository.AssistenteSocialRepository;
 
 
+@Service
 public class CressStrategy implements DocumentoStrategy {
 	
+	@Autowired
+	private AssistenteSocialRepository assistenteSocialRepository;
+	
+	@Autowired
+	private CadastroEstadoService estadoService;
+	
 	@Override
-	public Documento definirDocumento(Documento documento , CadastroEstadoService estadoService , AssistenteSocialRepository assistenteSocialRepository , AssistenteSocial assistenteSocial ) {
+	public Documento definirDocumento(Documento documento , AssistenteSocial assistenteSocial ) {
 
-		validaCressExistente(documento, documento.getEstado().getId() , estadoService , assistenteSocialRepository );
+		validaCressExistente(documento, documento.getEstado().getId() );
 
 		Documento documentoNovo = new DocumentoBuilder()
 										.comCodigo(documento.getCodigo())
@@ -27,7 +37,7 @@ public class CressStrategy implements DocumentoStrategy {
 		return documentoNovo;
 	}
 	
-	private void validaCressExistente(Documento documento, Long estadoId , CadastroEstadoService estadoService , AssistenteSocialRepository assistenteSocialRepository ) {
+	private void validaCressExistente(Documento documento, Long estadoId ) {
 
 		Optional<Documento> cressExistente = assistenteSocialRepository.buscarCressRegiao(estadoId, documento.getCodigo());
 
