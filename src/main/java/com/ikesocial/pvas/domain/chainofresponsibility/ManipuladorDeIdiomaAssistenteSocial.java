@@ -34,7 +34,7 @@ public class ManipuladorDeIdiomaAssistenteSocial extends ManipuladorDeAssitenteS
 
 	@Override
 	public Integer getPrioridade() {
-		return 8;
+		return PrioridadeConstants.OITAVO;
 	}
 
 }

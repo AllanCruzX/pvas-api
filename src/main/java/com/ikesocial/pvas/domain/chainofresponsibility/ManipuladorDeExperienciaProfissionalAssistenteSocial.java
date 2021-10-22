@@ -33,8 +33,7 @@ public class ManipuladorDeExperienciaProfissionalAssistenteSocial extends Manipu
 
 	@Override
 	public Integer getPrioridade() {
-		// TODO Auto-generated method stub
-		return 3;
+		return PrioridadeConstants.TERCEIRO;
 	}
 
 }

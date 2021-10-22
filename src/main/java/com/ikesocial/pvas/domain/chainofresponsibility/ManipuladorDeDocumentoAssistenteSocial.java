@@ -45,7 +45,7 @@ public class ManipuladorDeDocumentoAssistenteSocial extends ManipuladorDeAssiten
 
 	@Override
 	public Integer getPrioridade() {
-		return 1;
+		return PrioridadeConstants.PRIMEIRO;
 	}
 
 }

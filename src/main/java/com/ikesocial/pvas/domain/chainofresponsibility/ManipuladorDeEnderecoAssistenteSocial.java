@@ -50,7 +50,7 @@ public class ManipuladorDeEnderecoAssistenteSocial extends ManipuladorDeAssitent
 
 	@Override
 	public Integer getPrioridade() {
-		return 4;
+		return PrioridadeConstants.QUARTO;
 	}
 
 }

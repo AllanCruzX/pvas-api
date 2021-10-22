@@ -35,7 +35,7 @@ public class ManipuladorDeCursoAssistenteSocial extends ManipuladorDeAssitenteSo
 
 	@Override
 	public Integer getPrioridade() {
-		return 7;
+		return PrioridadeConstants.SETIMO;
 	}
 
 }

@@ -38,7 +38,7 @@ public class ManipuladorDeContatoAssistenteSocial extends ManipuladorDeAssitente
 
 	@Override
 	public Integer getPrioridade() {
-		return 2;
+		return PrioridadeConstants.SEGUNDO;
 	}
 
 }

@@ -28,7 +28,7 @@ public class ManipuladorDeGrupoAssistenteSocial extends ManipuladorDeAssitenteSo
 
 	@Override
 	public Integer getPrioridade() {
-		return 5;
+		return PrioridadeConstants.QUINTO;
 	}
 
 }
