@@ -1,4 +1,4 @@
-package com.ikesocial.pvas.domain.model.builder;
+package com.ikesocial.pvas.domain.builder;
 
 import com.ikesocial.pvas.domain.model.Documento;
 import com.ikesocial.pvas.domain.model.Estado;

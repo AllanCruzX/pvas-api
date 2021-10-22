@@ -29,6 +29,9 @@ import com.ikesocial.pvas.domain.repository.CursoRepository;
 import com.ikesocial.pvas.domain.service.CadastroAssistenteSocialService;
 import com.ikesocial.pvas.domain.service.CadastroCursoService;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @RestController
 @RequestMapping(path = "/cursos", produces = MediaType.APPLICATION_JSON_VALUE)
 public class CursoController implements CursoControllerOpenApi {
@@ -51,11 +54,15 @@ public class CursoController implements CursoControllerOpenApi {
 
 	@GetMapping("/{cursoId}")
 	public CursoModel buscar(@PathVariable Long cursoId) {
+		log.info("Buscando curso pelo id {}", cursoId);
+		
 		return cursoModelAssembler.toModel(cadastroCursoService.buscarOuFalhar(cursoId));
 	}
 	
 	@GetMapping("/assitente-social/{codigoAssistenteSocial}")
 	public CollectionModel<CursoModel> buscarCursosAssistenteSocial (@PathVariable String codigoAssistenteSocial) {
+		
+		log.info("Buscando curso da assistente social do codigo {}", codigoAssistenteSocial);
 		
 		try {
 			cadastroAssistenteSocialService.buscarOuFalhar(codigoAssistenteSocial);
@@ -70,10 +77,12 @@ public class CursoController implements CursoControllerOpenApi {
 	@ResponseStatus(HttpStatus.CREATED)
 	public CursoModel adicionar(@RequestBody @Valid CursoInput cursoInput) {
 		
+		
 		try {
 			
 			Curso curso = cursoInputDisassembler.toDomainObject(cursoInput);
 			curso = cadastroCursoService.salvar(curso);
+			log.info("Criando curso de id {}", curso.getId());
 			
 			CursoModel cursoModel = cursoModelAssembler.toModel(curso);
 			
@@ -88,6 +97,7 @@ public class CursoController implements CursoControllerOpenApi {
 	
 	@PutMapping("/{cursoId}")
 	public CursoModel atualizar(@PathVariable Long cursoId, @RequestBody @Valid CursoInput cursoInput) {
+		log.info("Atualizando curso de id {}", cursoId);
 		try {
 			
 			Curso cursoAtual = cadastroCursoService.buscarOuFalhar(cursoId);
@@ -105,6 +115,8 @@ public class CursoController implements CursoControllerOpenApi {
 	@DeleteMapping("/{cursoId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void remover(@PathVariable Long cursoId) {
+		log.info("Removendo curso de id {}", cursoId);
+		
 		cadastroCursoService.excluir(cursoId);
 	}
 

@@ -2,6 +2,7 @@ package com.ikesocial.pvas.domain.model;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.OffsetDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,6 +14,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -47,17 +51,26 @@ public class ExperienciaProfissional  implements Serializable{
 	@Column(name = "sem_experiencia" )
 	private Boolean semExperiencia;
 	
+	@Column(name = "data_cadastro", columnDefinition = "datetime", nullable = false)
+	@CreationTimestamp
+	private OffsetDateTime dataCadastro;
+	
+	@Column(name = "data_alteracao", columnDefinition = "datetime")
+	@UpdateTimestamp
+	private OffsetDateTime dataAlteracao;
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "assistente_social_id",
-				foreignKey = @ForeignKey(name = "fk_experiecia_profissional_assistente_social"),
-				nullable = false)
+				foreignKey = @ForeignKey(name = "fk_experiecia_profissional_assistente_social"))
 	private AssistenteSocial assistenteSocial;
 	
 	public void naoTemExperienciaProfissional() {
 		setSemExperiencia(true);
 		setDataInicio(null);
 		setDataFim(null);
-		setEmpresaAtual(false);
+		setEmpresaAtual(null);
+		setNomeEmpresa(null);
+		setAvidade(null);
 	}
 	
 	public void eEmpresaAtual() {

@@ -36,6 +36,9 @@ import com.ikesocial.pvas.domain.service.CatalogoFotoAssistenteSocial;
 import com.ikesocial.pvas.domain.service.FotoStorageService;
 import com.ikesocial.pvas.domain.service.FotoStorageService.FotoRecuperada;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @RestController
 @RequestMapping(path ="/assistentes-sociais/{codigoAssistenteSocial}/foto", produces = MediaType.APPLICATION_JSON_VALUE)
 public class AssistenteSocialFotoController implements AssistenteSocialFotoControllerOpenApi {
@@ -59,6 +62,8 @@ public class AssistenteSocialFotoController implements AssistenteSocialFotoContr
 		AssistenteSocial assistenteSocial = cadastroAssistenteSocialService
 				.buscarOuFalharAssistenteSocialSemComplementos(codigoAssistenteSocial);
 		
+		log.info("Upload da foto da assistente social de codigo {}",codigoAssistenteSocial);
+		
 		FotoPessoa foto = new FotoPessoa();
 		foto.setPessoa(assistenteSocial);
 		foto.setDescricao(fotoAssistenteSocialInput.getDescricao());
@@ -76,6 +81,7 @@ public class AssistenteSocialFotoController implements AssistenteSocialFotoContr
 	public ResponseEntity<?> servirFoto(@PathVariable String codigoAssistenteSocial,
 			@RequestHeader(name = "accept") String acceptHeader)  {
 		
+		log.info("Dowload da foto da assistente social de codigo {}",codigoAssistenteSocial);
 		
 		if (acceptHeader.equals(MediaType.APPLICATION_JSON_VALUE)) {
 			return recuperarFoto(codigoAssistenteSocial);
@@ -123,9 +129,12 @@ public class AssistenteSocialFotoController implements AssistenteSocialFotoContr
 	@DeleteMapping
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void excluir(@PathVariable String codigoAssistenteSocial) {
+		log.info("Excluindo foto da assistente social de codigo {}",codigoAssistenteSocial);
+		
 		catalogoFotoAssistenteSocial.excluir(codigoAssistenteSocial);
 	}   
 
+	
 	private void verificarCompatibilidadeMediaType(MediaType mediaTypeFoto, List<MediaType> mediaTypesAceitas)
 			throws HttpMediaTypeNotAcceptableException {
 

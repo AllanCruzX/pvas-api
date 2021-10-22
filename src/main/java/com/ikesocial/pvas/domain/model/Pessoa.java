@@ -24,6 +24,7 @@ import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.domain.AbstractAggregateRoot;
 
 import com.ikesocial.pvas.domain.event.PessoaCadastradaEvent;
@@ -56,6 +57,10 @@ public class Pessoa extends AbstractAggregateRoot<Pessoa> implements Serializabl
 	@Column(name = "data_cadastro", columnDefinition = "datetime", nullable = false)
 	@CreationTimestamp
 	private OffsetDateTime dataCadastro;
+	
+	@Column(name = "data_alteracao", columnDefinition = "datetime")
+	@UpdateTimestamp
+	private OffsetDateTime dataAlteracao;
 	
 	@Column(name = "data_inativacao", columnDefinition = "datetime")
 	private OffsetDateTime dataIntivacao;

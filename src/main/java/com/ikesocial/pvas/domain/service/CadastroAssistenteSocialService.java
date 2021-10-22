@@ -9,6 +9,8 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ikesocial.pvas.domain.builder.ContatoBuilder;
+import com.ikesocial.pvas.domain.builder.EnderecoBuilder;
 import com.ikesocial.pvas.domain.exception.AssistenteSocialNaoEncontradoException;
 import com.ikesocial.pvas.domain.exception.NegocioException;
 import com.ikesocial.pvas.domain.model.AssistenteSocial;
@@ -21,8 +23,6 @@ import com.ikesocial.pvas.domain.model.ExperienciaProfissional;
 import com.ikesocial.pvas.domain.model.Grupo;
 import com.ikesocial.pvas.domain.model.Idioma;
 import com.ikesocial.pvas.domain.model.SubEspecialidade;
-import com.ikesocial.pvas.domain.model.builder.ContatoBuilder;
-import com.ikesocial.pvas.domain.model.builder.EnderecoBuilder;
 import com.ikesocial.pvas.domain.model.enums.TipoDocumento;
 import com.ikesocial.pvas.domain.repository.AssistenteSocialRepository;
 import com.ikesocial.pvas.domain.repository.GrupoRepository;

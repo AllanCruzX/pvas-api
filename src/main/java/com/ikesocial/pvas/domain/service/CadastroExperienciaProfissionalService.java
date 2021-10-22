@@ -6,11 +6,12 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ikesocial.pvas.domain.chainofresponsibility.ManipuladorEmpresaAtual;
+import com.ikesocial.pvas.domain.chainofresponsibility.ManipuladorEmpressaPassada;
+import com.ikesocial.pvas.domain.chainofresponsibility.ManipuladorSemExperiencia;
 import com.ikesocial.pvas.domain.exception.ExperienciaProfissionalEmUsoException;
 import com.ikesocial.pvas.domain.exception.ExperienciaProfissionalNaoEncontradoException;
-import com.ikesocial.pvas.domain.exception.NegocioException;
 import com.ikesocial.pvas.domain.model.ExperienciaProfissional;
-import com.ikesocial.pvas.domain.model.AssistenteSocial;
 import com.ikesocial.pvas.domain.repository.ExperienciaProfissionalRepository;
 
 @Service
@@ -18,22 +19,18 @@ public class CadastroExperienciaProfissionalService {
 
 	@Autowired
 	private ExperienciaProfissionalRepository experienciaProfissionalRepository;
-	
-	@Autowired
-	private CadastroAssistenteSocialService pessoaFisicaService;
-	
-	
+
+
 	@Transactional
-	public ExperienciaProfissional salvar(ExperienciaProfissional experienciaProfissional) {
-		
+	public ExperienciaProfissional salvar(ExperienciaProfissional experienciaProfissional ) {
+
 		experienciaProfissionalRepository.detach(experienciaProfissional);
 
 		preparaExperienciaProfissional(experienciaProfissional);
 
 		return experienciaProfissionalRepository.save(experienciaProfissional);
 	}
-	
-	
+
 	public ExperienciaProfissional buscarOuFalhar(Long experienciaProfissionalId) {
 
 		return experienciaProfissionalRepository.findById(experienciaProfissionalId)
@@ -41,17 +38,15 @@ public class CadastroExperienciaProfissionalService {
 
 	}
 
-	
-
 	private void preparaExperienciaProfissional(ExperienciaProfissional experienciaProfissional) {
-		
-		validaData(experienciaProfissional);
-		
-		AssistenteSocial assistenteSocial = pessoaFisicaService.buscarOuFalharAssistenteSocialSemComplementos(experienciaProfissional.getAssistenteSocial().getCodigo());
-		
-		experienciaProfissional.setAssistenteSocial(assistenteSocial);
+
+		ManipuladorSemExperiencia manipulador = new ManipuladorSemExperiencia();
+		manipulador.setManipuladorProximo(new ManipuladorEmpresaAtual())
+				.setManipuladorProximo(new ManipuladorEmpressaPassada());
+
+		manipulador.tratar(experienciaProfissional);
 	}
-	
+
 	@Transactional
 	public void excluir(Long experienciaProfissionalId) {
 
@@ -67,17 +62,6 @@ public class CadastroExperienciaProfissionalService {
 			throw new ExperienciaProfissionalEmUsoException(experienciaProfissionalId);
 		}
 
-	}
-	private void validaData (ExperienciaProfissional experienciaProfissional) {
-		
-		//TODO : implementar chean of reposability
-		
-		if(experienciaProfissional.getSemExperiencia()) {
-			experienciaProfissional.naoTemExperienciaProfissional();
-		}else if(experienciaProfissional.getDataFim().isBefore(experienciaProfissional.getDataInicio()) ) {
-			throw new NegocioException("A data fim não pode acontecer antes da data início");
-		}
-		
 	}
 
 }

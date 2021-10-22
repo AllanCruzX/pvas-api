@@ -19,7 +19,10 @@ import com.ikesocial.pvas.domain.repository.CidadeRepository;
 import com.ikesocial.pvas.domain.service.CadastroCidadeService;
 import com.ikesocial.pvas.domain.service.CadastroEstadoService;
 
+import lombok.extern.slf4j.Slf4j;
 
+
+@Slf4j
 @RestController
 @RequestMapping(path = "/cidades", produces = MediaType.APPLICATION_JSON_VALUE)
 public class CidadeController implements CidadeControllerOpenApi {
@@ -38,6 +41,7 @@ public class CidadeController implements CidadeControllerOpenApi {
 
 	@GetMapping
 	public CollectionModel<CidadeModel> listar() {
+		log.info("Listando cidades");
 		
 		 return cidadeModelAssembler.toCollectionModel(cidadeRepository.findAll());
 	}
@@ -47,6 +51,8 @@ public class CidadeController implements CidadeControllerOpenApi {
 		
 		Estado estado = cadastroEstadoService.buscarOuFalhar(estadoId);
 		
+		log.info("Listando cidades do estado {}", estado.getSigla());
+		
 		List<Cidade> todasCidades = cidadeRepository.listarCidadesPorEstado(estado.getId());
 		
 		return cidadeModelAssembler.toCollectionModel(todasCidades);
@@ -55,6 +61,8 @@ public class CidadeController implements CidadeControllerOpenApi {
 
 	@GetMapping("/{cidadeId}")
 	public CidadeModel buscar(@PathVariable Long cidadeId) {
+		log.info("Buscando cidade do id {}", cidadeId);
+		
 		Cidade cidade = cadastroCidadeService.buscarOuFalhar(cidadeId);
 						
 		return cidadeModelAssembler.toModel(cidade);

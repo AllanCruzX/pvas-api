@@ -2,10 +2,10 @@ package com.ikesocial.pvas.domain.service;
 
 import java.util.Optional;
 
+import com.ikesocial.pvas.domain.builder.DocumentoBuilder;
 import com.ikesocial.pvas.domain.exception.NegocioException;
 import com.ikesocial.pvas.domain.model.Documento;
 import com.ikesocial.pvas.domain.model.AssistenteSocial;
-import com.ikesocial.pvas.domain.model.builder.DocumentoBuilder;
 import com.ikesocial.pvas.domain.model.enums.TipoDocumento;
 import com.ikesocial.pvas.domain.repository.AssistenteSocialRepository;
 

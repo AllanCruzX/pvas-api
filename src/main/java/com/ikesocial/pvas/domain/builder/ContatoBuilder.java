@@ -1,4 +1,4 @@
-package com.ikesocial.pvas.domain.model.builder;
+package com.ikesocial.pvas.domain.builder;
 
 import com.ikesocial.pvas.domain.model.Contato;
 import com.ikesocial.pvas.domain.model.AssistenteSocial;
@@ -11,7 +11,6 @@ public class ContatoBuilder {
 	public ContatoBuilder() {
 		this.contato = new Contato();
 	}
-	
 	
 	public ContatoBuilder comDescricao(String descricao) {
 		contato.setDescricao(descricao);

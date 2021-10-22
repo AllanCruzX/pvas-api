@@ -89,8 +89,8 @@ insert into assistente_social (assistente_social_id , nome_mae, nome_pai, data_n
 
 insert into pessoa_grupo (pessoa_id, grupo_id) values (1, 2), (2, 2);
 
-insert into curso (nome, chaga_horaria, assistente_social_id) values ('Assistente social autônomo' , 60, 1);
-insert into curso (nome, chaga_horaria, assistente_social_id) values ('Assistente social autônomo IKE' , 100, 2);
+insert into curso (nome, chaga_horaria, assistente_social_id , data_cadastro) values ('Assistente social autônomo' , 60, 1 , utc_timestamp);
+insert into curso (nome, chaga_horaria, assistente_social_id , data_cadastro) values ('Assistente social autônomo IKE' , 100, 2 , utc_timestamp);
 
 insert into idioma (id , nome) values (1, 'Português');
 insert into idioma (id , nome) values (2, 'Inglês ');
@@ -108,5 +108,5 @@ insert into assistente_social_sub_especialidade (assistente_social_id , sub_espe
 insert into assistente_social_sub_especialidade (assistente_social_id , sub_especialidade_id) values(2,1);
 insert into assistente_social_sub_especialidade (assistente_social_id , sub_especialidade_id) values(2,2);
 
-insert into experiecia_profissional (id, nome_empresa , atividade , data_inicio   , empresa_atual , assistente_social_id) values (1,'Petobras','Da assistencia no Pre-sal', utc_timestamp ,   true , 1);
-insert into experiecia_profissional (id, nome_empresa , atividade , data_inicio  , empresa_atual , assistente_social_id) values (2,'IkeSocial','CEO da empresa', utc_timestamp ,  true , 2);
+insert into experiecia_profissional (id, nome_empresa , atividade , data_inicio   , empresa_atual , assistente_social_id , data_cadastro) values (1,'Petobras','Da assistencia no Pre-sal', utc_timestamp ,   true , 1 ,utc_timestamp);
+insert into experiecia_profissional (id, nome_empresa , atividade , data_inicio  , empresa_atual , assistente_social_id , data_cadastro) values (2,'IkeSocial','CEO da empresa', utc_timestamp ,  true , 2 , utc_timestamp);

@@ -31,6 +31,9 @@ import com.ikesocial.pvas.domain.repository.ExperienciaProfissionalRepository;
 import com.ikesocial.pvas.domain.service.CadastroAssistenteSocialService;
 import com.ikesocial.pvas.domain.service.CadastroExperienciaProfissionalService;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @RestController
 @RequestMapping(path = "/experiencias-proficionais", produces = MediaType.APPLICATION_JSON_VALUE)
 public class ExperienciaProfissionalController implements ExperienciaProfissionalControllerOpenApi {
@@ -53,6 +56,8 @@ public class ExperienciaProfissionalController implements ExperienciaProfissiona
 	@Override
 	@GetMapping("/{experienciaProfissionalId}")
 	public ExperienciaProfissionalModel buscar(@PathVariable Long experienciaProfissionalId) {
+		log.info("Buscando experiancia profissional do id {}", experienciaProfissionalId);
+		
 		return experienciaProfissionalModelAssembler
 				.toModel(cadastroExperienciaProfissionalService.buscarOuFalhar(experienciaProfissionalId));
 	}
@@ -61,6 +66,8 @@ public class ExperienciaProfissionalController implements ExperienciaProfissiona
 	@GetMapping("/assitente-social/{codigoAssistenteSocial}")
 	public CollectionModel<ExperienciaProfissionalModel> buscarExperienciaProfissionalsDaAssistenteSocial(
 			@PathVariable String codigoAssistenteSocial) {
+		
+		log.info("Buscando experiancia profissional do assistente social de codigo {}", codigoAssistenteSocial);
 
 		try {
 			cadastroAssistenteSocialService.buscarOuFalhar(codigoAssistenteSocial);
@@ -87,6 +94,8 @@ public class ExperienciaProfissionalController implements ExperienciaProfissiona
 			ExperienciaProfissional experienciaProfissional = experienciaProfissionalInputDisassembler
 					.toDomainObject(experienciaProfissionalInput);
 			experienciaProfissional = cadastroExperienciaProfissionalService.salvar(experienciaProfissional);
+			
+			log.info("Criando experiancia profissional do id {}", experienciaProfissional.getId());
 
 			ExperienciaProfissionalModel experienciaProfissionalModel = experienciaProfissionalModelAssembler
 					.toModel(experienciaProfissional);
@@ -104,6 +113,8 @@ public class ExperienciaProfissionalController implements ExperienciaProfissiona
 	@PutMapping("/{experienciaProfissionalId}")
 	public ExperienciaProfissionalModel atualizar(@PathVariable Long experienciaProfissionalId,
 			@RequestBody @Valid ExperienciaProfissionalInput experienciaProfissionalInput) {
+		log.info("Atualizando experiancia profissional do id {}", experienciaProfissionalId);
+		
 		try {
 
 			ExperienciaProfissional experienciaProfissionalAtual = cadastroExperienciaProfissionalService
@@ -124,6 +135,8 @@ public class ExperienciaProfissionalController implements ExperienciaProfissiona
 	@DeleteMapping("/{experienciaProfissionalId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void remover(@PathVariable Long experienciaProfissionalId) {
+		log.info("Excluindo experiancia profissional do id {}", experienciaProfissionalId);
+		
 		cadastroExperienciaProfissionalService.excluir(experienciaProfissionalId);
 	}
 
