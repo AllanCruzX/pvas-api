@@ -22,6 +22,7 @@ import com.ikesocial.pvas.api.assembler.disassembler.CursoInputDisassembler;
 import com.ikesocial.pvas.api.model.input.CursoInput;
 import com.ikesocial.pvas.api.model.output.CursoModel;
 import com.ikesocial.pvas.api.openapi.controller.CursoControllerOpenApi;
+import com.ikesocial.pvas.core.security.CheckSecurity;
 import com.ikesocial.pvas.domain.exception.AssistenteSocialNaoEncontradoException;
 import com.ikesocial.pvas.domain.exception.NegocioException;
 import com.ikesocial.pvas.domain.model.Curso;
@@ -52,6 +53,7 @@ public class CursoController implements CursoControllerOpenApi {
 	private CadastroAssistenteSocialService cadastroAssistenteSocialService;
 
 
+	@CheckSecurity.Cursos.PodeBuscar
 	@GetMapping("/{cursoId}")
 	public CursoModel buscar(@PathVariable Long cursoId) {
 		log.info("Buscando curso pelo id {}", cursoId);
@@ -59,6 +61,7 @@ public class CursoController implements CursoControllerOpenApi {
 		return cursoModelAssembler.toModel(cadastroCursoService.buscarOuFalhar(cursoId));
 	}
 	
+	@CheckSecurity.Cursos.PodeBuscarPersonalizado
 	@GetMapping("/assitente-social/{codigoAssistenteSocial}")
 	public CollectionModel<CursoModel> buscarCursosAssistenteSocial (@PathVariable String codigoAssistenteSocial) {
 		
@@ -73,6 +76,7 @@ public class CursoController implements CursoControllerOpenApi {
 		}
 	}
 	
+	@CheckSecurity.Cursos.PodeCadastrar
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public CursoModel adicionar(@RequestBody @Valid CursoInput cursoInput) {
@@ -95,6 +99,7 @@ public class CursoController implements CursoControllerOpenApi {
 		
 	}
 	
+	@CheckSecurity.Cursos.PodeEditar
 	@PutMapping("/{cursoId}")
 	public CursoModel atualizar(@PathVariable Long cursoId, @RequestBody @Valid CursoInput cursoInput) {
 		log.info("Atualizando curso de id {}", cursoId);
@@ -112,6 +117,7 @@ public class CursoController implements CursoControllerOpenApi {
 		}
 	}
 	
+	@CheckSecurity.Cursos.PodeExcluir
 	@DeleteMapping("/{cursoId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void remover(@PathVariable Long cursoId) {

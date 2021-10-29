@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ikesocial.pvas.api.assembler.PermissaoModelAssembler;
 import com.ikesocial.pvas.api.model.output.PermissaoModel;
 import com.ikesocial.pvas.api.openapi.controller.PermissaoControllerOpenApi;
+import com.ikesocial.pvas.core.security.CheckSecurity;
 import com.ikesocial.pvas.domain.repository.PermissaoRepository;
 
 @RestController
@@ -22,6 +23,7 @@ public class PermissaoController implements PermissaoControllerOpenApi {
 	@Autowired
 	private PermissaoModelAssembler permissaoModelAssembler;
 	
+	@CheckSecurity.Grupos.PodeConsultar
 	@GetMapping
 	public CollectionModel<PermissaoModel> listar() {
 		

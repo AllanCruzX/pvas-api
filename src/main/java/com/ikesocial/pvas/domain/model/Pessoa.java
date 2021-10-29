@@ -3,6 +3,7 @@ package com.ikesocial.pvas.domain.model;
 import java.io.Serializable;
 import java.time.OffsetDateTime;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
@@ -28,6 +29,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.domain.AbstractAggregateRoot;
 
 import com.ikesocial.pvas.domain.event.PessoaCadastradaEvent;
+import com.ikesocial.pvas.domain.model.enums.TipoContato;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -58,7 +60,7 @@ public class Pessoa extends AbstractAggregateRoot<Pessoa> implements Serializabl
 	@CreationTimestamp
 	private OffsetDateTime dataCadastro;
 	
-	@Column(name = "data_alteracao", columnDefinition = "datetime")
+	@Column(name = "data_alteracao", columnDefinition = "datetime" , insertable=false)
 	@UpdateTimestamp
 	private OffsetDateTime dataAlteracao;
 	
@@ -96,13 +98,16 @@ public class Pessoa extends AbstractAggregateRoot<Pessoa> implements Serializabl
 		registerEvent(new PessoaCadastradaEvent(this));
 	}
 	
-	
-	public boolean senhaCoincideCom(String senha) {
-		return getSenha().equals(senha);
+	public String getEmail () {
+		  Optional<Contato> email = contatos.stream()
+					.filter(c -> c.getTipoContato().equals(TipoContato.EMAIL))
+					.findFirst();
+		  
+		  return email.get().getDescricao();
 	}
 	
-	public boolean senhaNaoCoincideCom(String senha) {
-		return !senhaCoincideCom(senha);
+	public boolean isNovo() {
+	    return getId() == null;
 	}
 	
 	public boolean removerGrupo(Grupo grupo) {

@@ -53,5 +53,20 @@
     "name": "logging.loggly.token",
     "type": "java.lang.String",
     "description": "A description for 'logging.loggly.token'"
+  },
+  {
+    "name": "ikesocial.jwt.keystore.password",
+    "type": "java.lang.String",
+    "description": "A description for 'ikesocial.jwt.keystore.password'"
+  },
+  {
+    "name": "ikesocial.jwt.keystore.keypair-alias",
+    "type": "java.lang.String",
+    "description": "A description for 'ikesocial.jwt.keystore.keypair-alias'"
+  },
+  {
+    "name": "ikesocial.jwt.keystore.path",
+    "type": "java.lang.String",
+    "description": "A description for 'ikesocial.jwt.keystore.path'"
   }
 ]}

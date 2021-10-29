@@ -27,6 +27,7 @@ import com.ikesocial.pvas.api.assembler.FotoAssistenteSocialModelAssembler;
 import com.ikesocial.pvas.api.model.input.FotoAssistenteSocialInput;
 import com.ikesocial.pvas.api.model.output.FotoAssistenteSocialModel;
 import com.ikesocial.pvas.api.openapi.controller.AssistenteSocialFotoControllerOpenApi;
+import com.ikesocial.pvas.core.security.CheckSecurity;
 import com.ikesocial.pvas.domain.exception.EntidadeNaoEncontradaException;
 import com.ikesocial.pvas.domain.exception.NegocioException;
 import com.ikesocial.pvas.domain.model.FotoPessoa;
@@ -55,6 +56,7 @@ public class AssistenteSocialFotoController implements AssistenteSocialFotoContr
 	@Autowired
 	private FotoStorageService fotoStorage;
 
+	@CheckSecurity.AssistentesSociais.PodeEditar
 	@PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public FotoAssistenteSocialModel atualizarFoto(@PathVariable String codigoAssistenteSocial,
 			@Valid FotoAssistenteSocialInput fotoAssistenteSocialInput , @RequestPart(required = true) MultipartFile arquivo) throws IOException {
@@ -77,6 +79,7 @@ public class AssistenteSocialFotoController implements AssistenteSocialFotoContr
 
 	}
 
+	@CheckSecurity.AssistentesSociais.PodeBuscar
 	@GetMapping(produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE, MediaType.APPLICATION_JSON_VALUE})
 	public ResponseEntity<?> servirFoto(@PathVariable String codigoAssistenteSocial,
 			@RequestHeader(name = "accept") String acceptHeader)  {
@@ -126,6 +129,7 @@ public class AssistenteSocialFotoController implements AssistenteSocialFotoContr
 		
 	}
 	
+	@CheckSecurity.AssistentesSociais.PodeExcluir
 	@DeleteMapping
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void excluir(@PathVariable String codigoAssistenteSocial) {

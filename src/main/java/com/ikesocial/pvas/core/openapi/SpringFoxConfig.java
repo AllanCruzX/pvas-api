@@ -64,10 +64,14 @@ import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.builders.ResponseBuilder;
 import springfox.documentation.schema.AlternateTypeRules;
 import springfox.documentation.service.ApiInfo;
+import springfox.documentation.service.AuthorizationScope;
 import springfox.documentation.service.Contact;
+import springfox.documentation.service.HttpAuthenticationScheme;
 import springfox.documentation.service.Response;
+import springfox.documentation.service.SecurityReference;
 import springfox.documentation.service.Tag;
 import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
 
 @Configuration
@@ -76,7 +80,9 @@ public class SpringFoxConfig implements WebMvcConfigurer  {
 
 	 	@Bean
 	    public Docket apiDocket() {
+	 		authenticationScheme();
 	 		TypeResolver typeResolver = new TypeResolver();
+	 	
 	 		
 	        return new Docket(DocumentationType.OAS_30)
 	        		.select()
@@ -137,6 +143,10 @@ public class SpringFoxConfig implements WebMvcConfigurer  {
 				        AssistentesSociaisEstatisticasModelOpenApi.class))
 				.apiInfo(apiInfo())
 				.additionalModels(typeResolver.resolve(Problem.class))
+				
+				.securitySchemes(List.of(authenticationScheme()))
+				.securityContexts(List.of(securityContext()))
+				
 				.tags(new Tag("Cidades", "Gerencia as cidades"),
 					  new Tag("Estados", "Gerencia os estados"),
 					  new Tag("Enderecos", "Consulta os endereços"),
@@ -151,6 +161,22 @@ public class SpringFoxConfig implements WebMvcConfigurer  {
 				 	  new Tag("Assistentes Sociais", "Gerencia as sssistentes sociais"));
 	        
 	    }
+	 	
+		private SecurityContext securityContext() {		
+			return SecurityContext.builder()
+					.securityReferences(securityReference()).build();
+		}
+		
+		 private List<SecurityReference> securityReference() {
+		        AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
+		        AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
+		        authorizationScopes[0] = authorizationScope;
+		        return List.of(new SecurityReference("Authorization", authorizationScopes));
+		 }	
+		
+		 private HttpAuthenticationScheme authenticationScheme() {
+				return HttpAuthenticationScheme.JWT_BEARER_BUILDER.name("Authorization").build();
+			}
 	 	
 	 	private List<Response> globalGetResponseMessages() {
 			return Arrays.asList(

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ikesocial.pvas.api.assembler.SubEspecialidadeModelAssembler;
 import com.ikesocial.pvas.api.model.output.SubEspecialidadeModel;
 import com.ikesocial.pvas.api.openapi.controller.SubEspecialidadeControllerOpenApi;
+import com.ikesocial.pvas.core.security.CheckSecurity;
 import com.ikesocial.pvas.domain.exception.AssistenteSocialNaoEncontradoException;
 import com.ikesocial.pvas.domain.exception.NegocioException;
 import com.ikesocial.pvas.domain.model.SubEspecialidade;
@@ -32,13 +33,13 @@ public class SubEspecialidadeController implements SubEspecialidadeControllerOpe
 	@Autowired
 	private SubEspecialidadeModelAssembler subEspecialidadeModelAssembler;
 
-	@Override
+	@CheckSecurity.AssistentesSociais.EstaAutorizado
 	@GetMapping
 	public CollectionModel<SubEspecialidadeModel> listar() {
 		return subEspecialidadeModelAssembler.toCollectionModel(subEspecialidadeRepository.findAll());
 	}
 
-	@Override
+	@CheckSecurity.AssistentesSociais.EstaAutorizado
 	@GetMapping("/{subEspecialidadeId}")
 	public SubEspecialidadeModel buscar(@PathVariable Long subEspecialidadeId) {
 
@@ -47,6 +48,7 @@ public class SubEspecialidadeController implements SubEspecialidadeControllerOpe
 
 	}
 
+	@CheckSecurity.AssistentesSociais.EstaAutorizadoPersonalizado
 	@GetMapping("/assistente-social/{codigoAssistenteSocial}")
 	public CollectionModel<SubEspecialidadeModel> buscarSubEspecialidadeAssistenteSocial(
 			@PathVariable String codigoAssistenteSocial) {

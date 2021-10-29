@@ -25,7 +25,7 @@ public class NotificacaoPessoaCadastradaListener {
 
 		var mensagem = Mensagem.builder()
 				.assunto("Cadastro realizado com sucesso!")
-				.corpo("cadastro-realizado-sucesso.html")
+				.corpo("emails/cadastro-realizado-sucesso.html")
 				.variavel("nome", pessoa.getNome())
 				.destinatario(emailService.recuperaEmailEmMemoria(pessoa.getContatos()).get())
 				.build();

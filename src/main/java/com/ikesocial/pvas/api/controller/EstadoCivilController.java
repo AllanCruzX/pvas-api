@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ikesocial.pvas.api.assembler.EstadoCivilModelAssembler;
 import com.ikesocial.pvas.api.model.output.EstadoCivilModel;
 import com.ikesocial.pvas.api.openapi.controller.EstadoCivilControllerOpenApi;
+import com.ikesocial.pvas.core.security.CheckSecurity;
 import com.ikesocial.pvas.domain.model.enums.EstadoCivil;
 
 @RestController
@@ -26,6 +27,7 @@ public class EstadoCivilController implements EstadoCivilControllerOpenApi  {
 	private EstadoCivilModelAssembler estadoCivilModelAssembler;
 	
 	
+	@CheckSecurity.AssistentesSociais.EstaAutorizado
 	@GetMapping
 	public ResponseEntity<CollectionModel<EstadoCivilModel>> listarEstadosCivis(){
 		 List<EstadoCivil> estadosCivis = EstadoCivil.valores();
@@ -37,7 +39,7 @@ public class EstadoCivilController implements EstadoCivilControllerOpenApi  {
 					.body(estadosCivisModel);
 	}
 	
-	
+	@CheckSecurity.AssistentesSociais.EstaAutorizado
 	@GetMapping("/{estadoCivilId}")
 	public EstadoCivilModel buscar(@PathVariable Long estadoCivilId) {
 		EstadoCivil estadoCivil =  EstadoCivil.getById(estadoCivilId);

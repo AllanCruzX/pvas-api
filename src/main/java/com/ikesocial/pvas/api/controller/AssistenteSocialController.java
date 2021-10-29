@@ -31,6 +31,7 @@ import com.ikesocial.pvas.api.model.input.SenhaInput;
 import com.ikesocial.pvas.api.model.output.AssistenteSocialModel;
 import com.ikesocial.pvas.api.model.output.AssistenteSocialResumoModel;
 import com.ikesocial.pvas.api.openapi.controller.AssistenteSocialControllerOpenApi;
+import com.ikesocial.pvas.core.security.CheckSecurity;
 import com.ikesocial.pvas.domain.exception.CidadeNaoEncontradoException;
 import com.ikesocial.pvas.domain.exception.CursoNaoEncontradoException;
 import com.ikesocial.pvas.domain.exception.EspecialidadeNaoEncontradoException;
@@ -69,6 +70,7 @@ public class AssistenteSocialController implements AssistenteSocialControllerOpe
 	@Autowired
 	private PagedResourcesAssembler<AssistenteSocial> pagedResourcesAssembler;
 
+	@CheckSecurity.AssistentesSociais.PodeConsultar
 	@GetMapping
 	public PagedModel<AssistenteSocialResumoModel> listar(AssistenteSocialFilter assistenteSocialFilter , 
 			@RequestParam(required = false) boolean incluirInativos , @PageableDefault(size = 20) Pageable pageable) {
@@ -90,6 +92,7 @@ public class AssistenteSocialController implements AssistenteSocialControllerOpe
 
 	}
 
+	@CheckSecurity.AssistentesSociais.PodeBuscar
 	@GetMapping("/{codigoAssistenteSocial}")
 	public AssistenteSocialModel buscar(@PathVariable String codigoAssistenteSocial) {
 		
@@ -98,6 +101,7 @@ public class AssistenteSocialController implements AssistenteSocialControllerOpe
 		return assistenteSocialModelAssembler.toModel(cadastroAssistenteSocialService.buscarOuFalhar(codigoAssistenteSocial));
 	}
 
+	@CheckSecurity.AssistentesSociais.PodeCadastrar
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public AssistenteSocialModel adicionar(@RequestBody @Valid AssistenteSocialInput assistenteSocialInput) {
@@ -123,6 +127,7 @@ public class AssistenteSocialController implements AssistenteSocialControllerOpe
 
 	}
 	
+	@CheckSecurity.AssistentesSociais.PodeEditar
 	@PutMapping("/{codigoPessoaFisica}")
 	public AssistenteSocialModel atualizar(@PathVariable String codigoPessoaFisica, @RequestBody @Valid AssistenteSocialInput assistenteSocialInput) {
 		try {
@@ -147,6 +152,7 @@ public class AssistenteSocialController implements AssistenteSocialControllerOpe
 		}
 	}
 
+	@CheckSecurity.AssistentesSociais.PodeAtivarOuInativar
 	@PutMapping("/{codigoAssistenteSocial}/ativo")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public ResponseEntity<Void> ativar(@PathVariable  String codigoAssistenteSocial) {
@@ -157,6 +163,7 @@ public class AssistenteSocialController implements AssistenteSocialControllerOpe
 		return ResponseEntity.noContent().build();
 	}
 
+	@CheckSecurity.AssistentesSociais.PodeAtivarOuInativar
 	@DeleteMapping("/{codigoAssistenteSocial}/ativo")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public ResponseEntity<Void> inativar(@PathVariable  String codigoAssistenteSocial) {
@@ -167,6 +174,7 @@ public class AssistenteSocialController implements AssistenteSocialControllerOpe
 		return ResponseEntity.noContent().build();
 	}
 	
+	@CheckSecurity.AssistentesSociais.PodeEditar
 	@PutMapping("/{codigoAssistenteSocial}/senha")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void alterarSenha(@PathVariable  String codigoAssistenteSocial, @RequestBody @Valid SenhaInput senha) {

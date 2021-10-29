@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ikesocial.pvas.api.assembler.GrupoModelAssembler;
 import com.ikesocial.pvas.api.model.output.GrupoModel;
 import com.ikesocial.pvas.api.openapi.controller.GrupoControllerOpenApi;
+import com.ikesocial.pvas.core.security.CheckSecurity;
 import com.ikesocial.pvas.domain.exception.AssistenteSocialNaoEncontradoException;
 import com.ikesocial.pvas.domain.exception.NegocioException;
 import com.ikesocial.pvas.domain.model.Grupo;
@@ -33,6 +34,7 @@ public class GrupoController implements GrupoControllerOpenApi  {
 	private GrupoModelAssembler grupoModelAssembler;
 	
 	
+	@CheckSecurity.Grupos.PodeConsultar
 	@GetMapping
 	public CollectionModel<GrupoModel> listar(){
 		
@@ -40,6 +42,7 @@ public class GrupoController implements GrupoControllerOpenApi  {
 		
 	}
 	
+	@CheckSecurity.Grupos.PodeConsultar
 	@GetMapping("/{grupoId}")
 	public GrupoModel buscar(@PathVariable Long grupoId) {
 		Grupo grupo = cadastroGrupoService.buscarOuFalhar(grupoId);
@@ -47,6 +50,7 @@ public class GrupoController implements GrupoControllerOpenApi  {
 		return grupoModelAssembler.toModel(grupo);
 	}
 	
+	@CheckSecurity.Grupos.PodeConsultar
 	@GetMapping("/assistente-social/{codigoAssistenteSocial}")
 	public CollectionModel<GrupoModel> buscarGruposAssistenteSocial(@PathVariable String codigoAssistenteSocial) {
 		

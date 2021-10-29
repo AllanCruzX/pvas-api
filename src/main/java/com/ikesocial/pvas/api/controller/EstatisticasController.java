@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ikesocial.pvas.api.assembler.AssistenteSocialEstatisticaModelAssembler;
 import com.ikesocial.pvas.api.model.output.AssistenteSocialEstatisticaModel;
 import com.ikesocial.pvas.api.openapi.controller.EstatisticasControllerOpenApi;
+import com.ikesocial.pvas.core.security.CheckSecurity;
 import com.ikesocial.pvas.domain.filter.AssistenteSocialEstatisticaFilter;
 import com.ikesocial.pvas.domain.model.dto.AssistenteSocialEstatistica;
 import com.ikesocial.pvas.domain.service.AssistenteSocialQueryService;
@@ -34,7 +35,7 @@ public class EstatisticasController implements EstatisticasControllerOpenApi {
 	private AssistenteSocialEstatisticaModelAssembler assistenteSocialEstatisticaModelAssembler;
 	
 
-	@Override
+	@CheckSecurity.Relatorios.PodeConsultar
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public CollectionModel<AssistenteSocialEstatisticaModel> consultarAssistenteSocialEstatisticas(AssistenteSocialEstatisticaFilter filtro,
 			@RequestParam(required = false, defaultValue = "+00:00") String timeOffset) {
@@ -45,7 +46,7 @@ public class EstatisticasController implements EstatisticasControllerOpenApi {
 		return assistenteSocialEstatisticaModelAssembler.toCollectionModel(lista);
 	}
 	
-	@Override
+	@CheckSecurity.Relatorios.PodeConsultar
 	@GetMapping(produces = MediaType.APPLICATION_PDF_VALUE)
 	public ResponseEntity<byte[]> consultarAssistenteSocialEstatisticasPdf(AssistenteSocialEstatisticaFilter filtro,
 			@RequestParam(required = false, defaultValue = "+00:00") String timeOffset) {

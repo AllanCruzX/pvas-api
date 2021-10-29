@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,61 +21,65 @@ public class CadastroAssistenteSocialService {
 	private AssistenteSocialRepository assistenteSocialRepository;
 
 	@Autowired
-	 private List <ManipuladorDeAssitenteSocialBase> manipuladores;
+	private List<ManipuladorDeAssitenteSocialBase> manipuladores;
+
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	@Transactional
 	public AssistenteSocial salvar(AssistenteSocial assistenteSocial) {
-		
+
 		assistenteSocialRepository.detach(assistenteSocial);
-		
+
 		manipuladores.stream()
-				.sorted((a, b) -> a.getPrioridade().compareTo(b.getPrioridade()))
-		 		.forEach(proximo -> proximo.tratar(assistenteSocial));
+						.sorted((a, b) -> a.getPrioridade().compareTo(b.getPrioridade()))
+						.forEach(proximo -> proximo.tratar(assistenteSocial));
 		
+	
 		return assistenteSocialRepository.save(assistenteSocial);
 
 	}
-	
+
 	@Transactional
 	public void ativar(String codigoAssistenteSocial) {
 		AssistenteSocial pessoaFisicaAtual = buscarOuFalharAssistenteSocialSemComplementos(codigoAssistenteSocial);
-		
+
 		pessoaFisicaAtual.ativar();
 	}
-	
+
 	@Transactional
 	public void inativar(String codigoAssistenteSocial) {
 		AssistenteSocial assistenteSocial = buscarOuFalharAssistenteSocialSemComplementos(codigoAssistenteSocial);
-		
+
 		assistenteSocial.inativar();
 	}
-	
+
 	@Transactional
 	public void alterarSenha(String codigoAssistenteSocial, String senhaAtual, String novaSenha) {
 		AssistenteSocial assistenteSocial = buscarOuFalharAssistenteSocialSemComplementos(codigoAssistenteSocial);
-		
-		if (assistenteSocial.senhaNaoCoincideCom(senhaAtual)) {
+
+		if (!passwordEncoder.matches(senhaAtual, assistenteSocial.getSenha())) {
 			throw new NegocioException("Senha atual informada não coincide com a senha do usuário.");
 		}
-		
-		assistenteSocial.setSenha(novaSenha);
+
+		assistenteSocial.setSenha(passwordEncoder.encode(novaSenha));
 	}
 
 	public AssistenteSocial buscarOuFalhar(String codigo) {
-		
+
 		try {
 			return assistenteSocialRepository.buscarPorCodigo(codigo).get();
 		} catch (EmptyResultDataAccessException e) {
-			 throw new AssistenteSocialNaoEncontradoException(codigo);
-			
+			throw new AssistenteSocialNaoEncontradoException(codigo);
+
 		}
 	}
-	
+
 	public AssistenteSocial buscarOuFalharAssistenteSocialSemComplementos(String codigo) {
-		
-			return assistenteSocialRepository.findByCodigo(codigo)
-												.orElseThrow(() -> new AssistenteSocialNaoEncontradoException(codigo));
-			
+
+		return assistenteSocialRepository.findByCodigo(codigo)
+				.orElseThrow(() -> new AssistenteSocialNaoEncontradoException(codigo));
+
 	}
 
 }

@@ -18,6 +18,7 @@ import org.springframework.web.filter.ShallowEtagHeaderFilter;
 import com.ikesocial.pvas.api.assembler.EstadoModelAssembler;
 import com.ikesocial.pvas.api.model.output.EstadoModel;
 import com.ikesocial.pvas.api.openapi.controller.EstadoControllerOpenApi;
+import com.ikesocial.pvas.core.security.CheckSecurity;
 import com.ikesocial.pvas.domain.repository.EstadoRepository;
 import com.ikesocial.pvas.domain.service.CadastroEstadoService;
 
@@ -35,7 +36,7 @@ public class EstadoController implements EstadoControllerOpenApi {
 	@Autowired
 	private EstadoModelAssembler estadoModelAssembler;
 
-	@Override
+	@CheckSecurity.AssistentesSociais.EstaAutorizado
 	@GetMapping
 	public ResponseEntity<CollectionModel<EstadoModel>> listar(ServletWebRequest request) {
 		ShallowEtagHeaderFilter.disableContentCaching(request.getRequest());
@@ -58,7 +59,7 @@ public class EstadoController implements EstadoControllerOpenApi {
 				.body(estdosModel);
 	}
 
-	@Override
+	@CheckSecurity.AssistentesSociais.EstaAutorizado
 	@GetMapping("/{estadoId}")
 	public EstadoModel buscar(@PathVariable Long estadoId) {
 

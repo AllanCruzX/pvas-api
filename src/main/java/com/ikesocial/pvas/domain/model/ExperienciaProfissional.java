@@ -55,7 +55,7 @@ public class ExperienciaProfissional  implements Serializable{
 	@CreationTimestamp
 	private OffsetDateTime dataCadastro;
 	
-	@Column(name = "data_alteracao", columnDefinition = "datetime")
+	@Column(name = "data_alteracao", columnDefinition = "datetime", insertable=false)
 	@UpdateTimestamp
 	private OffsetDateTime dataAlteracao;
 	

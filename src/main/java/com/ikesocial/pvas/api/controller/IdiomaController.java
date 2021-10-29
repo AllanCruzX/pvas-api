@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ikesocial.pvas.api.assembler.IdiomaModelAssembler;
 import com.ikesocial.pvas.api.model.output.IdiomaModel;
 import com.ikesocial.pvas.api.openapi.controller.IdiomaControllerOpenApi;
+import com.ikesocial.pvas.core.security.CheckSecurity;
 import com.ikesocial.pvas.domain.exception.AssistenteSocialNaoEncontradoException;
 import com.ikesocial.pvas.domain.exception.NegocioException;
 import com.ikesocial.pvas.domain.model.Idioma;
@@ -36,7 +37,7 @@ public class IdiomaController implements IdiomaControllerOpenApi  {
 	@Autowired
 	private IdiomaModelAssembler idiomaModelAssembler;
 	
-	
+	@CheckSecurity.AssistentesSociais.EstaAutorizado
 	@GetMapping
 	public ResponseEntity<CollectionModel<IdiomaModel>> listar(){
 		
@@ -50,12 +51,14 @@ public class IdiomaController implements IdiomaControllerOpenApi  {
 		
 	}
 	
+	@CheckSecurity.AssistentesSociais.EstaAutorizado
 	@GetMapping("/{idiomaId}")
 	public IdiomaModel buscar(@PathVariable Long idiomaId) {
 
 		return idiomaModelAssembler.toModel(cadastroIdiomaService.buscarOuFalhar(idiomaId));
 	}
 	
+	@CheckSecurity.AssistentesSociais.PodeConsultar
 	@GetMapping("/assistente-social/{codigoAssistenteSocial}")
 	public CollectionModel<IdiomaModel> buscarIdiomasDoAssistenteSocial(@PathVariable String codigoAssistenteSocial) {
 		

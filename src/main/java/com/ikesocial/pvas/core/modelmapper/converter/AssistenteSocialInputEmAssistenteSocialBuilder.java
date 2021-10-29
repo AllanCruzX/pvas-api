@@ -42,6 +42,11 @@ public class AssistenteSocialInputEmAssistenteSocialBuilder {
 		assistenteSocial.setId(id);
 		return this;
 	}
+	
+	public AssistenteSocialInputEmAssistenteSocialBuilder comCodigo(String codigo) {
+		assistenteSocial.setCodigo(codigo);
+		return this;
+	}
 
 	public AssistenteSocialInputEmAssistenteSocialBuilder comNome(String nome) {
 		assistenteSocial.setNome(nome);

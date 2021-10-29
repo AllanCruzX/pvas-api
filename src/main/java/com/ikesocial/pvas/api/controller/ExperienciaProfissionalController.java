@@ -24,6 +24,7 @@ import com.ikesocial.pvas.api.assembler.disassembler.ExperienciaProfissionalInpu
 import com.ikesocial.pvas.api.model.input.ExperienciaProfissionalInput;
 import com.ikesocial.pvas.api.model.output.ExperienciaProfissionalModel;
 import com.ikesocial.pvas.api.openapi.controller.ExperienciaProfissionalControllerOpenApi;
+import com.ikesocial.pvas.core.security.CheckSecurity;
 import com.ikesocial.pvas.domain.exception.AssistenteSocialNaoEncontradoException;
 import com.ikesocial.pvas.domain.exception.NegocioException;
 import com.ikesocial.pvas.domain.model.ExperienciaProfissional;
@@ -53,7 +54,7 @@ public class ExperienciaProfissionalController implements ExperienciaProfissiona
 	@Autowired
 	private CadastroAssistenteSocialService cadastroAssistenteSocialService;
 
-	@Override
+	@CheckSecurity.ExperienciasProfissionais.PodeBuscar
 	@GetMapping("/{experienciaProfissionalId}")
 	public ExperienciaProfissionalModel buscar(@PathVariable Long experienciaProfissionalId) {
 		log.info("Buscando experiancia profissional do id {}", experienciaProfissionalId);
@@ -62,7 +63,7 @@ public class ExperienciaProfissionalController implements ExperienciaProfissiona
 				.toModel(cadastroExperienciaProfissionalService.buscarOuFalhar(experienciaProfissionalId));
 	}
 
-	@Override
+	@CheckSecurity.ExperienciasProfissionais.PodeBuscarPersonalizado
 	@GetMapping("/assitente-social/{codigoAssistenteSocial}")
 	public CollectionModel<ExperienciaProfissionalModel> buscarExperienciaProfissionalsDaAssistenteSocial(
 			@PathVariable String codigoAssistenteSocial) {
@@ -83,7 +84,7 @@ public class ExperienciaProfissionalController implements ExperienciaProfissiona
 		}
 	}
 
-	@Override
+	@CheckSecurity.ExperienciasProfissionais.PodeCadastrar
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public ExperienciaProfissionalModel adicionar(
@@ -109,7 +110,7 @@ public class ExperienciaProfissionalController implements ExperienciaProfissiona
 
 	}
 
-	@Override
+	@CheckSecurity.ExperienciasProfissionais.PodeEditar
 	@PutMapping("/{experienciaProfissionalId}")
 	public ExperienciaProfissionalModel atualizar(@PathVariable Long experienciaProfissionalId,
 			@RequestBody @Valid ExperienciaProfissionalInput experienciaProfissionalInput) {
@@ -131,7 +132,7 @@ public class ExperienciaProfissionalController implements ExperienciaProfissiona
 		}
 	}
 
-	@Override
+	@CheckSecurity.ExperienciasProfissionais.PodeExcluir
 	@DeleteMapping("/{experienciaProfissionalId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void remover(@PathVariable Long experienciaProfissionalId) {

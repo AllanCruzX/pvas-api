@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ikesocial.pvas.api.assembler.SexoModelAssembler;
 import com.ikesocial.pvas.api.model.output.SexoModel;
 import com.ikesocial.pvas.api.openapi.controller.SexoControllerOpenApi;
+import com.ikesocial.pvas.core.security.CheckSecurity;
 import com.ikesocial.pvas.domain.model.enums.Sexo;
 
 @RestController
@@ -26,6 +27,7 @@ public class SexoController implements SexoControllerOpenApi  {
 	private SexoModelAssembler sexoModelAssembler;
 	
 	
+	@CheckSecurity.AssistentesSociais.EstaAutorizado
 	@GetMapping
 	public ResponseEntity<CollectionModel<SexoModel>> listarSexo(){
 		 List<Sexo> sexos = Sexo.valores();
@@ -39,6 +41,7 @@ public class SexoController implements SexoControllerOpenApi  {
 	}
 	
 	
+	@CheckSecurity.AssistentesSociais.EstaAutorizado
 	@GetMapping("/{sexoId}")
 	public SexoModel buscar(@PathVariable Long sexoId) {
 		Sexo sexo =  Sexo.getById(sexoId);

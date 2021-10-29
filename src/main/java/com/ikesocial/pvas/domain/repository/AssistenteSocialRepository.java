@@ -49,5 +49,9 @@ public interface AssistenteSocialRepository extends CustomJpaRepository<Assisten
 	
 	@Query(" SELECT e FROM Endereco e INNER JOIN FETCH e.cidade ec INNER JOIN ec.estado WHERE e.cep = :cep")
 	Optional<Endereco> buscarEnderecoPorCep (String cep);
+	
+	@Query(" SELECT CASE WHEN COUNT(1) > 0 THEN true ELSE false END FROM AssistenteSocial a WHERE a.codigo = :codigoAssistenteSocial ")
+	boolean existeAssitenteSocialNoBanco(String codigoAssistenteSocial);
+	
 
 }

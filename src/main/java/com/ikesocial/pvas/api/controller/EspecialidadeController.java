@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ikesocial.pvas.api.assembler.EspecialidadeModelAssembler;
 import com.ikesocial.pvas.api.model.output.EspecialidadeModel;
 import com.ikesocial.pvas.api.openapi.controller.EspecialidadeControllerOpenApi;
+import com.ikesocial.pvas.core.security.CheckSecurity;
 import com.ikesocial.pvas.domain.model.Especialidade;
 import com.ikesocial.pvas.domain.repository.EspecialidadeRepository;
 import com.ikesocial.pvas.domain.service.CadastroEspecialidadeService;
@@ -30,7 +31,7 @@ public class EspecialidadeController implements EspecialidadeControllerOpenApi  
 	@Autowired
 	private EspecialidadeModelAssembler especialidadeModelAssembler;
 
-	@Override
+	@CheckSecurity.AssistentesSociais.EstaAutorizado
 	@GetMapping
 	public CollectionModel<EspecialidadeModel> listar() {
 		
@@ -41,7 +42,7 @@ public class EspecialidadeController implements EspecialidadeControllerOpenApi  
 		return especialidadesModel;
 	}
 
-	@Override
+	@CheckSecurity.AssistentesSociais.EstaAutorizado
 	@GetMapping("/{especialidadeId}")
 	public EspecialidadeModel buscar(@PathVariable Long especialidadeId) {
 

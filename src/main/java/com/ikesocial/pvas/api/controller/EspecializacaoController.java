@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ikesocial.pvas.api.assembler.EspecializacaoModelAssembler;
 import com.ikesocial.pvas.api.model.output.EspecializacaoModel;
 import com.ikesocial.pvas.api.openapi.controller.EspecializacaoControllerOpenApi;
+import com.ikesocial.pvas.core.security.CheckSecurity;
 import com.ikesocial.pvas.domain.exception.AssistenteSocialNaoEncontradoException;
 import com.ikesocial.pvas.domain.exception.NegocioException;
 import com.ikesocial.pvas.domain.model.Especializacao;
@@ -36,6 +37,7 @@ public class EspecializacaoController implements EspecializacaoControllerOpenApi
 	@Autowired
 	private EspecializacaoModelAssembler especializacaoModelAssembler;
 	
+	@CheckSecurity.AssistentesSociais.EstaAutorizado
 	@GetMapping
 	public ResponseEntity<CollectionModel<EspecializacaoModel>> listar(){
 		 List<Especializacao> especializacoes = (List<Especializacao>) especializacaoRepository.findAll();
@@ -47,13 +49,14 @@ public class EspecializacaoController implements EspecializacaoControllerOpenApi
 					.body(especializacoesModel);
 	}
 
+	@CheckSecurity.AssistentesSociais.EstaAutorizado
 	@GetMapping("/{especializacaoId}")
 	public EspecializacaoModel buscar(@PathVariable Long especializacaoId) {
 
 		return especializacaoModelAssembler.toModel(cadastroEspecializacaoService.buscarOuFalhar(especializacaoId));
 	}
 	
-	
+	@CheckSecurity.AssistentesSociais.EstaAutorizadoPersonalizado
 	@GetMapping("/assistente-social/{codigoAssistenteSocial}")
 	public CollectionModel<EspecializacaoModel> buscarEspecializacoesAssistenteSocial(@PathVariable String codigoAssistenteSocial) {
 		

@@ -12,6 +12,7 @@ import com.ikesocial.pvas.api.assembler.EnderecoModelAssembler;
 import com.ikesocial.pvas.api.client.ClientApiException;
 import com.ikesocial.pvas.api.model.output.EnderecoModel;
 import com.ikesocial.pvas.api.openapi.controller.EnderecoControllerOpenApi;
+import com.ikesocial.pvas.core.security.CheckSecurity;
 import com.ikesocial.pvas.core.validation.Cep;
 import com.ikesocial.pvas.domain.service.EnderecoService;
 
@@ -24,8 +25,8 @@ public class EnderecoController implements EnderecoControllerOpenApi  {
 	
 	@Autowired
 	private EnderecoModelAssembler enderecoModelAssembler;
-	
-	@Override
+
+	@CheckSecurity.AssistentesSociais.EstaAutorizado
 	@GetMapping("/{cep}")
 	public EnderecoModel buscar(@PathVariable @Cep  String cep) {
 		

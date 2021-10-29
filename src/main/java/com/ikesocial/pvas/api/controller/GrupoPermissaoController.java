@@ -12,6 +12,7 @@ import com.ikesocial.pvas.api.PvasLinks;
 import com.ikesocial.pvas.api.assembler.PermissaoModelAssembler;
 import com.ikesocial.pvas.api.model.output.PermissaoModel;
 import com.ikesocial.pvas.api.openapi.controller.GrupoPermissaoControllerOpenApi;
+import com.ikesocial.pvas.core.security.CheckSecurity;
 import com.ikesocial.pvas.domain.model.Grupo;
 import com.ikesocial.pvas.domain.service.CadastroGrupoService;
 
@@ -28,6 +29,7 @@ public class GrupoPermissaoController implements GrupoPermissaoControllerOpenApi
 	@Autowired
 	private PvasLinks pvasLinks;
 
+	@CheckSecurity.Grupos.PodeConsultar
 	@GetMapping
 	public CollectionModel<PermissaoModel> listar(@PathVariable Long grupoId) {
 		Grupo grupo = cadastroGrupoService.buscarOuFalhar(grupoId);

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ikesocial.pvas.api.assembler.CidadeModelAssembler;
 import com.ikesocial.pvas.api.model.output.CidadeModel;
 import com.ikesocial.pvas.api.openapi.controller.CidadeControllerOpenApi;
+import com.ikesocial.pvas.core.security.CheckSecurity;
 import com.ikesocial.pvas.domain.model.Cidade;
 import com.ikesocial.pvas.domain.model.Estado;
 import com.ikesocial.pvas.domain.repository.CidadeRepository;
@@ -39,6 +40,7 @@ public class CidadeController implements CidadeControllerOpenApi {
 	@Autowired
 	private CidadeModelAssembler cidadeModelAssembler;
 
+	@CheckSecurity.AssistentesSociais.EstaAutorizado
 	@GetMapping
 	public CollectionModel<CidadeModel> listar() {
 		log.info("Listando cidades");
@@ -46,6 +48,7 @@ public class CidadeController implements CidadeControllerOpenApi {
 		 return cidadeModelAssembler.toCollectionModel(cidadeRepository.findAll());
 	}
 	
+	@CheckSecurity.AssistentesSociais.EstaAutorizado
 	@GetMapping("/estados/{estadoId}")
 	public CollectionModel<CidadeModel> listarCidadesPorEstado(@PathVariable Long estadoId) {
 		
@@ -58,7 +61,7 @@ public class CidadeController implements CidadeControllerOpenApi {
 		return cidadeModelAssembler.toCollectionModel(todasCidades);
 	}
 
-
+	@CheckSecurity.AssistentesSociais.EstaAutorizado
 	@GetMapping("/{cidadeId}")
 	public CidadeModel buscar(@PathVariable Long cidadeId) {
 		log.info("Buscando cidade do id {}", cidadeId);

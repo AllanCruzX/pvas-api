@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import com.ikesocial.pvas.api.PvasLinks;
 import com.ikesocial.pvas.api.controller.AssistenteSocialController;
 import com.ikesocial.pvas.api.model.output.AssistenteSocialModel;
+import com.ikesocial.pvas.core.security.PvasSecurity;
 import com.ikesocial.pvas.domain.model.AssistenteSocial;
 
 @Component
@@ -22,6 +23,9 @@ public class AssistenteSocialModelAssembler
 
 	@Autowired
 	private PvasLinks pvasLinks;
+	
+	@Autowired
+	private PvasSecurity pvasSecurity;
 
 	public AssistenteSocialModelAssembler() {
 		super(AssistenteSocialController.class, AssistenteSocialModel.class);
@@ -31,10 +35,15 @@ public class AssistenteSocialModelAssembler
 	public AssistenteSocialModel toModel(AssistenteSocial assistenteSocial) {
 
 		AssistenteSocialModel assistenteSocialModel = modelMapper.map(assistenteSocial, AssistenteSocialModel.class);
+		
+		if(pvasSecurity.podeConsultarAssistentesSociais()) {
+			
+			assistenteSocialModel.add(pvasLinks.linkToAssistentesSociais());
+			
+		}
 
 		assistenteSocialModel.add(pvasLinks.linkToAssistenteSocial(assistenteSocialModel.getCodigo()));
 
-		assistenteSocialModel.add(pvasLinks.linkToAssistentesSociais());
 
 		assistenteSocialModel.getSexo().add(pvasLinks.linkToSexo(assistenteSocialModel.getSexo().getId()));
 

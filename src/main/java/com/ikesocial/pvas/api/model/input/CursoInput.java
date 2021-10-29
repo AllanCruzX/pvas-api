@@ -24,6 +24,6 @@ public class CursoInput {
 	
 	@Valid
 	@NotNull
-	private AssistenteSocialCodigoInput  pessoaFisica;
+	private AssistenteSocialCodigoInput  assistenteSocial;
 }
 
