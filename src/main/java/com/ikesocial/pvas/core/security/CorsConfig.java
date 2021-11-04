@@ -1,7 +1,9 @@
 package com.ikesocial.pvas.core.security;
 
 import java.util.Collections;
+import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,12 +14,16 @@ import org.springframework.web.filter.CorsFilter;
 
 @Configuration
 public class CorsConfig {
+	
+	@Value("${pvas.cors.dominios-aceitos}")
+	private List<String> dominiosAceitos;
 
 	@Bean
 	public FilterRegistrationBean<CorsFilter> corsFilterRegistrationBean() {
 		CorsConfiguration config = new CorsConfiguration();
 		config.setAllowCredentials(true);
-		config.setAllowedOrigins(Collections.singletonList("*"));
+		config.setAllowedOrigins(dominiosAceitos);
+		config.setAllowedOriginPatterns(Collections.singletonList("*"));
 		config.setAllowedMethods(Collections.singletonList("*"));
 		config.setAllowedHeaders(Collections.singletonList("*"));
 

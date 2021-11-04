@@ -48,8 +48,7 @@ public class Curso  implements Serializable{
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "assistente_social_id",
-				foreignKey = @ForeignKey(name = "fk_curso_assistente_social"),
-				nullable = false)
+				foreignKey = @ForeignKey(name = "fk_curso_assistente_social"))
 	private AssistenteSocial assistenteSocial;
 
 }

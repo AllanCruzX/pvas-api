@@ -13,6 +13,11 @@ public class DocumentoBuilder {
 		this.documento = new Documento();
 	}
 	
+	public DocumentoBuilder comId(Long id) {
+		documento.setId(id);
+		return this;
+	}
+	
 	public DocumentoBuilder comCodigo(String codigo) {
 		documento.setCodigo(codigo);
 		return this;

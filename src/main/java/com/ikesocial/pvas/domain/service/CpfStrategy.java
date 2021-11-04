@@ -14,7 +14,7 @@ import com.ikesocial.pvas.domain.repository.AssistenteSocialRepository;
 
 @Service
 public class CpfStrategy implements DocumentoStrategy {
-	
+
 	@Autowired
 	private AssistenteSocialRepository assistenteSocialRepository;
 
@@ -22,24 +22,38 @@ public class CpfStrategy implements DocumentoStrategy {
 	public Documento definirDocumento(Documento documento, AssistenteSocial assistenteSocial) {
 
 		validaCpfExistente(documento, assistenteSocialRepository);
-		
-		Documento documentoNovo = new DocumentoBuilder()
-											.comCodigo(documento.getCodigo())
-											.comTipoDocumento(TipoDocumento.CPF)
-											.comPessoaFisica(assistenteSocial)
-											.construir();
 
+		Documento documentoNovo = null;
+
+		if (documento.getId() == null) {
+
+			documentoNovo = new DocumentoBuilder()
+					.comCodigo(documento.getCodigo())
+					.comTipoDocumento(TipoDocumento.CPF)
+					.comPessoaFisica(assistenteSocial)
+					.construir();
+
+		} else {
+
+			documentoNovo = new DocumentoBuilder()
+					.comId(documento.getId())
+					.comCodigo(documento.getCodigo())
+					.comTipoDocumento(TipoDocumento.CPF)
+					.comPessoaFisica(assistenteSocial)
+					.construir();
+
+		}
 
 		return documentoNovo;
 	}
 
-	
 	private void validaCpfExistente(Documento documento, AssistenteSocialRepository assistenteSocialRepository) {
 
 		Optional<Documento> cpfExistente = assistenteSocialRepository.buscarCPF(documento.getCodigo());
 
 		if (cpfExistente.isPresent() && !cpfExistente.get().equals(documento)) {
-			throw new NegocioException(String.format("Já existe uma pessoa física cadastrado com o CPF %s", documento.getCodigo()));
+			throw new NegocioException(
+					String.format("Já existe uma pessoa física cadastrado com o CPF %s", documento.getCodigo()));
 		}
 
 	}

@@ -21,6 +21,10 @@ public abstract class ManipuladorDeExperienciaProfissionalBase {
 	        }
 	        return manipuladorProximo.tratar(experienciaProfissional);
 	    }
+	 
+	 
+	 
+	 
 	
 
 }

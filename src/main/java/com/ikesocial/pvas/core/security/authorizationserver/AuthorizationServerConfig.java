@@ -20,6 +20,7 @@ import org.springframework.security.oauth2.provider.CompositeTokenGranter;
 import org.springframework.security.oauth2.provider.TokenGranter;
 import org.springframework.security.oauth2.provider.approval.ApprovalStore;
 import org.springframework.security.oauth2.provider.approval.TokenApprovalStore;
+import org.springframework.security.oauth2.provider.code.JdbcAuthorizationCodeServices;
 import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
@@ -64,9 +65,15 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 		var enhancerChain = new TokenEnhancerChain();
 		enhancerChain.setTokenEnhancers(Arrays.asList(new JwtCustomClaimsTokenEnhancer(), jwtAccessTokenConverter()));
 
-		endpoints.authenticationManager(authenticationManager).userDetailsService(userDetailsService)
-				.reuseRefreshTokens(true).accessTokenConverter(jwtAccessTokenConverter()).tokenEnhancer(enhancerChain)
-				.approvalStore(approvalStore(endpoints.getTokenStore())).tokenGranter(tokenGranter(endpoints));
+		endpoints
+			.authenticationManager(authenticationManager)
+			.userDetailsService(userDetailsService)
+			.authorizationCodeServices(new JdbcAuthorizationCodeServices(this.dataSource))
+			.reuseRefreshTokens(true)
+			.accessTokenConverter(jwtAccessTokenConverter())
+			.tokenEnhancer(enhancerChain)
+			.approvalStore(approvalStore(endpoints.getTokenStore()))
+			.tokenGranter(tokenGranter(endpoints));
 	}
 
 	private ApprovalStore approvalStore(TokenStore tokenStore) {

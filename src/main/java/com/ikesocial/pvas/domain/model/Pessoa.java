@@ -30,6 +30,8 @@ import org.springframework.data.domain.AbstractAggregateRoot;
 
 import com.ikesocial.pvas.domain.event.PessoaCadastradaEvent;
 import com.ikesocial.pvas.domain.model.enums.TipoContato;
+import com.ikesocial.pvas.domain.model.enums.TipoDocumento;
+import com.ikesocial.pvas.domain.model.enums.TipoEndereco;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -56,7 +58,7 @@ public class Pessoa extends AbstractAggregateRoot<Pessoa> implements Serializabl
 	@Column(name = "senha", length = 255, nullable = false)
 	private String senha;
 
-	@Column(name = "data_cadastro", columnDefinition = "datetime", nullable = false)
+	@Column(name = "data_cadastro", columnDefinition = "datetime",updatable =false, nullable = false)
 	@CreationTimestamp
 	private OffsetDateTime dataCadastro;
 	
@@ -71,15 +73,15 @@ public class Pessoa extends AbstractAggregateRoot<Pessoa> implements Serializabl
 	private Boolean ativo = Boolean.TRUE;
 
 	@OneToMany(mappedBy = "pessoa", fetch = FetchType.LAZY,
-			   cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+			   cascade = { CascadeType.PERSIST, CascadeType.MERGE ,  CascadeType.DETACH },orphanRemoval = true)
 	private Set<Contato> contatos = new HashSet<Contato>();
 	
 	@OneToMany(mappedBy = "pessoa",fetch = FetchType.LAZY,
-			   cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+			   cascade = { CascadeType.PERSIST, CascadeType.MERGE,  CascadeType.DETACH },orphanRemoval = true)
 	private Set<Documento> documentos = new HashSet<Documento>();
 	
 	@OneToMany(mappedBy = "pessoa",fetch = FetchType.LAZY,
-			   cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+			   cascade = { CascadeType.PERSIST, CascadeType.MERGE,  CascadeType.DETACH },orphanRemoval = true)
 	private Set<Endereco> enderecos = new HashSet<Endereco>();
 	
 	@ManyToMany(fetch = FetchType.LAZY)
@@ -98,12 +100,88 @@ public class Pessoa extends AbstractAggregateRoot<Pessoa> implements Serializabl
 		registerEvent(new PessoaCadastradaEvent(this));
 	}
 	
-	public String getEmail () {
-		  Optional<Contato> email = contatos.stream()
+	public Contato getEmail () {
+		  Optional<Contato> contato = contatos.stream()
 					.filter(c -> c.getTipoContato().equals(TipoContato.EMAIL))
 					.findFirst();
 		  
-		  return email.get().getDescricao();
+		  return contato.get();
+	}
+	
+	
+	public Contato getCelular () {
+		  Optional<Contato> contato = contatos.stream()
+					.filter(c -> c.getTipoContato().equals(TipoContato.CELULAR))
+					.findFirst();
+		  
+		  return contato.get();
+	}
+	
+	public Contato getFacebook () {
+		  Optional<Contato> contato = contatos.stream()
+					.filter(c -> c.getTipoContato().equals(TipoContato.FACEBOOK))
+					.findFirst();
+		  
+		  return contato.get();
+	}
+	
+	public Contato getIstagram () {
+		  Optional<Contato> contato = contatos.stream()
+					.filter(c -> c.getTipoContato().equals(TipoContato.INSTAGRAN))
+					.findFirst();
+		  
+		  return contato.get();
+	}
+	
+	public Contato getLinkedin() {
+		  Optional<Contato> contato = contatos.stream()
+					.filter(c -> c.getTipoContato().equals(TipoContato.LINKEDIN))
+					.findFirst();
+		  
+		  return contato.get();
+	}
+	
+	public Contato getYoutube() {
+		  Optional<Contato> contato = contatos.stream()
+					.filter(c -> c.getTipoContato().equals(TipoContato.YOUTUBE))
+					.findFirst();
+		  
+		  return contato.get();
+	}
+	
+	public Contato getSite() {
+		  Optional<Contato> contato = contatos.stream()
+					.filter(c -> c.getTipoContato().equals(TipoContato.SITE))
+					.findFirst();
+		  
+		  return contato.get();
+	}
+	
+	
+	public Documento getCpf() {
+		  Optional<Documento> documento = documentos.stream()
+					.filter(d -> d.getTipoDocumento().equals(TipoDocumento.CPF))
+					.findFirst();
+		  
+		  return documento.get();
+	}
+	
+	
+	public Documento getCarteiraProfissional() {
+		  Optional<Documento> documento = documentos.stream()
+					.filter(d -> d.getTipoDocumento().equals(TipoDocumento.CARTEIRA_PROFISSIONAL))
+					.findFirst();
+		  
+		  return documento.get();
+	}
+	
+	
+	public Endereco getEnderecoResidencial() {
+		  Optional<Endereco> endereco = enderecos.stream()
+					.filter(e -> e.getTipoEndereco().equals(TipoEndereco.RESIDENCIAL))
+					.findFirst();
+		  
+		  return endereco.get();
 	}
 	
 	public boolean isNovo() {

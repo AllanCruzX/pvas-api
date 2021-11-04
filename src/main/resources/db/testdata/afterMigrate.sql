@@ -1,5 +1,15 @@
 set foreign_key_checks = 0;
 
+lock tables cidade write, contato write, endereco write, curso write,
+	documento write, especialidade write, especializacao write,
+	estado write, experiecia_profissional write, foto_pessoa write,
+	idioma write, grupo write, permissao write,
+	pessoa write, pessoa_grupo write, assistente_social write, oauth_client_details write ,
+	assistente_social_especializacao write, assistente_social_idioma write,
+	assistente_social_sub_especialidade write, pessoa_juridica write, sub_especialidade write,
+	usuario write , grupo_permissao write ; 
+
+
 delete from cidade;
 delete from contato;
 delete from endereco;
@@ -126,8 +136,10 @@ insert into grupo_permissao (grupo_id, permissao_id) values (3, 1), (3, 2), (3, 
 
 insert into pessoa_grupo (pessoa_id, grupo_id) values (1, 2), (2, 2), (3, 1);
 
-insert into curso (nome, chaga_horaria, assistente_social_id , data_cadastro) values ('Assistente social autônomo' , 60, 1 , utc_timestamp);
-insert into curso (nome, chaga_horaria, assistente_social_id , data_cadastro) values ('Assistente social autônomo IKE' , 100, 2 , utc_timestamp);
+insert into curso (id, nome, chaga_horaria, assistente_social_id , data_cadastro) values (1,'Assistente social autônomo' , 60, 1 , utc_timestamp);
+insert into curso (id ,nome, chaga_horaria, assistente_social_id , data_cadastro) values (2,'Assistente social autônomo IKE' , 100, 2 , utc_timestamp);
+insert into curso (id ,nome, chaga_horaria,  data_cadastro) values (3,'SPA' , 500,  utc_timestamp);
+insert into curso (id ,nome, chaga_horaria,  data_cadastro) values (4,'JPA' , 300,  utc_timestamp);
 
 insert into idioma (id , nome) values (1, 'Português');
 insert into idioma (id , nome) values (2, 'Inglês ');
@@ -147,6 +159,8 @@ insert into assistente_social_sub_especialidade (assistente_social_id , sub_espe
 
 insert into experiecia_profissional (id, nome_empresa , atividade , data_inicio   , empresa_atual , assistente_social_id , data_cadastro) values (1,'Petobras','Da assistencia no Pre-sal', utc_timestamp ,   true , 1 ,utc_timestamp);
 insert into experiecia_profissional (id, nome_empresa , atividade , data_inicio  , empresa_atual , assistente_social_id , data_cadastro) values (2,'IkeSocial','CEO da empresa', utc_timestamp ,  true , 2 , utc_timestamp);
+insert into experiecia_profissional (id, nome_empresa , atividade , data_inicio  , empresa_atual ,  data_cadastro) values (3,'TQI','DEV', utc_timestamp ,  true ,  utc_timestamp);
+insert into experiecia_profissional (id, nome_empresa , atividade , data_inicio  , empresa_atual ,  data_cadastro) values (4,'TELESSAUDE','DEV', utc_timestamp ,  true ,  utc_timestamp);
 
 insert into oauth_client_details (
   client_id, resource_ids, client_secret, 
@@ -180,3 +194,5 @@ values (
   'READ,WRITE', 'client_credentials', null, 'CONSULTAR_ASSISTENTE_SOCIAIS,GERAR_RELATORIOS',
   null, null, null
 );
+
+unlock tables;

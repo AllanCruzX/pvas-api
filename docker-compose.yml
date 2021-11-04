@@ -1,0 +1,43 @@
+version: "3.9"
+
+networks:
+  pvas-network:
+    driver: bridge
+
+services:
+  pvas-mysql:
+    image: mysql:8.0
+    environment:
+       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    ports:
+      - "3306:3306"
+    networks:
+      - pvas-network
+      
+  pvas-redis:
+    image: redis:6.2.1-alpine
+    networks:
+      - pvas-network
+
+  pvas-api:
+    image: pvas-api
+    command: ["/wait-for-it.sh", "pvas-mysql:3306", "-t", "30", "--", "java", "-jar", "api.jar"]
+    environment:
+      DB_HOST: pvas-mysql
+      SPRING_SESSION_STORE_TYPE: redis
+      SPRING_REDIS_HOST: pvas-redis
+    networks:
+      - pvas-network
+    depends_on:
+      - pvas-mysql
+            
+  pvas-proxy:
+    build: ./nginx
+    image: pvas-proxy
+    ports:
+      - "80:80"
+    networks:
+      - pvas-network
+    depends_on:
+      - pvas-api
+      

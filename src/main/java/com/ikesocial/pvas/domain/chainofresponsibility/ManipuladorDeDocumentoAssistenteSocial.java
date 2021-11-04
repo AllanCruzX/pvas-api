@@ -3,49 +3,42 @@ package com.ikesocial.pvas.domain.chainofresponsibility;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.ikesocial.pvas.domain.builder.ContatoBuilder;
 import com.ikesocial.pvas.domain.model.AssistenteSocial;
-import com.ikesocial.pvas.domain.model.Contato;
-import com.ikesocial.pvas.domain.service.EmailService;
+import com.ikesocial.pvas.domain.model.Documento;
+import com.ikesocial.pvas.domain.model.enums.TipoDocumento;
+import com.ikesocial.pvas.domain.service.DocumentoStrategy;
 
 @Component
 public class ManipuladorDeDocumentoAssistenteSocial extends ManipuladorDeAssitenteSocialBase {
-	
-	@Autowired
-	private EmailService emailService;
 
 	@Override
 	public boolean tratar(AssistenteSocial assistenteSocial) {
 
-		emailService.validaEmailfExistente(assistenteSocial.getContatos()); 
-   	    
-	    Set<Contato> contatos = assistenteSocial.getContatos()
-												.stream()
-												.map(contato -> montaContato(contato , assistenteSocial))
-												.collect(Collectors.toSet());
-						
-	    assistenteSocial.setContatos(contatos);
+		Set<Documento> documentos = assistenteSocial.getDocumentos().stream()
+								.map(documento -> montaDocumento(documento, assistenteSocial))
+								.collect(Collectors.toSet());
+
+		assistenteSocial.setDocumentos(documentos);
 
 		return tratarProximo(assistenteSocial);
 	}
-	
-	private Contato  montaContato(Contato contato, AssistenteSocial assistenteSocial) {
-		
-		Contato contatoMontado = new ContatoBuilder()
-											.comDescricao(contato.getDescricao())
-											.comTipoContato(contato.getTipoContato())
-											.comPessoaFisica(assistenteSocial)
-											.construir();
-		return contatoMontado;
-												
+
+	private Documento montaDocumento(Documento documento, AssistenteSocial assistenteSocial) {
+
+		TipoDocumento tipo = documento.getTipoDocumento();
+
+		DocumentoStrategy documentoMontado = tipo.obterDocumento();
+
+		documento = documentoMontado.definirDocumento(documento, assistenteSocial);
+
+		return documento;
 	}
 
 	@Override
 	public Integer getPrioridade() {
-		return PrioridadeConstants.PRIMEIRO;
+		return PrioridadeConstants.SEGUNDO;
 	}
 
 }

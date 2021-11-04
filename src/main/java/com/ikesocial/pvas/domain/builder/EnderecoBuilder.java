@@ -14,6 +14,11 @@ public class EnderecoBuilder {
 	}
 	
 	
+	public EnderecoBuilder comId(Long id) {
+		endereco.setId(id);
+		return this;
+	}
+	
 	public EnderecoBuilder comCep(String cep) {
 		endereco.setCep(cep);
 		return this;

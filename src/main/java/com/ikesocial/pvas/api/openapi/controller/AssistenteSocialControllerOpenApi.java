@@ -5,6 +5,7 @@ import org.springframework.hateoas.PagedModel;
 import org.springframework.http.ResponseEntity;
 
 import com.ikesocial.pvas.api.exceptionhandler.Problem;
+import com.ikesocial.pvas.api.model.input.AssistenteSocialAlterarInput;
 import com.ikesocial.pvas.api.model.input.AssistenteSocialInput;
 import com.ikesocial.pvas.api.model.input.SenhaInput;
 import com.ikesocial.pvas.api.model.output.AssistenteSocialModel;
@@ -46,7 +47,7 @@ public interface AssistenteSocialControllerOpenApi {
 			@ApiResponse(responseCode = "404", description = "Assistente social não encontrada", content = @Content(schema = @Schema(implementation = Problem.class))) })
 	AssistenteSocialModel atualizar(
 			@ApiParam(value = "Código de uma assistente social", example = "fc60f245-6c65-4302-9025-89a9d05346a6" , required = true) String codigoAssistenteSocial,
-			@ApiParam(name = "corpo", value = "Representação de uma nova assistente social" , required = true) AssistenteSocialInput assistenteSocialInput);
+			@ApiParam(name = "corpo", value = "Representação de uma nova assistente social" , required = true) AssistenteSocialAlterarInput assistenteSocialAlterarInput);
 
 	@ApiOperation("Ativar assistente social por código")
 	@ApiResponses({

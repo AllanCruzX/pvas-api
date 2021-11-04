@@ -25,7 +25,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ikesocial.pvas.api.assembler.AssistenteSocialModelAssembler;
 import com.ikesocial.pvas.api.assembler.AssistenteSocialResumoModelAssembler;
+import com.ikesocial.pvas.api.assembler.disassembler.AssistentesSociaisAlterarConverter;
 import com.ikesocial.pvas.api.assembler.disassembler.AssistentesSociaisInputDisassembler;
+import com.ikesocial.pvas.api.model.input.AssistenteSocialAlterarInput;
 import com.ikesocial.pvas.api.model.input.AssistenteSocialInput;
 import com.ikesocial.pvas.api.model.input.SenhaInput;
 import com.ikesocial.pvas.api.model.output.AssistenteSocialModel;
@@ -50,7 +52,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RestController
 @RequestMapping(path = "assistentes-sociais", produces = MediaType.APPLICATION_JSON_VALUE)
-public class AssistenteSocialController implements AssistenteSocialControllerOpenApi  {
+public class AssistenteSocialController implements AssistenteSocialControllerOpenApi {
 
 	@Autowired
 	private CadastroAssistenteSocialService cadastroAssistenteSocialService;
@@ -66,28 +68,27 @@ public class AssistenteSocialController implements AssistenteSocialControllerOpe
 
 	@Autowired
 	private AssistentesSociaisInputDisassembler assistentesSociaisInputDisassembler;
-	
+
 	@Autowired
 	private PagedResourcesAssembler<AssistenteSocial> pagedResourcesAssembler;
 
 	@CheckSecurity.AssistentesSociais.PodeConsultar
 	@GetMapping
-	public PagedModel<AssistenteSocialResumoModel> listar(AssistenteSocialFilter assistenteSocialFilter , 
-			@RequestParam(required = false) boolean incluirInativos , @PageableDefault(size = 20) Pageable pageable) {
+	public PagedModel<AssistenteSocialResumoModel> listar(AssistenteSocialFilter assistenteSocialFilter,
+			@RequestParam(required = false) boolean incluirInativos, @PageableDefault(size = 20) Pageable pageable) {
 		log.info("Consultando assistentes socias com páginas de {} registros...", pageable.getPageSize());
-		
+
 		Page<AssistenteSocial> assistentesSociaisPage = null;
-		
-		if(incluirInativos) {
+
+		if (incluirInativos) {
 			assistentesSociaisPage = assistenteSocialRepository.listarComFiltro(assistenteSocialFilter, pageable);
-		}else {
+		} else {
 			assistentesSociaisPage = assistenteSocialRepository.listarComFiltroAtivos(assistenteSocialFilter, pageable);
 		}
-		
-		
-		PagedModel<AssistenteSocialResumoModel> assistentesSociaisPageModel =  pagedResourcesAssembler
+
+		PagedModel<AssistenteSocialResumoModel> assistentesSociaisPageModel = pagedResourcesAssembler
 				.toModel(assistentesSociaisPage, assistenteSocialResumoModelAssembler);
-		
+
 		return assistentesSociaisPageModel;
 
 	}
@@ -95,10 +96,11 @@ public class AssistenteSocialController implements AssistenteSocialControllerOpe
 	@CheckSecurity.AssistentesSociais.PodeBuscar
 	@GetMapping("/{codigoAssistenteSocial}")
 	public AssistenteSocialModel buscar(@PathVariable String codigoAssistenteSocial) {
-		
+
 		log.info("Buscando assistente social com o codigo {}", codigoAssistenteSocial);
 
-		return assistenteSocialModelAssembler.toModel(cadastroAssistenteSocialService.buscarOuFalhar(codigoAssistenteSocial));
+		return assistenteSocialModelAssembler
+				.toModel(cadastroAssistenteSocialService.buscarOuFalhar(codigoAssistenteSocial));
 	}
 
 	@CheckSecurity.AssistentesSociais.PodeCadastrar
@@ -108,17 +110,18 @@ public class AssistenteSocialController implements AssistenteSocialControllerOpe
 
 		try {
 
-			AssistenteSocial assistenteSocial = assistentesSociaisInputDisassembler.toDomainObject(assistenteSocialInput);
+			AssistenteSocial assistenteSocial = assistentesSociaisInputDisassembler
+					.toDomainObject(assistenteSocialInput);
 
 			assistenteSocial = cadastroAssistenteSocialService.salvar(assistenteSocial);
-			
+
 			log.info("Cadastro de assistente social com o codigo {}", assistenteSocial.getCodigo());
 
 			return assistenteSocialModelAssembler.toModel(assistenteSocial);
 
 		} catch (CidadeNaoEncontradoException | EstadoNaoEncontradoException | IdiomaNaoEncontradoException
 				| EspecializacaoNaoEncontradoException | EspecialidadeNaoEncontradoException
-				| CursoNaoEncontradoException | ExperienciaProfissionalNaoEncontradoException  e) {
+				| CursoNaoEncontradoException | ExperienciaProfissionalNaoEncontradoException e) {
 			throw new NegocioException(e.getMessage(), e);
 
 		} catch (MappingException e) {
@@ -126,25 +129,30 @@ public class AssistenteSocialController implements AssistenteSocialControllerOpe
 		}
 
 	}
-	
+
 	@CheckSecurity.AssistentesSociais.PodeEditar
 	@PutMapping("/{codigoPessoaFisica}")
-	public AssistenteSocialModel atualizar(@PathVariable String codigoPessoaFisica, @RequestBody @Valid AssistenteSocialInput assistenteSocialInput) {
+	public AssistenteSocialModel atualizar(@PathVariable String codigoPessoaFisica,
+			@RequestBody @Valid AssistenteSocialAlterarInput assistenteSocialAlterarInput) {
 		try {
-			
-			AssistenteSocial assistenteSocialAtual = cadastroAssistenteSocialService.buscarOuFalhar(codigoPessoaFisica);
-			
-			assistentesSociaisInputDisassembler.copyToDomainObject(assistenteSocialInput, assistenteSocialAtual);
-			
+
+			AssistenteSocial assistenteSocialRecuperado = cadastroAssistenteSocialService
+					.buscarOuFalhar(codigoPessoaFisica);
+
+			AssistenteSocial assistenteSocialAtual = AssistentesSociaisAlterarConverter
+					.copyToDomainObject(assistenteSocialAlterarInput, assistenteSocialRecuperado);
+
+			log.info("NOME MODIFICADO {}", assistenteSocialAtual.getNome());
+
 			assistenteSocialAtual = cadastroAssistenteSocialService.salvar(assistenteSocialAtual);
-			
+
 			log.info("Atualizando assistente social com o codigo {}", assistenteSocialAtual.getCodigo());
-			
+
 			return assistenteSocialModelAssembler.toModel(assistenteSocialAtual);
-			
+
 		} catch (CidadeNaoEncontradoException | EstadoNaoEncontradoException | IdiomaNaoEncontradoException
 				| EspecializacaoNaoEncontradoException | EspecialidadeNaoEncontradoException
-				| CursoNaoEncontradoException | ExperienciaProfissionalNaoEncontradoException  e) {
+				| CursoNaoEncontradoException | ExperienciaProfissionalNaoEncontradoException e) {
 			throw new NegocioException(e.getMessage(), e);
 
 		} catch (MappingException e) {
@@ -155,32 +163,33 @@ public class AssistenteSocialController implements AssistenteSocialControllerOpe
 	@CheckSecurity.AssistentesSociais.PodeAtivarOuInativar
 	@PutMapping("/{codigoAssistenteSocial}/ativo")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public ResponseEntity<Void> ativar(@PathVariable  String codigoAssistenteSocial) {
+	public ResponseEntity<Void> ativar(@PathVariable String codigoAssistenteSocial) {
 		cadastroAssistenteSocialService.ativar(codigoAssistenteSocial);
-		
+
 		log.info("Inativando assistente social com o codigo {}", codigoAssistenteSocial);
-		
+
 		return ResponseEntity.noContent().build();
 	}
 
 	@CheckSecurity.AssistentesSociais.PodeAtivarOuInativar
 	@DeleteMapping("/{codigoAssistenteSocial}/ativo")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public ResponseEntity<Void> inativar(@PathVariable  String codigoAssistenteSocial) {
+	public ResponseEntity<Void> inativar(@PathVariable String codigoAssistenteSocial) {
 		cadastroAssistenteSocialService.inativar(codigoAssistenteSocial);
-		
+
 		log.info("Ativando assistente social com o codigo {}", codigoAssistenteSocial);
-		
+
 		return ResponseEntity.noContent().build();
 	}
-	
+
 	@CheckSecurity.AssistentesSociais.PodeEditar
 	@PutMapping("/{codigoAssistenteSocial}/senha")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void alterarSenha(@PathVariable  String codigoAssistenteSocial, @RequestBody @Valid SenhaInput senha) {
+	public void alterarSenha(@PathVariable String codigoAssistenteSocial, @RequestBody @Valid SenhaInput senha) {
 		log.info("Alterando senha do assistente social com o codigo {}", codigoAssistenteSocial);
-		
-		cadastroAssistenteSocialService.alterarSenha(codigoAssistenteSocial, senha.getSenhaAtual(), senha.getNovaSenha());
+
+		cadastroAssistenteSocialService.alterarSenha(codigoAssistenteSocial, senha.getSenhaAtual(),
+				senha.getNovaSenha());
 	}
 
 }

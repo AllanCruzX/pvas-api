@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.util.Set;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import io.swagger.annotations.ApiModelProperty;
@@ -13,11 +12,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class AssistenteSocialInput extends PessoaInput {
-	
-	@ApiModelProperty(example = "123", required = true)
-	@NotBlank
-	private String senha;
+public class AssistenteSocialAlterarInput extends PessoaInput {
 	
 	@ApiModelProperty(example = "Maria de Jesus")
 	private String nomeMae;

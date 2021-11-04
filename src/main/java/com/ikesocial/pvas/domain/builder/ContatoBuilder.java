@@ -12,6 +12,11 @@ public class ContatoBuilder {
 		this.contato = new Contato();
 	}
 	
+	public ContatoBuilder comId(Long id) {
+		contato.setId(id);
+		return this;
+	}
+	
 	public ContatoBuilder comDescricao(String descricao) {
 		contato.setDescricao(descricao);
 		return this;
@@ -22,7 +27,7 @@ public class ContatoBuilder {
 		return this;
 	}
 	
-	public ContatoBuilder comPessoaFisica(AssistenteSocial assistenteSocial) {
+	public ContatoBuilder comPessoa(AssistenteSocial assistenteSocial) {
 		contato.setPessoa(new AssistenteSocial());
 		contato.setPessoa(assistenteSocial);
 		return this;

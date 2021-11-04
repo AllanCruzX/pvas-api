@@ -76,22 +76,22 @@ public class AssistenteSocialModelAssembler
 					"sub-especialidades"));
 		});
 
-		assistenteSocialModel.getCusos().forEach(item -> {
-			item.add(pvasLinks.linkToCurso(item.getId()));
-		});
-
-		assistenteSocialModel.getCusos().forEach(item -> {
-			item.add(pvasLinks.linkToCursosAssistenteSocial(assistenteSocialModel.getCodigo(), "cursos"));
-		});
-
-		assistenteSocialModel.getExperienciasProfissionais().forEach(item -> {
-			item.add(pvasLinks.linkToExperienciaProfissional(item.getId()));
-		});
-
-		assistenteSocialModel.getExperienciasProfissionais().forEach(item -> {
-			item.add(pvasLinks.linkToExperienciaProfissionalDaAssistenteSocial(assistenteSocialModel.getCodigo(),
-					"experiencias-profissionais"));
-		});
+//		assistenteSocialModel.getCusos().forEach(item -> {
+//			item.add(pvasLinks.linkToCurso(item.getId()));
+//		});
+//
+//		assistenteSocialModel.getCusos().forEach(item -> {
+//			item.add(pvasLinks.linkToCursosAssistenteSocial(assistenteSocialModel.getCodigo(), "cursos"));
+//		});
+//
+//		assistenteSocialModel.getExperienciasProfissionais().forEach(item -> {
+//			item.add(pvasLinks.linkToExperienciaProfissional(item.getId()));
+//		});
+//
+//		assistenteSocialModel.getExperienciasProfissionais().forEach(item -> {
+//			item.add(pvasLinks.linkToExperienciaProfissionalDaAssistenteSocial(assistenteSocialModel.getCodigo(),
+//					"experiencias-profissionais"));
+//		});
 
 		if (assistenteSocial.ativacaoPermitida()) {
 			assistenteSocialModel

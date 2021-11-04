@@ -18,12 +18,16 @@ public class ManipuladorDeGrupoAssistenteSocial extends ManipuladorDeAssitenteSo
 
 	@Override
 	public boolean tratar(AssistenteSocial assistenteSocial) {
+		
+		if(assistenteSocial.isNovo()) {
 
 		Optional<Grupo> grupo = grupoRepository.findById(GrupoConstants.USUARIO);
 
 		assistenteSocial.adicionarGrupo(grupo.get());
-
+		}
+		
 		return tratarProximo(assistenteSocial);
+		
 	}
 
 	@Override
