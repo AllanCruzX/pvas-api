@@ -7,7 +7,7 @@ API RESTful, Nível 3 do RMM, DDD, Padrões de Projeto, Java 11, Jakarta EE, Lom
 Jakson, SendGrid, AmazonS3, Maven, UUIDs, RFC 7807 e ISO-8601.
 
 
-* [Java 11]
+* Java 11
 
 
 
