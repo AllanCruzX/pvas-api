@@ -26,6 +26,7 @@ services:
       DB_HOST: pvas-mysql
       SPRING_SESSION_STORE_TYPE: redis
       SPRING_REDIS_HOST: pvas-redis
+      SPRING_PROFILES_ACTIVE: development
     networks:
       - pvas-network
     depends_on:

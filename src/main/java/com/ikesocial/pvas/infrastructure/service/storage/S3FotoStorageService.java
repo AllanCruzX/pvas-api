@@ -10,6 +10,7 @@ import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+
 import com.ikesocial.pvas.core.storage.StorageProperties;
 import com.ikesocial.pvas.domain.service.FotoStorageService;
 
