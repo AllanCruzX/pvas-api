@@ -10,7 +10,7 @@ O PVAS é uma API RESTful (Nível 3 do RMM)
 * Java 11
 * Jakarta EE
 * Spring Boot
-* Spring Web
+* Spring MVC
 * Spring RestTemplate
 * Spring Session
 * Spring Data
