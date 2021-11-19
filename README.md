@@ -4,6 +4,7 @@ O PVAS é uma API RESTful (Nível 3 do RMM)
 
 ### Construído com
 
+* RESTful
 * DDD
 * SOLID
 * Padrões de Projeto
@@ -32,6 +33,7 @@ O PVAS é uma API RESTful (Nível 3 do RMM)
 * Testes de integração (REST Assured, JUnit e AssertJ)
 * UUIDs
 * SendGrid
+* Gzip
 * Maven
 * Docker
 * AWS(S3, RDS, ECS {Farget}, ECR e ELB)
