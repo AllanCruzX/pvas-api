@@ -206,6 +206,10 @@ public class Pessoa extends AbstractAggregateRoot<Pessoa> implements Serializabl
 		setAtivo(false);
 	}
 	
+	public boolean temCodigo() {
+	    return this.getCodigo() != null;
+	}
+	
 	public boolean isInativo() {
 	    return !isAtivo();
 	}

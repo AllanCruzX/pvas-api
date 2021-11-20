@@ -11,6 +11,9 @@ import com.ikesocial.pvas.domain.model.AssistenteSocial;
 import com.ikesocial.pvas.domain.model.Endereco;
 import com.ikesocial.pvas.domain.service.CadastroCidadeService;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Component
 public class ManipuladorDeEnderecoAssistenteSocial extends ManipuladorDeAssitenteSocialBase {
 
@@ -21,7 +24,8 @@ public class ManipuladorDeEnderecoAssistenteSocial extends ManipuladorDeAssitent
 	public boolean tratar(AssistenteSocial assistenteSocial) {
 
 		Set<Endereco> enderecos = assistenteSocial.getEnderecos().stream()
-				.map(endereco -> montaEndereco(endereco, assistenteSocial)).collect(Collectors.toSet());
+				.map(endereco -> montaEndereco(endereco, assistenteSocial))
+				.collect(Collectors.toSet());
 
 		assistenteSocial.setEnderecos(enderecos);
 
@@ -56,13 +60,27 @@ public class ManipuladorDeEnderecoAssistenteSocial extends ManipuladorDeAssitent
 					.comNumero(endereco.getNumero())
 					.comComplemento(endereco.getComplemento())
 					.comCidade(cidadeService.buscarOuFalhar(endereco.getCidade().getId()))
-					.comPessoaFisica(assistenteSocial).definirComoResidencial().definirComoPrincipal(true)
+					.comPessoaFisica(assistenteSocial)
+					.definirComoResidencial()
+					.definirComoPrincipal(true)
 					.construir();
 
 		}
+		
+		logEndereco(enderecoMontado, assistenteSocial);
 
 		return enderecoMontado;
 
+	}
+	
+	
+	private void logEndereco(Endereco endereco, AssistenteSocial assistenteSocial) {
+		
+		if(assistenteSocial.temCodigo()) {
+			log.info("Preparando endereco {}, para o assistente social do codigo {}", endereco.getTipoEndereco().getNome() ,assistenteSocial.getCodigo());
+		}else{
+			log.info("Preparando endereco {}", endereco.getTipoEndereco().getNome() );
+		}
 	}
 
 	@Override

@@ -10,6 +10,9 @@ import com.ikesocial.pvas.domain.model.Documento;
 import com.ikesocial.pvas.domain.model.enums.TipoDocumento;
 import com.ikesocial.pvas.domain.service.DocumentoStrategy;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Component
 public class ManipuladorDeDocumentoAssistenteSocial extends ManipuladorDeAssitenteSocialBase {
 
@@ -26,6 +29,8 @@ public class ManipuladorDeDocumentoAssistenteSocial extends ManipuladorDeAssiten
 	}
 
 	private Documento montaDocumento(Documento documento, AssistenteSocial assistenteSocial) {
+		
+		logDocumento(documento, assistenteSocial);
 
 		TipoDocumento tipo = documento.getTipoDocumento();
 
@@ -34,6 +39,16 @@ public class ManipuladorDeDocumentoAssistenteSocial extends ManipuladorDeAssiten
 		documento = documentoMontado.definirDocumento(documento, assistenteSocial);
 
 		return documento;
+	}
+	
+	
+	private void logDocumento(Documento documento, AssistenteSocial assistenteSocial) {
+		
+		if(assistenteSocial.temCodigo()) {
+			log.info("Preparando documento {}, para o assistente social do codigo {}", documento.getTipoDocumento().name() ,assistenteSocial.getCodigo());
+		}else{
+			log.info("Preparando documento {}", documento.getTipoDocumento().name());
+		}
 	}
 
 	@Override

@@ -1,6 +1,7 @@
 package com.ikesocial.pvas.api.controller;
 
 import java.util.List;
+
 import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,31 +20,37 @@ import com.ikesocial.pvas.api.openapi.controller.EstadoCivilControllerOpenApi;
 import com.ikesocial.pvas.core.security.CheckSecurity;
 import com.ikesocial.pvas.domain.model.enums.EstadoCivil;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @RestController
 @RequestMapping(path = "/assistentes-sociais/estados-civis", produces = MediaType.APPLICATION_JSON_VALUE)
-public class EstadoCivilController implements EstadoCivilControllerOpenApi  {
-	
+public class EstadoCivilController implements EstadoCivilControllerOpenApi {
+
 	@Autowired
 	private EstadoCivilModelAssembler estadoCivilModelAssembler;
-	
-	
+
 	@CheckSecurity.AssistentesSociais.EstaAutorizado
 	@GetMapping
-	public ResponseEntity<CollectionModel<EstadoCivilModel>> listarEstadosCivis(){
-		 List<EstadoCivil> estadosCivis = EstadoCivil.valores();
-		 
-		 CollectionModel<EstadoCivilModel> estadosCivisModel = estadoCivilModelAssembler.toCollectionModel(estadosCivis);
-		 
-		 return ResponseEntity.ok()
-					.cacheControl(CacheControl.maxAge(30, TimeUnit.DAYS).cachePublic())
-					.body(estadosCivisModel);
+	public ResponseEntity<CollectionModel<EstadoCivilModel>> listarEstadosCivis() {
+		log.info("Consultando estados civis");
+
+		List<EstadoCivil> estadosCivis = EstadoCivil.valores();
+
+		CollectionModel<EstadoCivilModel> estadosCivisModel = estadoCivilModelAssembler.toCollectionModel(estadosCivis);
+
+		return ResponseEntity.ok()
+				.cacheControl(CacheControl
+								.maxAge(30, TimeUnit.SECONDS)
+								.cachePublic())
+				.body(estadosCivisModel);
 	}
-	
+
 	@CheckSecurity.AssistentesSociais.EstaAutorizado
 	@GetMapping("/{estadoCivilId}")
 	public EstadoCivilModel buscar(@PathVariable Long estadoCivilId) {
-		EstadoCivil estadoCivil =  EstadoCivil.getById(estadoCivilId);
-						
+		EstadoCivil estadoCivil = EstadoCivil.getById(estadoCivilId);
+
 		return estadoCivilModelAssembler.toModel(estadoCivil);
 	}
 

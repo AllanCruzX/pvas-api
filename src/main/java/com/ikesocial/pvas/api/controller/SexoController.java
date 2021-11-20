@@ -19,6 +19,9 @@ import com.ikesocial.pvas.api.openapi.controller.SexoControllerOpenApi;
 import com.ikesocial.pvas.core.security.CheckSecurity;
 import com.ikesocial.pvas.domain.model.enums.Sexo;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @RestController
 @RequestMapping(path = "/assistentes-sociais/sexos", produces = MediaType.APPLICATION_JSON_VALUE)
 public class SexoController implements SexoControllerOpenApi  {
@@ -30,12 +33,13 @@ public class SexoController implements SexoControllerOpenApi  {
 	@CheckSecurity.AssistentesSociais.EstaAutorizado
 	@GetMapping
 	public ResponseEntity<CollectionModel<SexoModel>> listarSexo(){
+		log.info("Consultando sexos");
 		 List<Sexo> sexos = Sexo.valores();
 		 
 		 CollectionModel<SexoModel> sexosModel = sexoModelAssembler.toCollectionModel(sexos);
 		 
 		 return ResponseEntity.ok()
-					.cacheControl(CacheControl.maxAge(30, TimeUnit.DAYS).cachePublic())
+					.cacheControl(CacheControl.maxAge(30, TimeUnit.SECONDS).cachePublic())
 					.body(sexosModel);
 		
 	}

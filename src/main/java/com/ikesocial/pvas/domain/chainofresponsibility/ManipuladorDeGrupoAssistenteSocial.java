@@ -10,6 +10,9 @@ import com.ikesocial.pvas.domain.model.Grupo;
 import com.ikesocial.pvas.domain.repository.GrupoRepository;
 import com.ikesocial.pvas.domain.service.GrupoConstants;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Component
 public class ManipuladorDeGrupoAssistenteSocial extends ManipuladorDeAssitenteSocialBase {
 
@@ -24,6 +27,8 @@ public class ManipuladorDeGrupoAssistenteSocial extends ManipuladorDeAssitenteSo
 		Optional<Grupo> grupo = grupoRepository.findById(GrupoConstants.USUARIO);
 
 		assistenteSocial.adicionarGrupo(grupo.get());
+		
+		log.info("Preparando grupo do id {} ", grupo.get().getId());
 		}
 		
 		return tratarProximo(assistenteSocial);

@@ -22,6 +22,9 @@ import com.ikesocial.pvas.core.security.CheckSecurity;
 import com.ikesocial.pvas.domain.repository.EstadoRepository;
 import com.ikesocial.pvas.domain.service.CadastroEstadoService;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @RestController
 @RequestMapping(path = "estados", produces = MediaType.APPLICATION_JSON_VALUE)
 public class EstadoController implements EstadoControllerOpenApi {
@@ -39,6 +42,7 @@ public class EstadoController implements EstadoControllerOpenApi {
 	@CheckSecurity.AssistentesSociais.EstaAutorizado
 	@GetMapping
 	public ResponseEntity<CollectionModel<EstadoModel>> listar(ServletWebRequest request) {
+		log.info("Consultando estados ");
 		ShallowEtagHeaderFilter.disableContentCaching(request.getRequest());
 
 		String eTag = VALOR_INICIAL;
@@ -55,7 +59,11 @@ public class EstadoController implements EstadoControllerOpenApi {
 
 		CollectionModel<EstadoModel> estdosModel = estadoModelAssembler.toCollectionModel(estadoRepository.findAll());
 
-		return ResponseEntity.ok().cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS).cachePublic()).eTag(eTag)
+		return ResponseEntity.ok()
+				.cacheControl(CacheControl
+								.maxAge(10, TimeUnit.SECONDS)
+								.cachePublic())
+				.eTag(eTag)
 				.body(estdosModel);
 	}
 

@@ -5,12 +5,14 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 
 import com.ikesocial.pvas.domain.model.AssistenteSocial;
 import com.ikesocial.pvas.domain.model.ExperienciaProfissional;
 import com.ikesocial.pvas.domain.service.CadastroExperienciaProfissionalService;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Component
 public class ManipuladorDeExperienciaProfissionalAssistenteSocial extends ManipuladorDeAssitenteSocialBase {
 
@@ -20,8 +22,7 @@ public class ManipuladorDeExperienciaProfissionalAssistenteSocial extends Manipu
 	@Override
 	public boolean tratar(AssistenteSocial assistenteSocial) {
 
-		if (assistenteSocial.getExperieciasProfissionais() != null
-				&& !assistenteSocial.getExperieciasProfissionais().isEmpty()) {
+		if (assistenteSocial.temExperienciaProfissional()) {
 
 			Set<ExperienciaProfissional> experienciasProfissionais = assistenteSocial.getExperieciasProfissionais()
 																							.stream()
@@ -36,13 +37,16 @@ public class ManipuladorDeExperienciaProfissionalAssistenteSocial extends Manipu
 	private ExperienciaProfissional preparaExperienciaProfissional(ExperienciaProfissional experienciaProfissional,
 			AssistenteSocial assistenteSocial) {
 		ExperienciaProfissional experienciaProfissionalRecuperado = null;
-
-		if (!StringUtils.hasText(assistenteSocial.getCodigo())) {
-			experienciaProfissionalRecuperado = montaExperienciaProfissional(experienciaProfissional, assistenteSocial,
-					null);
+		
+		if (!assistenteSocial.temCodigo()) {
+			
+			experienciaProfissionalRecuperado = montaExperienciaProfissional(experienciaProfissional, assistenteSocial,	null);
+			log.info("Preparando experiencia profissional do id {} ", experienciaProfissional.getId());
+			
 		} else {
-			experienciaProfissionalRecuperado = montaExperienciaProfissional(experienciaProfissional, assistenteSocial,
-					assistenteSocial.getCodigo());
+			
+			experienciaProfissionalRecuperado = montaExperienciaProfissional(experienciaProfissional, assistenteSocial,	assistenteSocial.getCodigo());
+			log.info("Preparando experiencia profissional do id {} , para o assistente social do codigo {}", experienciaProfissional.getId() ,assistenteSocial.getCodigo());
 		}
 
 		return experienciaProfissionalRecuperado;

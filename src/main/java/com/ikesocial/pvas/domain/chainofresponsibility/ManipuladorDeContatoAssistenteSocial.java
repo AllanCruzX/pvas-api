@@ -11,6 +11,9 @@ import com.ikesocial.pvas.domain.model.AssistenteSocial;
 import com.ikesocial.pvas.domain.model.Contato;
 import com.ikesocial.pvas.domain.service.EmailService;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Component
 public class ManipuladorDeContatoAssistenteSocial extends ManipuladorDeAssitenteSocialBase {
 	
@@ -34,10 +37,13 @@ public class ManipuladorDeContatoAssistenteSocial extends ManipuladorDeAssitente
 	
 	private Contato  montaContato(Contato contato, AssistenteSocial assistenteSocial) {
 		
+		logContato(contato, assistenteSocial);
+		
 		Contato contatoMontado = null;
 		
-		
 		if(contato.getId() == null) {
+			
+			
 			
 			 contatoMontado = new ContatoBuilder()
 						.comDescricao(contato.getDescricao())
@@ -57,6 +63,15 @@ public class ManipuladorDeContatoAssistenteSocial extends ManipuladorDeAssitente
 		
 		return contatoMontado;
 												
+	}
+
+	private void logContato(Contato contato, AssistenteSocial assistenteSocial) {
+		
+		if(assistenteSocial.temCodigo()) {
+			log.info("Preparando contato {}, para o assistente social do codigo {}", contato.getTipoContato().name() ,assistenteSocial.getCodigo());
+		}else{
+			log.info("Preparando contato {}", contato.getTipoContato().name());
+		}
 	}
 
 	@Override

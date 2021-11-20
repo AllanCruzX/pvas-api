@@ -82,5 +82,30 @@ public class AssistenteSocial extends Pessoa {
 		inverseJoinColumns = @JoinColumn(name = "sub_especialidade_id", 
 			foreignKey = @ForeignKey(name = "fk_sub_especialidade_assistente_social")))
 	private Set<SubEspecialidade> subEspecialidades;
+	
+	public boolean temExperienciaProfissional() {
+	    return this.getExperieciasProfissionais() != null
+				&& !this.getExperieciasProfissionais().isEmpty();
+	}
+	
+	public boolean temCurso() {
+		return this.getCursos() != null
+				&& !this.getCursos().isEmpty();
+	}
+	
+	public boolean temEspecializacao() {
+		return this.getEspecializacoes() != null 
+				&& !this.getEspecializacoes().isEmpty();
+	}
+	
+	public boolean temIdioma() {
+		return this.getIdiomas() != null 
+				&& !this.getIdiomas().isEmpty();
+	}
+	
+	public boolean temSubEspecialidade() {
+		return this.getSubEspecialidades() != null 
+				&& !this.getSubEspecialidades().isEmpty();
+	}
 
 }

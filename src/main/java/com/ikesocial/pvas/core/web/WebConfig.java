@@ -9,7 +9,7 @@ import org.springframework.web.filter.ShallowEtagHeaderFilter;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import com.ikesocial.pvas.api.log.LoggerInterceptor;
+import com.ikesocial.pvas.infrastructure.service.log.LoggerInterceptor;
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer {

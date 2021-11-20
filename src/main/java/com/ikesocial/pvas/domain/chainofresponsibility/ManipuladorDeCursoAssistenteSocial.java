@@ -5,12 +5,14 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 
 import com.ikesocial.pvas.domain.model.AssistenteSocial;
 import com.ikesocial.pvas.domain.model.Curso;
 import com.ikesocial.pvas.domain.service.CadastroCursoService;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Component
 public class ManipuladorDeCursoAssistenteSocial extends ManipuladorDeAssitenteSocialBase {
 
@@ -20,7 +22,7 @@ public class ManipuladorDeCursoAssistenteSocial extends ManipuladorDeAssitenteSo
 	@Override
 	public boolean tratar(AssistenteSocial assistenteSocial) {
 
-		if (assistenteSocial.getCursos() != null && !assistenteSocial.getCursos().isEmpty()) {
+		if (assistenteSocial.temCurso()) {
 
 			Set<Curso> cursos = assistenteSocial.getCursos()
 													.stream()
@@ -34,12 +36,15 @@ public class ManipuladorDeCursoAssistenteSocial extends ManipuladorDeAssitenteSo
 	}
 
 	private Curso preparaCurso(Curso curso, AssistenteSocial assistenteSocial) {
+		
 		Curso cursoRecuperado = null;
 
-		if (!StringUtils.hasText(assistenteSocial.getCodigo())) {
+		if (!assistenteSocial.temCodigo()) {
 			cursoRecuperado = montaCurso(curso, assistenteSocial, null);
+			log.info("Preparando curso do id {}", curso.getId());
 		} else {
 			cursoRecuperado = montaCurso(curso, assistenteSocial, assistenteSocial.getCodigo());
+			log.info("Preparando curso do id {}, para o assistente social do codigo {}", curso.getId() ,assistenteSocial.getCodigo());
 		}
 
 		return cursoRecuperado;
@@ -53,7 +58,6 @@ public class ManipuladorDeCursoAssistenteSocial extends ManipuladorDeAssitenteSo
 //			cursoRecuperado.setAssistenteSocial(assistenteSocial);
 //			
 //		}
-		
 
 		return cursoRecuperado;
 	}

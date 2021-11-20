@@ -1,4 +1,4 @@
-package com.ikesocial.pvas.api.log;
+package com.ikesocial.pvas.infrastructure.service.log;
 
 import java.util.Enumeration;
 

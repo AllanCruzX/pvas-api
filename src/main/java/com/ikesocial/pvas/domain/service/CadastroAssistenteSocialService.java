@@ -14,6 +14,9 @@ import com.ikesocial.pvas.domain.exception.NegocioException;
 import com.ikesocial.pvas.domain.model.AssistenteSocial;
 import com.ikesocial.pvas.domain.repository.AssistenteSocialRepository;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 public class CadastroAssistenteSocialService {
 
@@ -43,6 +46,7 @@ public class CadastroAssistenteSocialService {
 	@Transactional
 	public void ativar(String codigoAssistenteSocial) {
 		AssistenteSocial pessoaFisicaAtual = buscarOuFalharAssistenteSocialSemComplementos(codigoAssistenteSocial);
+		log.info("Ativando Assistente social do código{}", codigoAssistenteSocial);
 
 		pessoaFisicaAtual.ativar();
 	}
@@ -50,6 +54,7 @@ public class CadastroAssistenteSocialService {
 	@Transactional
 	public void inativar(String codigoAssistenteSocial) {
 		AssistenteSocial assistenteSocial = buscarOuFalharAssistenteSocialSemComplementos(codigoAssistenteSocial);
+		log.info("Inativando Assistente social do código{}", codigoAssistenteSocial);
 
 		assistenteSocial.inativar();
 	}
@@ -66,6 +71,8 @@ public class CadastroAssistenteSocialService {
 	}
 
 	public AssistenteSocial buscarOuFalhar(String codigo) {
+		
+		log.info("Buscando Assistente social do código{}", codigo);
 
 		try {
 			return assistenteSocialRepository.buscarPorCodigo(codigo).get();
@@ -76,6 +83,8 @@ public class CadastroAssistenteSocialService {
 	}
 
 	public AssistenteSocial buscarOuFalharAssistenteSocialSemComplementos(String codigo) {
+		
+		log.info("Buscando Assistente social do código{}", codigo);
 
 		return assistenteSocialRepository.findByCodigo(codigo)
 				.orElseThrow(() -> new AssistenteSocialNaoEncontradoException(codigo));

@@ -142,8 +142,6 @@ public class AssistenteSocialController implements AssistenteSocialControllerOpe
 			AssistenteSocial assistenteSocialAtual = AssistentesSociaisAlterarConverter
 					.copyToDomainObject(assistenteSocialAlterarInput, assistenteSocialRecuperado);
 
-			log.info("NOME MODIFICADO {}", assistenteSocialAtual.getNome());
-
 			assistenteSocialAtual = cadastroAssistenteSocialService.salvar(assistenteSocialAtual);
 
 			log.info("Atualizando assistente social com o codigo {}", assistenteSocialAtual.getCodigo());
