@@ -40,7 +40,7 @@ public class CidadeController implements CidadeControllerOpenApi {
 	@Autowired
 	private CidadeModelAssembler cidadeModelAssembler;
 
-	@CheckSecurity.AssistentesSociais.EstaAutorizado
+	@CheckSecurity.Profissionais.EstaAutorizado
 	@GetMapping
 	public CollectionModel<CidadeModel> listar() {
 		log.info("Listando cidades");
@@ -48,7 +48,7 @@ public class CidadeController implements CidadeControllerOpenApi {
 		 return cidadeModelAssembler.toCollectionModel(cidadeRepository.findAll());
 	}
 	
-	@CheckSecurity.AssistentesSociais.EstaAutorizado
+	@CheckSecurity.Profissionais.EstaAutorizado
 	@GetMapping("/estados/{estadoId}")
 	public CollectionModel<CidadeModel> listarCidadesPorEstado(@PathVariable Long estadoId) {
 		
@@ -61,7 +61,7 @@ public class CidadeController implements CidadeControllerOpenApi {
 		return cidadeModelAssembler.toCollectionModel(todasCidades);
 	}
 
-	@CheckSecurity.AssistentesSociais.EstaAutorizado
+	@CheckSecurity.Profissionais.EstaAutorizado
 	@GetMapping("/{cidadeId}")
 	public CidadeModel buscar(@PathVariable Long cidadeId) {
 		log.info("Buscando cidade do id {}", cidadeId);

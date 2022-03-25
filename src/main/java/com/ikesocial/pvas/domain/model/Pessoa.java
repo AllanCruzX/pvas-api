@@ -49,7 +49,7 @@ public class Pessoa extends AbstractAggregateRoot<Pessoa> implements Serializabl
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(name = "codigo", length = 35, nullable = false)
+	@Column(name = "codigo", length = 50, nullable = false)
 	private String codigo;
 
 	@Column(name = "nome", length = 200, nullable = false)

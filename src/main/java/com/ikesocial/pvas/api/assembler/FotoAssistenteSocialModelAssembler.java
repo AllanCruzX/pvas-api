@@ -6,7 +6,7 @@ import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSuppor
 import org.springframework.stereotype.Component;
 
 import com.ikesocial.pvas.api.PvasLinks;
-import com.ikesocial.pvas.api.controller.AssistenteSocialFotoController;
+import com.ikesocial.pvas.api.controller.ProfissionalFotoController;
 import com.ikesocial.pvas.api.model.output.FotoAssistenteSocialModel;
 import com.ikesocial.pvas.domain.model.FotoPessoa;
 
@@ -21,15 +21,14 @@ public class FotoAssistenteSocialModelAssembler extends RepresentationModelAssem
 	
 	
 	public FotoAssistenteSocialModelAssembler() {
-        super(AssistenteSocialFotoController.class, FotoAssistenteSocialModel.class);
+        super(ProfissionalFotoController.class, FotoAssistenteSocialModel.class);
     }
 	
 	public FotoAssistenteSocialModel toModel(FotoPessoa foto) {
 		
 		FotoAssistenteSocialModel fotoAssistenteSocialModel = modelMapper.map(foto, FotoAssistenteSocialModel.class);
 		
-			fotoAssistenteSocialModel.add(pvasLinks.linkToFotoAssistenteSocial(foto.getPessoa().getCodigo(), "foto"));
-			fotoAssistenteSocialModel.add(pvasLinks.linkToAssistenteSocial(foto.getPessoa().getCodigo()));
+			fotoAssistenteSocialModel.add(pvasLinks.linkToFotoDoProfissional(foto.getPessoa().getCodigo(), "foto"));
 		
 		return fotoAssistenteSocialModel;
 	}

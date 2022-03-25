@@ -27,10 +27,10 @@ public class RootEntryPointController {
 	public RootEntryPointModel root() {
 		var rootEntryPointModel = new RootEntryPointModel();
 
-		if (pvasSecurity.podeConsultarAssistentesSociais()) {
-			rootEntryPointModel.add(pvasLinks.linkToAssistentesSociais());
-		}
-		rootEntryPointModel.add(pvasLinks.linkToSubEspecialidades("sub-especialidades"));
+//		if (pvasSecurity.podeConsultarProfissionais()) {
+//			rootEntryPointModel.add(pvasLinks.linkToAssistentesSociais());
+//		}
+		//rootEntryPointModel.add(pvasLinks.linkToSubEspecialidades("sub-especialidades"));
 		rootEntryPointModel.add(pvasLinks.linkToEspecialidades("especialidades"));
 		rootEntryPointModel.add(pvasLinks.linkToEspecializacoes("especializacoes"));
 		rootEntryPointModel.add(pvasLinks.linkToIdiomas("idiomas"));
@@ -44,9 +44,9 @@ public class RootEntryPointController {
 			rootEntryPointModel.add(pvasLinks.linkToGrupos("grupos"));
 			rootEntryPointModel.add(pvasLinks.linkToPermissoes("permissoes"));
 		}
-		if (pvasSecurity.podeConsultarRelatorios()) {
-			rootEntryPointModel.add(pvasLinks.linkToAssistenteSocialEstatisticas("estatisticas"));
-		}
+//		if (pvasSecurity.podeConsultarRelatorios()) {
+//			rootEntryPointModel.add(pvasLinks.linkToAssistenteSocialEstatisticas("estatisticas"));
+//		}
 		rootEntryPointModel.add(pvasLinks.linkToEndereco(null, "endereco"));
 
 		return rootEntryPointModel;

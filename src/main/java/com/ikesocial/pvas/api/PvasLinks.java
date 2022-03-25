@@ -12,9 +12,8 @@ import org.springframework.hateoas.UriTemplate;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 
-import com.ikesocial.pvas.api.controller.AssistenteSocialController;
-import com.ikesocial.pvas.api.controller.AssistenteSocialFotoController;
 import com.ikesocial.pvas.api.controller.CidadeController;
+import com.ikesocial.pvas.api.controller.CurriculoController;
 import com.ikesocial.pvas.api.controller.CursoController;
 import com.ikesocial.pvas.api.controller.EnderecoController;
 import com.ikesocial.pvas.api.controller.EspecialidadeController;
@@ -27,6 +26,9 @@ import com.ikesocial.pvas.api.controller.GrupoController;
 import com.ikesocial.pvas.api.controller.GrupoPermissaoController;
 import com.ikesocial.pvas.api.controller.IdiomaController;
 import com.ikesocial.pvas.api.controller.PermissaoController;
+import com.ikesocial.pvas.api.controller.ProfissaoController;
+import com.ikesocial.pvas.api.controller.ProfissionalController;
+import com.ikesocial.pvas.api.controller.ProfissionalFotoController;
 import com.ikesocial.pvas.api.controller.SexoController;
 import com.ikesocial.pvas.api.controller.SubEspecialidadeController;
 
@@ -38,33 +40,33 @@ public class PvasLinks {
 			new TemplateVariable("size", VariableType.REQUEST_PARAM),
 			new TemplateVariable("sort", VariableType.REQUEST_PARAM));
 
-	public Link linkToAssistentesSociais() {
+	public Link linkToProfissionais() {
 		TemplateVariables filtroVariables = new TemplateVariables(
 				new TemplateVariable("codigo", VariableType.REQUEST_PARAM),
 				new TemplateVariable("nome", VariableType.REQUEST_PARAM),
 				new TemplateVariable("cpf", VariableType.REQUEST_PARAM),
 				new TemplateVariable("email", VariableType.REQUEST_PARAM));
 
-		String assistentesSociaisUrl = linkTo(AssistenteSocialController.class).toUri().toString();
+		String profissionaisUrl = linkTo(ProfissionalController.class).toUri().toString();
 
-		return Link.of(UriTemplate.of(assistentesSociaisUrl, PAGINACAO_VARIABLES.concat(filtroVariables)),
-				"assistentes-sociais");
+		return Link.of(UriTemplate.of(profissionaisUrl, PAGINACAO_VARIABLES.concat(filtroVariables)),
+				"profissionais");
 	}
 
-	public Link linkToAssistenteSocial(String assistenteSocialCodigo, String rel) {
-		return linkTo(methodOn(AssistenteSocialController.class).buscar(assistenteSocialCodigo)).withRel(rel);
+	public Link linkToProfissional(String proficionalCodigo, String rel) {
+		return linkTo(methodOn(ProfissionalController.class).buscar(proficionalCodigo)).withRel(rel);
 	}
 
-	public Link linkToAssistenteSocial(String assistenteSocialCodigo) {
-		return linkToAssistenteSocial(assistenteSocialCodigo, IanaLinkRelations.SELF.value());
+	public Link linkToProfissional(String proficionalCodigo) {
+		return linkToProfissional(proficionalCodigo, IanaLinkRelations.SELF.value());
 	}
 
-	public Link linkToAssistenteSocialAtivar(String assistenteSocialCodigo, String rel) {
-		return linkTo(methodOn(AssistenteSocialController.class).ativar(assistenteSocialCodigo)).withRel(rel);
+	public Link linkToProfissionalAtivar(String proficionalCodigo, String rel) {
+		return linkTo(methodOn(ProfissionalController.class).ativar(proficionalCodigo)).withRel(rel);
 	}
 
-	public Link linkToAssistenteSocialInativar(String assistenteSocialCodigo, String rel) {
-		return linkTo(methodOn(AssistenteSocialController.class).inativar(assistenteSocialCodigo)).withRel(rel);
+	public Link linkToProfissionalInativar(String proficionalCodigo, String rel) {
+		return linkTo(methodOn(ProfissionalController.class).inativar(proficionalCodigo)).withRel(rel);
 	}
 
 	public Link linkToSexo(Long sexoId, String rel) {
@@ -92,7 +94,7 @@ public class PvasLinks {
 	}
 
 	public Link linkToEstadoCivis(String rel) {
-		return linkTo(SexoController.class).withRel(rel);
+		return linkTo(EstadoCivilController.class).withRel(rel);
 	}
 
 	public Link linkToEstadoCivis() {
@@ -115,10 +117,6 @@ public class PvasLinks {
 		return linkToIdiomas(IanaLinkRelations.SELF.value());
 	}
 
-	public Link linkToIdiomasDoAssistenteSocial(String assistenteSocialCodigo, String rel) {
-		return linkTo(methodOn(IdiomaController.class).buscarIdiomasDoAssistenteSocial(assistenteSocialCodigo))
-				.withRel(rel);
-	}
 
 	public Link linkToEspecializacao(Long especializacaoId, String rel) {
 		return linkTo(methodOn(EspecializacaoController.class).buscar(especializacaoId)).withRel(rel);
@@ -136,11 +134,6 @@ public class PvasLinks {
 		return linkToEspecializacoes(IanaLinkRelations.SELF.value());
 	}
 
-	public Link linkToEspecializacoesAssistenteSocial(String assistenteSocialCodigo, String rel) {
-		return linkTo(
-				methodOn(EspecializacaoController.class).buscarEspecializacoesAssistenteSocial(assistenteSocialCodigo))
-						.withRel(rel);
-	}
 
 	public Link linkToSubEspecialidade(Long subEspecialidadeId, String rel) {
 		return linkTo(methodOn(SubEspecialidadeController.class).buscar(subEspecialidadeId)).withRel(rel);
@@ -150,17 +143,8 @@ public class PvasLinks {
 		return linkToSubEspecialidade(subEspecialidadeId, IanaLinkRelations.SELF.value());
 	}
 
-	public Link linkToSubEspecialidades(String rel) {
-		return linkTo(SubEspecialidadeController.class).withRel(rel);
-	}
-
-	public Link linkToSubEspecialidades() {
-		return linkToSubEspecialidades(IanaLinkRelations.SELF.value());
-	}
-
-	public Link linkToSubEspecialidadesAssistenteSocial(String codigoAssistenteSocial, String rel) {
-		return linkTo(methodOn(SubEspecialidadeController.class)
-				.buscarSubEspecialidadeAssistenteSocial(codigoAssistenteSocial)).withRel(rel);
+	public Link linkToSubEspecialidades(Long especialidadeId ,String rel) {
+		return linkTo(methodOn(SubEspecialidadeController.class).listar(especialidadeId)).withRel(rel);
 	}
 
 	public Link linkToEspecialidade(Long especialidadeId, String rel) {
@@ -168,7 +152,7 @@ public class PvasLinks {
 	}
 
 	public Link linkToEspecialidade(Long especialidadeId) {
-		return linkToSubEspecialidade(especialidadeId, IanaLinkRelations.SELF.value());
+		return linkToEspecialidade(especialidadeId, IanaLinkRelations.SELF.value());
 	}
 
 	public Link linkToEspecialidades(String rel) {
@@ -179,8 +163,8 @@ public class PvasLinks {
 		return linkToEspecialidades(IanaLinkRelations.SELF.value());
 	}
 
-	public Link linkToCursosAssistenteSocial(String codigoAssistenteSocial, String rel) {
-		return linkTo(methodOn(CursoController.class).buscarCursosAssistenteSocial(codigoAssistenteSocial))
+	public Link linkToCursosDoCurriculo(Long curriculoId, String rel) {
+		return linkTo(methodOn(CursoController.class).buscarCursosDoCurriculo(curriculoId))
 				.withRel(rel);
 	}
 
@@ -216,9 +200,9 @@ public class PvasLinks {
 		return linkToExperienciasProfissionais(IanaLinkRelations.SELF.value());
 	}
 
-	public Link linkToExperienciaProfissionalDaAssistenteSocial(String codigoAssitenteSocial, String rel) {
-		return linkTo(methodOn(ExperienciaProfissionalController.class)
-				.buscarExperienciaProfissionalsDaAssistenteSocial(codigoAssitenteSocial)).withRel(rel);
+	public Link linkToExperienciaProfissionalDoCurriculo(Long curriculoId, String rel) {
+		return linkTo(methodOn(ExperienciaProfissionalController.class).buscarExperienciaProfissionalsDoCurriculo(curriculoId))
+				.withRel(rel);
 	}
 
 	public Link linkToCidade(Long cidadeId, String rel) {
@@ -253,13 +237,13 @@ public class PvasLinks {
 		return linkToEstados(IanaLinkRelations.SELF.value());
 	}
 
-	public Link linkToFotoAssistenteSocial(String codigoAssitenteSocial, String rel) {
-		return linkTo(methodOn(AssistenteSocialFotoController.class).servirFoto(codigoAssitenteSocial,
+	public Link linkToFotoProfissionais(String codigoAssitenteSocial, String rel) {
+		return linkTo(methodOn(ProfissionalFotoController.class).servirFoto(codigoAssitenteSocial,
 				MediaType.APPLICATION_JSON_VALUE)).withRel(rel);
 	}
 
-	public Link linkToFotoAssistenteSocial(String codigoAssitenteSocial) {
-		return linkToFotoAssistenteSocial(codigoAssitenteSocial, IanaLinkRelations.SELF.value());
+	public Link linkToFotoProfissionais(String codigoAssitenteSocial) {
+		return linkToFotoProfissionais(codigoAssitenteSocial, IanaLinkRelations.SELF.value());
 	}
 
 	public Link linkToGrupo(Long grupoId, String rel) {
@@ -278,9 +262,9 @@ public class PvasLinks {
 		return linkToGrupos(IanaLinkRelations.SELF.value());
 	}
 
-	public Link linkToGrupoAssistenteSocial(String codigoAssitenteSocial, String rel) {
-		return linkTo(methodOn(GrupoController.class).buscarGruposAssistenteSocial(codigoAssitenteSocial)).withRel(rel);
-	}
+//	public Link linkToGrupoProfissionais(String codigoAssitenteSocial, String rel) {
+//		return linkTo(methodOn(GrupoController.class).buscarGruposProfissionais(codigoAssitenteSocial)).withRel(rel);
+//	}
 
 	public Link linkToGrupoPermissoes(Long grupoId, String rel) {
 		return linkTo(methodOn(GrupoPermissaoController.class).listar(grupoId)).withRel(rel);
@@ -302,25 +286,64 @@ public class PvasLinks {
 		return linkTo(EstatisticasController.class).withRel(rel);
 	}
 
-	public Link linkToAssistenteSocialEstatisticas(String rel) {
-		TemplateVariables filtroVariables = new TemplateVariables(
-				new TemplateVariable("estadoId", VariableType.REQUEST_PARAM),
-				new TemplateVariable("dataCadastro", VariableType.REQUEST_PARAM),
-				new TemplateVariable("dataIntivacao", VariableType.REQUEST_PARAM),
-				new TemplateVariable("timeOffset", VariableType.REQUEST_PARAM));
-
-		String assistenteSocialEstatisticasUrl = linkTo(
-				methodOn(EstatisticasController.class).consultarAssistenteSocialEstatisticas(null, null)).toUri()
-						.toString();
-
-		return Link.of(UriTemplate.of(assistenteSocialEstatisticasUrl, filtroVariables), rel);
-	}
+//	public Link linkToProfissionaisEstatisticas(String rel) {
+//		TemplateVariables filtroVariables = new TemplateVariables(
+//				new TemplateVariable("estadoId", VariableType.REQUEST_PARAM),
+//				new TemplateVariable("dataCadastro", VariableType.REQUEST_PARAM),
+//				new TemplateVariable("dataIntivacao", VariableType.REQUEST_PARAM),
+//				new TemplateVariable("timeOffset", VariableType.REQUEST_PARAM));
+//
+//		String assistenteSocialEstatisticasUrl = linkTo(
+//				methodOn(EstatisticasController.class).consultarProfissionaisEstatisticas(null, null)).toUri()
+//						.toString();
+//
+//		return Link.of(UriTemplate.of(assistenteSocialEstatisticasUrl, filtroVariables), rel);
+//	}
 	
 	
 	public Link linkToEndereco(String cep, String rel) {
 		return linkTo(methodOn(EnderecoController.class).buscar(cep)).withRel(rel);
 	}
 	
+	public Link linkToCurriculo(Long curriculoId, String rel) {
+		return linkTo(methodOn(CurriculoController.class).buscar(curriculoId)).withRel(rel);
+	}
+
+	public Link linkToCurriculo(Long curriculoId) {
+		return linkToCurriculo(curriculoId, IanaLinkRelations.SELF.value());
+	}
+
+	public Link linkToCurriculos(String rel) {
+		return linkTo(CurriculoController.class).withRel(rel);
+	}
+
+	public Link linkToCurriculos() {
+		return linkToCurriculos(IanaLinkRelations.SELF.value());
+	}
 	
+	public Link linkToProfissao(Long profissaoId, String rel) {
+		return linkTo(methodOn(ProfissaoController.class).buscar(profissaoId)).withRel(rel);
+	}
+
+	public Link linkToProfissao(Long profissaoId) {
+		return linkToProfissao(profissaoId, IanaLinkRelations.SELF.value());
+	}
+
+	public Link linkToProfissoes(String rel) {
+		return linkTo(ProfissaoController.class).withRel(rel);
+	}
+
+	public Link linkToProfissoes() {
+		return linkToSexos(IanaLinkRelations.SELF.value());
+	}
+	
+	public Link linkToFotoDoProfissional(String codigoDoProfissional, String rel) {
+		return linkTo(methodOn(ProfissionalFotoController.class).servirFoto(codigoDoProfissional,
+				MediaType.APPLICATION_JSON_VALUE)).withRel(rel);
+	}
+
+	public Link linkToFotoDoProfissional(String codigoAssitenteSocial) {
+		return linkToFotoDoProfissional(codigoAssitenteSocial, IanaLinkRelations.SELF.value());
+	}
 
 }

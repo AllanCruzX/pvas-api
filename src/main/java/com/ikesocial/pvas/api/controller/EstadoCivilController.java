@@ -24,16 +24,16 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
-@RequestMapping(path = "/assistentes-sociais/estados-civis", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = "/profissionais/estados-civis", produces = MediaType.APPLICATION_JSON_VALUE)
 public class EstadoCivilController implements EstadoCivilControllerOpenApi {
 
 	@Autowired
 	private EstadoCivilModelAssembler estadoCivilModelAssembler;
 
-	@CheckSecurity.AssistentesSociais.EstaAutorizado
+	@CheckSecurity.Profissionais.EstaAutorizado
 	@GetMapping
-	public ResponseEntity<CollectionModel<EstadoCivilModel>> listarEstadosCivis() {
-		log.info("Consultando estados civis");
+	public ResponseEntity<CollectionModel<EstadoCivilModel>> listar() {
+		log.info("C=EstadoCivilController,M=listar, Consultando estados civis");
 
 		List<EstadoCivil> estadosCivis = EstadoCivil.valores();
 
@@ -46,9 +46,11 @@ public class EstadoCivilController implements EstadoCivilControllerOpenApi {
 				.body(estadosCivisModel);
 	}
 
-	@CheckSecurity.AssistentesSociais.EstaAutorizado
+	@CheckSecurity.Profissionais.EstaAutorizado
 	@GetMapping("/{estadoCivilId}")
 	public EstadoCivilModel buscar(@PathVariable Long estadoCivilId) {
+		log.info("C=EstadoCivilController,M=buscar, buscando estado civil com id{}", estadoCivilId);
+		
 		EstadoCivil estadoCivil = EstadoCivil.getById(estadoCivilId);
 
 		return estadoCivilModelAssembler.toModel(estadoCivil);

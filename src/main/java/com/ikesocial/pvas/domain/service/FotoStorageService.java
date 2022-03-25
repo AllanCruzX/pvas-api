@@ -6,6 +6,7 @@ import java.util.UUID;
 import lombok.Builder;
 import lombok.Getter;
 
+
 public interface FotoStorageService {
 	
 	FotoRecuperada recuperar(String nomeArquivo);
@@ -15,6 +16,7 @@ public interface FotoStorageService {
 	void remover(String nomeArquivo);
 
 	default void substituir(String nomeArquivoAntigo, NovaFoto novaFoto) {
+	
 		this.armazenar(novaFoto);
 
 		if (nomeArquivoAntigo != null) {

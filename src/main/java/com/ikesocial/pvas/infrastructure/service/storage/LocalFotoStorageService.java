@@ -9,6 +9,9 @@ import org.springframework.util.FileCopyUtils;
 import com.ikesocial.pvas.core.storage.StorageProperties;
 import com.ikesocial.pvas.domain.service.FotoStorageService;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class LocalFotoStorageService implements FotoStorageService{
 
 	@Autowired
@@ -16,6 +19,8 @@ public class LocalFotoStorageService implements FotoStorageService{
 	
 	@Override
 	public void armazenar(NovaFoto novaFoto) {
+		log.info("C=LocalFotoStorageService,M=armazenar, armazendo a foto {}",novaFoto.getNomeAquivo());
+		
 		try {
 			Path arquivoPath = getArquivoPath(novaFoto.getNomeAquivo());
 			
@@ -28,6 +33,7 @@ public class LocalFotoStorageService implements FotoStorageService{
 	
 	@Override
 	public void remover(String nomeArquivo) {
+		log.info("C=LocalFotoStorageService,M=remover, removendo a foto {}",nomeArquivo);
 		try {
 			Path arquivoPath = getArquivoPath(nomeArquivo);
 			
@@ -39,6 +45,8 @@ public class LocalFotoStorageService implements FotoStorageService{
 	
 	@Override
 	public FotoRecuperada recuperar(String nomeArquivo) {
+		log.info("C=LocalFotoStorageService,M=recuperar, recuperando a foto {}",nomeArquivo);
+		
 	    try {
 	        Path arquivoPath = getArquivoPath(nomeArquivo);
 	        
@@ -53,7 +61,11 @@ public class LocalFotoStorageService implements FotoStorageService{
 	} 
 	
 	private Path getArquivoPath(String nomeArquivo) {
-		return storageProperties.getLocal().getDiretorioFotos().resolve(Path.of(nomeArquivo));
+		log.info("C=LocalFotoStorageService,M=getArquivoPath, recuperando a foto {}",nomeArquivo);
+		
+		return storageProperties.getLocal()
+				.getDiretorioFotos()
+				.resolve(Path.of(nomeArquivo));
 	}
 	
 

@@ -10,25 +10,25 @@ import javax.persistence.criteria.Predicate;
 
 import org.springframework.stereotype.Repository;
 
-import com.ikesocial.pvas.domain.filter.AssistenteSocialEstatisticaFilter;
+import com.ikesocial.pvas.domain.dto.ProfissionalEstatistica;
+import com.ikesocial.pvas.domain.filter.ProfissionalEstatisticaFilter;
+import com.ikesocial.pvas.domain.model.Profissional;
 import com.ikesocial.pvas.domain.model.Endereco;
-import com.ikesocial.pvas.domain.model.AssistenteSocial;
-import com.ikesocial.pvas.domain.model.dto.AssistenteSocialEstatistica;
-import com.ikesocial.pvas.domain.service.AssistenteSocialQueryService;
+import com.ikesocial.pvas.domain.service.ProfissionalQueryService;
 
 @Repository
-public class AssistenteSocialQueryServiceImpl implements AssistenteSocialQueryService {
+public class AssistenteSocialQueryServiceImpl implements ProfissionalQueryService {
 
 	@PersistenceContext
 	private EntityManager manager;
 	
 	@Override
-	public List<AssistenteSocialEstatistica> consultarAssistenteSocialEstatisticas(
-			AssistenteSocialEstatisticaFilter filtro , String timeOffset) {
+	public List<ProfissionalEstatistica> consultarProfissionalEstatisticas(
+			ProfissionalEstatisticaFilter filtro , String timeOffset) {
 
 		var builder = manager.getCriteriaBuilder();
-		var query = builder.createQuery(AssistenteSocialEstatistica.class);
-		var root = query.from(AssistenteSocial.class);
+		var query = builder.createQuery(ProfissionalEstatistica.class);
+		var root = query.from(Profissional.class);
 		var predicates = new ArrayList<Predicate>();
 		
 //		var functionConvertTzDataCadastro = builder.function(
@@ -39,7 +39,7 @@ public class AssistenteSocialQueryServiceImpl implements AssistenteSocialQuerySe
 //				"convert_tz", Date.class, root.get("dataIntivacao"),
 //				builder.literal("+00:00"), builder.literal(timeOffset));
 
-		var selection = builder.construct(AssistenteSocialEstatistica.class, 
+		var selection = builder.construct(ProfissionalEstatistica.class, 
 				builder.count(root.get("id")),
 				root.get("ativo"));
 		
@@ -64,7 +64,7 @@ public class AssistenteSocialQueryServiceImpl implements AssistenteSocialQuerySe
 			
 			if(filtro.getEstadoId() != null) {
 				
-				Join<Endereco, AssistenteSocial> joinEstadoPessoaFisica = root.join("enderecos").join("cidade").join("estado");
+				Join<Endereco, Profissional> joinEstadoPessoaFisica = root.join("enderecos").join("cidade").join("estado");
 				predicates.add(builder.equal((joinEstadoPessoaFisica).get("id"), filtro.getEstadoId()));
 				
 			}

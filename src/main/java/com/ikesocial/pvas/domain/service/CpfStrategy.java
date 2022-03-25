@@ -7,21 +7,21 @@ import org.springframework.stereotype.Service;
 
 import com.ikesocial.pvas.domain.builder.DocumentoBuilder;
 import com.ikesocial.pvas.domain.exception.NegocioException;
-import com.ikesocial.pvas.domain.model.AssistenteSocial;
 import com.ikesocial.pvas.domain.model.Documento;
+import com.ikesocial.pvas.domain.model.Profissional;
 import com.ikesocial.pvas.domain.model.enums.TipoDocumento;
-import com.ikesocial.pvas.domain.repository.AssistenteSocialRepository;
+import com.ikesocial.pvas.domain.repository.ProfissionalRepository;
 
 @Service
 public class CpfStrategy implements DocumentoStrategy {
 
 	@Autowired
-	private AssistenteSocialRepository assistenteSocialRepository;
+	private ProfissionalRepository profissionalRepository;
 
 	@Override
-	public Documento definirDocumento(Documento documento, AssistenteSocial assistenteSocial) {
+	public Documento definirDocumento(Documento documento, Profissional profissional) {
 
-		validaCpfExistente(documento, assistenteSocialRepository);
+		validaCpfExistente(documento, profissionalRepository);
 
 		Documento documentoNovo = null;
 
@@ -30,7 +30,7 @@ public class CpfStrategy implements DocumentoStrategy {
 			documentoNovo = new DocumentoBuilder()
 					.comCodigo(documento.getCodigo())
 					.comTipoDocumento(TipoDocumento.CPF)
-					.comPessoaFisica(assistenteSocial)
+					.comPessoaFisica(profissional)
 					.construir();
 
 		} else {
@@ -39,7 +39,7 @@ public class CpfStrategy implements DocumentoStrategy {
 					.comId(documento.getId())
 					.comCodigo(documento.getCodigo())
 					.comTipoDocumento(TipoDocumento.CPF)
-					.comPessoaFisica(assistenteSocial)
+					.comPessoaFisica(profissional)
 					.construir();
 
 		}
@@ -47,13 +47,13 @@ public class CpfStrategy implements DocumentoStrategy {
 		return documentoNovo;
 	}
 
-	private void validaCpfExistente(Documento documento, AssistenteSocialRepository assistenteSocialRepository) {
+	private void validaCpfExistente(Documento documento, ProfissionalRepository profissionalRepository) {
 
-		Optional<Documento> cpfExistente = assistenteSocialRepository.buscarCPF(documento.getCodigo());
+		Optional<Documento> cpfExistente = profissionalRepository.buscarCPF(documento.getCodigo());
 
 		if (cpfExistente.isPresent() && !cpfExistente.get().equals(documento)) {
 			throw new NegocioException(
-					String.format("Já existe uma pessoa física cadastrado com o CPF %s", documento.getCodigo()));
+					String.format("Já existe um profissional cadastrado com o CPF %s", documento.getCodigo()));
 		}
 
 	}

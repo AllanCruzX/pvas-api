@@ -10,7 +10,6 @@ import lombok.Setter;
 @Getter
 public class ExperienciaProfissionalIdInput {
 	
-	
 	@ApiModelProperty(example = "1")
 	@NotNull
 	private Long id;

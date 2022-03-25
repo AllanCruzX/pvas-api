@@ -6,21 +6,19 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Component;
 
-import com.ikesocial.pvas.domain.repository.AssistenteSocialRepository;
-import com.ikesocial.pvas.domain.repository.CursoRepository;
-import com.ikesocial.pvas.domain.repository.ExperienciaProfissionalRepository;
+import com.ikesocial.pvas.domain.repository.ProfissionalRepository;
 
 @Component
 public class PvasSecurity {
 
 	@Autowired
-	private AssistenteSocialRepository assistenteSocialRepository;
+	private ProfissionalRepository profissionalRepository;
 
-	@Autowired
-	private CursoRepository cursoRepository;
-
-	@Autowired
-	private ExperienciaProfissionalRepository experienciaProfissionalRepository;
+//	@Autowired
+//	private CursoRepository cursoRepository;
+//
+//	@Autowired
+//	private ExperienciaProfissionalRepository experienciaProfissionalRepository;
 
 	public Authentication getAuthentication() {
 		return SecurityContextHolder.getContext().getAuthentication();
@@ -32,32 +30,32 @@ public class PvasSecurity {
 		return jwt.getClaim("usuario_codigo");
 	}
 
-	public boolean oAssistenteSocialPodeGereciarSeuDados(String codigoAssistenteSocial) {
+	public boolean oProfissionalPodeGereciarSeuDados(String codigoDoProfissional) {
 
-		return codigoAssistenteSocial != null && getUsuarioCodigo() != null
-				&& assistenteSocialRepository.existeAssitenteSocialNoBanco(codigoAssistenteSocial)
-				&& codigoAssistenteSocial.equals(getUsuarioCodigo());
+		return codigoDoProfissional != null && getUsuarioCodigo() != null
+				&& profissionalRepository.existeProfissionalNoBanco(codigoDoProfissional)
+				&& codigoDoProfissional.equals(getUsuarioCodigo());
 	}
 
-	public boolean oAssistenteSocialPodeGereciarSeuCurso(Long cursoId) {
+//	public boolean oProfissionalPodeGereciarSeuCurso(Long cursoId) {
+//
+//		return cursoId != null && cursoRepository.existeNoBanco(getUsuarioCodigo(), cursoId);
+//
+//	}
 
-		return cursoId != null && cursoRepository.existeNoBanco(getUsuarioCodigo(), cursoId);
-
-	}
-
-	public boolean oAssistenteSocialPodeGereciarSuaExperieciaProfissional(Long experienciaProfissionalId) {
-
-		return experienciaProfissionalRepository.existeNoBanco(getUsuarioCodigo(), experienciaProfissionalId);
-
-	}
+//	public boolean oProfissionalPodeGereciarSuaExperieciaProfissional(Long experienciaProfissionalId) {
+//
+//		return experienciaProfissionalRepository.existeNoBanco(getUsuarioCodigo(), experienciaProfissionalId);
+//
+//	}
 
 	public boolean hasAuthority(String authorityName) {
 		return getAuthentication().getAuthorities().stream()
 				.anyMatch(authority -> authority.getAuthority().equals(authorityName));
 	}
 
-	public boolean podeConsultarAssistentesSociais() {
-		return hasAuthority("CONSULTAR_ASSISTENTE_SOCIAIS");
+	public boolean podeConsultarProfissionais() {
+		return hasAuthority("CONSULTAR_PROFISSIONAIS");
 	}
 
 	public boolean podeConsultarGruposPermissoes() {

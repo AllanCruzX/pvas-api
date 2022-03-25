@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 
 import com.ikesocial.pvas.api.model.input.ExperienciaProfissionalInput;
 import com.ikesocial.pvas.domain.model.ExperienciaProfissional;
-import com.ikesocial.pvas.domain.model.AssistenteSocial;
 
 @Component
 public class ExperienciaProfissionalInputDisassembler {
@@ -21,8 +20,6 @@ public class ExperienciaProfissionalInputDisassembler {
 
 	public void copyToDomainObject(ExperienciaProfissionalInput experienciaProfissionalInput,
 			ExperienciaProfissional experienciaProfissional) {
-
-		experienciaProfissional.setAssistenteSocial(new AssistenteSocial());
 
 		modelMapper.map(experienciaProfissionalInput, experienciaProfissional);
 	}

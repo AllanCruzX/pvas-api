@@ -1,7 +1,5 @@
 package com.ikesocial.pvas.api.controller;
 
-import java.util.Set;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.MediaType;
@@ -14,57 +12,39 @@ import com.ikesocial.pvas.api.assembler.SubEspecialidadeModelAssembler;
 import com.ikesocial.pvas.api.model.output.SubEspecialidadeModel;
 import com.ikesocial.pvas.api.openapi.controller.SubEspecialidadeControllerOpenApi;
 import com.ikesocial.pvas.core.security.CheckSecurity;
-import com.ikesocial.pvas.domain.exception.AssistenteSocialNaoEncontradoException;
-import com.ikesocial.pvas.domain.exception.NegocioException;
-import com.ikesocial.pvas.domain.model.SubEspecialidade;
-import com.ikesocial.pvas.domain.repository.SubEspecialidadeRepository;
-import com.ikesocial.pvas.domain.service.CadastroSubEspecialidadeService;
+import com.ikesocial.pvas.domain.service.SubEspecialidadeService;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @RestController
-@RequestMapping(path = "/sub-especialidades", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = "curriculos/sub-especialidades", produces = MediaType.APPLICATION_JSON_VALUE)
 public class SubEspecialidadeController implements SubEspecialidadeControllerOpenApi {
 
 	@Autowired
-	private SubEspecialidadeRepository subEspecialidadeRepository;
-
-	@Autowired
-	private CadastroSubEspecialidadeService cadastroSubEspecialidadeService;
+	private SubEspecialidadeService subEspecialidadeService;
 
 	@Autowired
 	private SubEspecialidadeModelAssembler subEspecialidadeModelAssembler;
 
-	@CheckSecurity.AssistentesSociais.EstaAutorizado
-	@GetMapping
-	public CollectionModel<SubEspecialidadeModel> listar() {
-		return subEspecialidadeModelAssembler.toCollectionModel(subEspecialidadeRepository.findAll());
+	@CheckSecurity.Profissionais.EstaAutorizado
+	@GetMapping("/especialidade/{especialidadeId}")
+	public CollectionModel<SubEspecialidadeModel> listar(@PathVariable Long especialidadeId) {
+		log.info("C=EspecialidadeController,M=listar, Consultando sub-especialidades pela especialidade de id {}" , especialidadeId);
+
+		
+		return subEspecialidadeModelAssembler.toCollectionModel(subEspecialidadeService.listarPorEspecialidade(especialidadeId));
 	}
 
-	@CheckSecurity.AssistentesSociais.EstaAutorizado
+	@CheckSecurity.Profissionais.EstaAutorizado
 	@GetMapping("/{subEspecialidadeId}")
 	public SubEspecialidadeModel buscar(@PathVariable Long subEspecialidadeId) {
+		log.info("C=EspecialidadeController,M=buscar, Consultando sub-especialidades de id {}" , subEspecialidadeId);
+
 
 		return subEspecialidadeModelAssembler
-				.toModel(cadastroSubEspecialidadeService.buscarOuFalhar(subEspecialidadeId));
+				.toModel(subEspecialidadeService.buscarOuFalhar(subEspecialidadeId));
 
-	}
-
-	@CheckSecurity.AssistentesSociais.EstaAutorizadoPersonalizado
-	@GetMapping("/assistente-social/{codigoAssistenteSocial}")
-	public CollectionModel<SubEspecialidadeModel> buscarSubEspecialidadeAssistenteSocial(
-			@PathVariable String codigoAssistenteSocial) {
-
-		Set<SubEspecialidade> subEspecialidades = null;
-
-		try {
-
-			subEspecialidades = cadastroSubEspecialidadeService
-					.listarSubEspecialidadeAssistenteSocial(codigoAssistenteSocial);
-
-		} catch (AssistenteSocialNaoEncontradoException e) {
-			throw new NegocioException(e.getMessage(), e);
-		}
-
-		return subEspecialidadeModelAssembler.toCollectionModel(subEspecialidades);
 	}
 
 }

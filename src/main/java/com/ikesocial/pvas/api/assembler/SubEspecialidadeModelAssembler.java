@@ -31,7 +31,7 @@ public class SubEspecialidadeModelAssembler  extends RepresentationModelAssemble
 		SubEspecialidadeModel subEspecialidadeModel = createModelWithId(subEspecialidade.getId(),	subEspecialidade);
 		modelMapper.map(subEspecialidade, subEspecialidadeModel);
 		
-		subEspecialidadeModel.add(pvasLinks.linkToSubEspecialidades("subs-especialidades"));
+		subEspecialidadeModel.add(pvasLinks.linkToSubEspecialidades(subEspecialidade.getEspecialidade().getId(),"subs-especialidades"));
 
 		subEspecialidadeModel.getEspecialidade().add(pvasLinks.linkToEspecialidade(subEspecialidadeModel.getEspecialidade().getId()));
 		

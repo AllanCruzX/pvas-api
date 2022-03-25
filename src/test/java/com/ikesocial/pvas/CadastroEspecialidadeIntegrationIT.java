@@ -14,7 +14,6 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.ikesocial.pvas.domain.model.Especialidade;
-import com.ikesocial.pvas.domain.repository.EspecialidadeRepository;
 import com.ikesocial.pvas.util.DatabaseCleaner;
 import com.ikesocial.pvas.util.ResourceUtils;
 
@@ -34,8 +33,8 @@ class CadastroEspecialidadeIntegrationIT {
 	@Autowired
 	private DatabaseCleaner databaseCleaner;
 	
-	@Autowired
-	private EspecialidadeRepository especialidadeRepository;
+//	@Autowired
+//	private EspecialidadeRepository especialidadeRepository;
 	
 	private Especialidade especialidadeAssistencia;
 	private String jsonCorretoEspecialidadeSaude;
@@ -141,13 +140,13 @@ class CadastroEspecialidadeIntegrationIT {
 	private void prepararDados() {
 		Especialidade especialidadeEducacao = new Especialidade();
 		especialidadeEducacao.setNome("EDUCACAO");
-		especialidadeRepository.save(especialidadeEducacao);
+		//especialidadeRepository.save(especialidadeEducacao);
 		
 		especialidadeAssistencia = new Especialidade();
 		especialidadeAssistencia.setNome("ASSISTENCIA");
-		especialidadeRepository.save(especialidadeAssistencia);
+	//	especialidadeRepository.save(especialidadeAssistencia);
 		
-		this.quantidadeEspecialidadesCadastradas = (int) especialidadeRepository.count();
+		//this.quantidadeEspecialidadesCadastradas = (int) especialidadeRepository.count();
 		
 	}
 

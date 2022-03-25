@@ -1,144 +1,59 @@
 package com.ikesocial.pvas.api.controller;
 
-import java.util.List;
-
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ikesocial.pvas.api.ResourceUriHelper;
 import com.ikesocial.pvas.api.assembler.ExperienciaProfissionalModelAssembler;
-import com.ikesocial.pvas.api.assembler.disassembler.ExperienciaProfissionalInputDisassembler;
-import com.ikesocial.pvas.api.model.input.ExperienciaProfissionalInput;
 import com.ikesocial.pvas.api.model.output.ExperienciaProfissionalModel;
 import com.ikesocial.pvas.api.openapi.controller.ExperienciaProfissionalControllerOpenApi;
 import com.ikesocial.pvas.core.security.CheckSecurity;
-import com.ikesocial.pvas.domain.exception.AssistenteSocialNaoEncontradoException;
+import com.ikesocial.pvas.domain.exception.CurriculoNaoEncontradoException;
 import com.ikesocial.pvas.domain.exception.NegocioException;
-import com.ikesocial.pvas.domain.model.ExperienciaProfissional;
-import com.ikesocial.pvas.domain.repository.ExperienciaProfissionalRepository;
-import com.ikesocial.pvas.domain.service.CadastroAssistenteSocialService;
-import com.ikesocial.pvas.domain.service.CadastroExperienciaProfissionalService;
+import com.ikesocial.pvas.domain.service.ExperienciaProfissionalService;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
-@RequestMapping(path = "/experiencias-proficionais", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = "/curriculos/experiencias-proficionais", produces = MediaType.APPLICATION_JSON_VALUE)
 public class ExperienciaProfissionalController implements ExperienciaProfissionalControllerOpenApi {
-
+	
 	@Autowired
-	private ExperienciaProfissionalRepository experienciaProfissionalRepository;
-
-	@Autowired
-	private CadastroExperienciaProfissionalService cadastroExperienciaProfissionalService;
+	private ExperienciaProfissionalService experienciaProfissionalService;
 
 	@Autowired
 	private ExperienciaProfissionalModelAssembler experienciaProfissionalModelAssembler;
 
-	@Autowired
-	private ExperienciaProfissionalInputDisassembler experienciaProfissionalInputDisassembler;
-
-	@Autowired
-	private CadastroAssistenteSocialService cadastroAssistenteSocialService;
-
 	@CheckSecurity.ExperienciasProfissionais.PodeBuscar
 	@GetMapping("/{experienciaProfissionalId}")
 	public ExperienciaProfissionalModel buscar(@PathVariable Long experienciaProfissionalId) {
-		log.info("Buscando experiancia profissional do id {}", experienciaProfissionalId);
+		log.info("C=ExperienciaProfissionalController, M=buscar, Buscando experiancia profissional do id {}",experienciaProfissionalId);
 		
 		return experienciaProfissionalModelAssembler
-				.toModel(cadastroExperienciaProfissionalService.buscarOuFalhar(experienciaProfissionalId));
+				.toModel(experienciaProfissionalService.buscarOuFalhar(experienciaProfissionalId));
 	}
 
 	@CheckSecurity.ExperienciasProfissionais.PodeBuscarPersonalizado
-	@GetMapping("/assitente-social/{codigoAssistenteSocial}")
-	public CollectionModel<ExperienciaProfissionalModel> buscarExperienciaProfissionalsDaAssistenteSocial(
-			@PathVariable String codigoAssistenteSocial) {
-		
-		log.info("Buscando experiancia profissional do assistente social de codigo {}", codigoAssistenteSocial);
+	@GetMapping("/curriculo/{curriculoId}")
+	public CollectionModel<ExperienciaProfissionalModel> buscarExperienciaProfissionalsDoCurriculo(
+			@PathVariable Long curriculoId) {
+		log.info("C=ExperienciaProfissionalController, M=buscarExperienciaProfissionalsDoCurriculo, Buscando experiancia  com o id do curriculo {}",curriculoId);
 
 		try {
-			cadastroAssistenteSocialService.buscarOuFalhar(codigoAssistenteSocial);
-			
-			List<ExperienciaProfissional> experienciasProfissionais = experienciaProfissionalRepository.lirtarExperienciaProfissionalDaAssistenteSocial(codigoAssistenteSocial);
 
-			CollectionModel<ExperienciaProfissionalModel> experienciasProfissionaisModel = experienciaProfissionalModelAssembler.toCollectionModel(experienciasProfissionais);
+			CollectionModel<ExperienciaProfissionalModel> experienciasProfissionaisModel = experienciaProfissionalModelAssembler
+					.toCollectionModel(
+							experienciaProfissionalService.listarExperienciasProfissionaisPorCurriculo(curriculoId));
 
 			return experienciasProfissionaisModel;
-		} catch (AssistenteSocialNaoEncontradoException e) {
-
+		} catch (CurriculoNaoEncontradoException e) {
 			throw new NegocioException(e.getMessage(), e);
 		}
-	}
-
-	@CheckSecurity.ExperienciasProfissionais.PodeCadastrar
-	@PostMapping
-	@ResponseStatus(HttpStatus.CREATED)
-	public ExperienciaProfissionalModel adicionar(
-			@RequestBody @Valid ExperienciaProfissionalInput experienciaProfissionalInput) {
-
-		try {
-
-			ExperienciaProfissional experienciaProfissional = experienciaProfissionalInputDisassembler
-					.toDomainObject(experienciaProfissionalInput);
-			experienciaProfissional = cadastroExperienciaProfissionalService.salvar(experienciaProfissional);
-			
-			log.info("Criando experiancia profissional do id {}", experienciaProfissional.getId());
-
-			ExperienciaProfissionalModel experienciaProfissionalModel = experienciaProfissionalModelAssembler
-					.toModel(experienciaProfissional);
-
-			ResourceUriHelper.addUriInResponseHeader(experienciaProfissionalModel.getId());
-
-			return experienciaProfissionalModel;
-		} catch (AssistenteSocialNaoEncontradoException e) {
-			throw new NegocioException(e.getMessage(), e);
-		}
-
-	}
-
-	@CheckSecurity.ExperienciasProfissionais.PodeEditar
-	@PutMapping("/{experienciaProfissionalId}")
-	public ExperienciaProfissionalModel atualizar(@PathVariable Long experienciaProfissionalId,
-			@RequestBody @Valid ExperienciaProfissionalInput experienciaProfissionalInput) {
-		log.info("Atualizando experiancia profissional do id {}", experienciaProfissionalId);
-		
-		try {
-
-			ExperienciaProfissional experienciaProfissionalAtual = cadastroExperienciaProfissionalService
-					.buscarOuFalhar(experienciaProfissionalId);
-
-			experienciaProfissionalInputDisassembler.copyToDomainObject(experienciaProfissionalInput,
-					experienciaProfissionalAtual);
-
-			experienciaProfissionalAtual = cadastroExperienciaProfissionalService.salvar(experienciaProfissionalAtual);
-			return experienciaProfissionalModelAssembler.toModel(experienciaProfissionalAtual);
-
-		} catch (AssistenteSocialNaoEncontradoException e) {
-			throw new NegocioException(e.getMessage(), e);
-		}
-	}
-
-	@CheckSecurity.ExperienciasProfissionais.PodeExcluir
-	@DeleteMapping("/{experienciaProfissionalId}")
-	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void remover(@PathVariable Long experienciaProfissionalId) {
-		log.info("Excluindo experiancia profissional do id {}", experienciaProfissionalId);
-		
-		cadastroExperienciaProfissionalService.excluir(experienciaProfissionalId);
 	}
 
 }

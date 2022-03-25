@@ -1,7 +1,6 @@
 package com.ikesocial.pvas.api.controller;
 
 import java.util.List;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,29 +17,28 @@ import com.ikesocial.pvas.api.assembler.EspecializacaoModelAssembler;
 import com.ikesocial.pvas.api.model.output.EspecializacaoModel;
 import com.ikesocial.pvas.api.openapi.controller.EspecializacaoControllerOpenApi;
 import com.ikesocial.pvas.core.security.CheckSecurity;
-import com.ikesocial.pvas.domain.exception.AssistenteSocialNaoEncontradoException;
-import com.ikesocial.pvas.domain.exception.NegocioException;
 import com.ikesocial.pvas.domain.model.Especializacao;
-import com.ikesocial.pvas.domain.repository.EspecializacaoRepository;
-import com.ikesocial.pvas.domain.service.CadastroEspecializacaoService;
+import com.ikesocial.pvas.domain.service.EspecializacaoService;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @RestController
-@RequestMapping(path = "/especializacoes", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = "/curriculos/especializacoes", produces = MediaType.APPLICATION_JSON_VALUE)
 public class EspecializacaoController implements EspecializacaoControllerOpenApi  {
 
 	@Autowired
-	private EspecializacaoRepository especializacaoRepository;
-
-	@Autowired
-	private CadastroEspecializacaoService cadastroEspecializacaoService;
+	private EspecializacaoService especializacaoService;
 	
 	@Autowired
 	private EspecializacaoModelAssembler especializacaoModelAssembler;
 	
-	@CheckSecurity.AssistentesSociais.EstaAutorizado
+	@CheckSecurity.Profissionais.EstaAutorizado
 	@GetMapping
 	public ResponseEntity<CollectionModel<EspecializacaoModel>> listar(){
-		 List<Especializacao> especializacoes = (List<Especializacao>) especializacaoRepository.findAll();
+		log.info("C=EspecializacaoController, M=listar, buscando especializacoes ");
+		
+		 List<Especializacao> especializacoes = especializacaoService.listar();
 		 
 		 CollectionModel<EspecializacaoModel> especializacoesModel = especializacaoModelAssembler.toCollectionModel(especializacoes);
 		 
@@ -49,28 +47,12 @@ public class EspecializacaoController implements EspecializacaoControllerOpenApi
 					.body(especializacoesModel);
 	}
 
-	@CheckSecurity.AssistentesSociais.EstaAutorizado
+	@CheckSecurity.Profissionais.EstaAutorizado
 	@GetMapping("/{especializacaoId}")
 	public EspecializacaoModel buscar(@PathVariable Long especializacaoId) {
+		log.info("C=EspecializacaoController, M=buscar, buscando especializacao de id {}", especializacaoId);
 
-		return especializacaoModelAssembler.toModel(cadastroEspecializacaoService.buscarOuFalhar(especializacaoId));
-	}
-	
-	@CheckSecurity.AssistentesSociais.EstaAutorizadoPersonalizado
-	@GetMapping("/assistente-social/{codigoAssistenteSocial}")
-	public CollectionModel<EspecializacaoModel> buscarEspecializacoesAssistenteSocial(@PathVariable String codigoAssistenteSocial) {
-		
-		Set<Especializacao> especializacoes = null;
-		
-		try {
-			
-			especializacoes = cadastroEspecializacaoService.lietarEspecializacoesAssistenteSocial(codigoAssistenteSocial);
-			
-		} catch (AssistenteSocialNaoEncontradoException e) {
-			throw new NegocioException(e.getMessage(), e);
-		}
-
-		return especializacaoModelAssembler.toCollectionModel(especializacoes);
+		return especializacaoModelAssembler.toModel(especializacaoService.buscarOuFalhar(especializacaoId));
 	}
 
 }

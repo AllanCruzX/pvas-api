@@ -39,7 +39,7 @@ public class EstadoController implements EstadoControllerOpenApi {
 	@Autowired
 	private EstadoModelAssembler estadoModelAssembler;
 
-	@CheckSecurity.AssistentesSociais.EstaAutorizado
+	@CheckSecurity.Profissionais.EstaAutorizado
 	@GetMapping
 	public ResponseEntity<CollectionModel<EstadoModel>> listar(ServletWebRequest request) {
 		log.info("Consultando estados ");
@@ -67,7 +67,7 @@ public class EstadoController implements EstadoControllerOpenApi {
 				.body(estdosModel);
 	}
 
-	@CheckSecurity.AssistentesSociais.EstaAutorizado
+	@CheckSecurity.Profissionais.EstaAutorizado
 	@GetMapping("/{estadoId}")
 	public EstadoModel buscar(@PathVariable Long estadoId) {
 

@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ikesocial.pvas.domain.exception.GrupoNaoEncontradoException;
-import com.ikesocial.pvas.domain.model.AssistenteSocial;
+import com.ikesocial.pvas.domain.model.Profissional;
 import com.ikesocial.pvas.domain.model.Grupo;
 import com.ikesocial.pvas.domain.repository.GrupoRepository;
 
@@ -18,17 +18,17 @@ public class CadastroGrupoService {
 	private GrupoRepository grupoRepository;
 
 	@Autowired
-	private CadastroAssistenteSocialService cadastroAssistenteSocialService;
+	private CadastroProfissionalService cadastroProfissionalService;
 
 	public Set<Grupo> listarGruposDaAssistenteSocial(String codigoAssistenteSocial) {
 
-		AssistenteSocial assistenteSocialRecuperada = cadastroAssistenteSocialService
-				.buscarOuFalharAssistenteSocialSemComplementos(codigoAssistenteSocial);
+		Profissional assistenteSocialRecuperada = cadastroProfissionalService
+				.buscarOuFalharLazy(codigoAssistenteSocial);
 
-		Optional<AssistenteSocial> assistenteSocial = grupoRepository
+		Optional<Profissional> profissional = grupoRepository
 				.lirtarGruposDaAssistenteSocial(assistenteSocialRecuperada.getCodigo());
 
-		return assistenteSocial.get().getGrupos();
+		return profissional.get().getGrupos();
 	}
 
 	public Grupo buscarOuFalhar(Long grupoId) {

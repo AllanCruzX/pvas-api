@@ -26,7 +26,7 @@ public class EnderecoController implements EnderecoControllerOpenApi  {
 	@Autowired
 	private EnderecoModelAssembler enderecoModelAssembler;
 
-	@CheckSecurity.AssistentesSociais.EstaAutorizado
+	@CheckSecurity.Profissionais.EstaAutorizado
 	@GetMapping("/{cep}")
 	public EnderecoModel buscar(@PathVariable @Cep  String cep) {
 		

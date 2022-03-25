@@ -6,13 +6,13 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import com.ikesocial.pvas.domain.model.AssistenteSocial;
+import com.ikesocial.pvas.domain.model.Profissional;
 import com.ikesocial.pvas.domain.model.Grupo;
 
 @Repository
 public interface GrupoRepository extends CrudRepository<Grupo, Long>  {
 	
-	@Query(" SELECT a FROM AssistenteSocial a INNER JOIN FETCH a.grupos ag INNER JOIN FETCH ag.permissoes WHERE a.codigo = :codigoAssistenteSocial")
-	Optional<AssistenteSocial> lirtarGruposDaAssistenteSocial(String codigoAssistenteSocial);
+	@Query(" SELECT p FROM Profissional p INNER JOIN FETCH p.grupos pg INNER JOIN FETCH pg.permissoes WHERE p.codigo = :codigoDoProfissional")
+	Optional<Profissional> lirtarGruposDaAssistenteSocial(String codigoDoProfissional);
 	
 }

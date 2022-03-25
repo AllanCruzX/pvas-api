@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 
 import com.ikesocial.pvas.api.model.input.CursoInput;
 import com.ikesocial.pvas.domain.model.Curso;
-import com.ikesocial.pvas.domain.model.AssistenteSocial;
 
 @Component
 public class CursoInputDisassembler {
@@ -21,7 +20,7 @@ public class CursoInputDisassembler {
 	
 	public void copyToDomainObject(CursoInput cursoInput, Curso curso) {
 		
-		curso.setAssistenteSocial(new AssistenteSocial());
+		//curso.setAssistenteSocial(new Profissional());
 		
 		modelMapper.map(cursoInput, curso);
 	}

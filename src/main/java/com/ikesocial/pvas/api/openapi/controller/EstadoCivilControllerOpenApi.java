@@ -15,13 +15,13 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
-@Api(tags = "Assistentes Sociais")
+@Api(tags = "Profissionais")
 public interface EstadoCivilControllerOpenApi {
 
 	@ApiOperation(value = "Lista as formas de pagamento")
 	@io.swagger.annotations.ApiResponses(value = {
 			@io.swagger.annotations.ApiResponse(code = 200, message = "OK", response = EstadosCivisModelOpenApi.class) })
-	ResponseEntity<CollectionModel<EstadoCivilModel>> listarEstadosCivis();
+	ResponseEntity<CollectionModel<EstadoCivilModel>> listar();
 
 	@ApiOperation("Busca um estado civil por ID")
 	@ApiResponses({

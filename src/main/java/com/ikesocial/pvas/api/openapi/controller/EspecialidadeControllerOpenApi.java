@@ -13,7 +13,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
-@Api(tags = "Especialidades")
+@Api(tags = "Curriculos")
 public interface EspecialidadeControllerOpenApi {
 
 	@ApiOperation("Lista as especialidades")

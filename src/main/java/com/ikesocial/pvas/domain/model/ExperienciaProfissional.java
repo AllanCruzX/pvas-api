@@ -33,6 +33,7 @@ public class ExperienciaProfissional  implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	@EqualsAndHashCode.Include
 	@Column(name = "nome_empresa", length = 100)
 	private String nomeEmpresa;
 	
@@ -60,9 +61,13 @@ public class ExperienciaProfissional  implements Serializable{
 	private OffsetDateTime dataAlteracao;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "assistente_social_id",
-				foreignKey = @ForeignKey(name = "fk_experiecia_profissional_assistente_social"))
-	private AssistenteSocial assistenteSocial;
+	@JoinColumn(name = "curriculo_id",
+				foreignKey = @ForeignKey(name = "fk_experiecia_profissional_curriculo"))
+	private Curriculo curriculo;
+	
+	public boolean isNovo() {
+	    return getId() == null;
+	}
 	
 	public void naoTemExperienciaProfissional() {
 		setSemExperiencia(true);

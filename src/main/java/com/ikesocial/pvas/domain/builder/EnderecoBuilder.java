@@ -2,7 +2,7 @@ package com.ikesocial.pvas.domain.builder;
 
 import com.ikesocial.pvas.domain.model.Cidade;
 import com.ikesocial.pvas.domain.model.Endereco;
-import com.ikesocial.pvas.domain.model.AssistenteSocial;
+import com.ikesocial.pvas.domain.model.Profissional;
 import com.ikesocial.pvas.domain.model.enums.TipoEndereco;
 
 public class EnderecoBuilder {
@@ -66,9 +66,9 @@ public class EnderecoBuilder {
 		return this;
 	}
 	
-	public EnderecoBuilder comPessoaFisica(AssistenteSocial assistenteSocial) {
-		endereco.setPessoa(new AssistenteSocial());
-		endereco.setPessoa(assistenteSocial);
+	public EnderecoBuilder comPessoaFisica(Profissional profissional) {
+		endereco.setPessoa(new Profissional());
+		endereco.setPessoa(profissional);
 		return this;
 	}
 	

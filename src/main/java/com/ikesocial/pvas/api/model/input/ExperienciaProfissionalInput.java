@@ -16,8 +16,7 @@ public class ExperienciaProfissionalInput {
 	@LetraNumeroEAcento
 	private String nomeEmpresa;
 	
-	@ApiModelProperty(example = "Assistente social")
-	@LetraNumeroEAcento
+	@ApiModelProperty(example = "Atuei como assistente social ...")
 	private String avidade;
 	
 	@ApiModelProperty(example = "2014-10-07T00:00:00Z")

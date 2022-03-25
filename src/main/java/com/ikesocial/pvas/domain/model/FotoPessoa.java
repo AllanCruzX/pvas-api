@@ -41,6 +41,6 @@ public class FotoPessoa implements Serializable {
 	private Long tamanho;
 
 	@OneToOne(fetch = FetchType.LAZY )
-	@JoinColumn(name = "pessoa_id", foreignKey = @ForeignKey(name = "fk_foto_pessoa_pessoa"), nullable = false)
+	@JoinColumn(name = "pessoa_id", foreignKey = @ForeignKey(name = "fk_foto_pessoa_pessoa"))
 	private Pessoa pessoa;
 }

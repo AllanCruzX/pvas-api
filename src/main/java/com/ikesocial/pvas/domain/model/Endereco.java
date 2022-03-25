@@ -65,5 +65,9 @@ public class Endereco implements Serializable {
 				foreignKey = @ForeignKey(name = "fk_endereco_pessoa"),
 				nullable = false)
 	private Pessoa pessoa;
+	
+	public boolean eUmEnderecoResidencial () {
+		return this.getTipoEndereco().equals(TipoEndereco.RESIDENCIAL);
+	}
 
 }

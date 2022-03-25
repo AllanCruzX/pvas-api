@@ -8,13 +8,13 @@ import org.springframework.stereotype.Service;
 
 import com.ikesocial.pvas.domain.exception.NegocioException;
 import com.ikesocial.pvas.domain.model.Contato;
-import com.ikesocial.pvas.domain.repository.AssistenteSocialRepository;
+import com.ikesocial.pvas.domain.repository.ProfissionalRepository;
 
 @Service
 public class EmailService {
 	
 	@Autowired
-	private AssistenteSocialRepository assistenteSocialRepository;
+	private ProfissionalRepository profissionalRepository;
 	
 	public Optional<String> recuperaEmailEmMemoria ( Set<Contato> contatos) {
 		
@@ -41,7 +41,7 @@ public class EmailService {
 			Optional<Contato> emaiLExistente = buscarEmailBanco(contato);
 
 			if (emaiLExistente.isPresent() && !emaiLExistente.get().equals(contato)) {
-				throw new NegocioException(String.format("Já existe um pessoa fisica cadastrado com o e-mail %s", contato.getDescricao()));
+				throw new NegocioException(String.format("Já existe um profissional cadastrado com o e-mail %s", contato.getDescricao()));
 				}
 			}
 			
@@ -51,7 +51,7 @@ public class EmailService {
 
 
 	private Optional<Contato> buscarEmailBanco(Contato contato) {
-		return assistenteSocialRepository.buscarEmail(contato.getDescricao());
+		return profissionalRepository.buscarEmail(contato.getDescricao());
 	}
 	
 	private String getEmail(Contato contato) {

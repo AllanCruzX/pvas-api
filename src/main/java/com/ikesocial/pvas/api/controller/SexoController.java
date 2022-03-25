@@ -23,17 +23,18 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
-@RequestMapping(path = "/assistentes-sociais/sexos", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = "/profissionais/sexos", produces = MediaType.APPLICATION_JSON_VALUE)
 public class SexoController implements SexoControllerOpenApi  {
 	
 	@Autowired
 	private SexoModelAssembler sexoModelAssembler;
 	
 	
-	@CheckSecurity.AssistentesSociais.EstaAutorizado
+	@CheckSecurity.Profissionais.EstaAutorizado
 	@GetMapping
-	public ResponseEntity<CollectionModel<SexoModel>> listarSexo(){
-		log.info("Consultando sexos");
+	public ResponseEntity<CollectionModel<SexoModel>> listar(){
+		log.info("C=SexoController,M=listar, Consultando sexos");
+		
 		 List<Sexo> sexos = Sexo.valores();
 		 
 		 CollectionModel<SexoModel> sexosModel = sexoModelAssembler.toCollectionModel(sexos);
@@ -44,10 +45,11 @@ public class SexoController implements SexoControllerOpenApi  {
 		
 	}
 	
-	
-	@CheckSecurity.AssistentesSociais.EstaAutorizado
+	@CheckSecurity.Profissionais.EstaAutorizado
 	@GetMapping("/{sexoId}")
 	public SexoModel buscar(@PathVariable Long sexoId) {
+		log.info("C=SexoController,M=buscar, buscando sexo com id{}", sexoId);
+		
 		Sexo sexo =  Sexo.getById(sexoId);
 						
 		return sexoModelAssembler.toModel(sexo);

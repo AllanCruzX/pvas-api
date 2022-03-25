@@ -7,22 +7,22 @@ import org.springframework.stereotype.Service;
 
 import com.ikesocial.pvas.domain.builder.DocumentoBuilder;
 import com.ikesocial.pvas.domain.exception.NegocioException;
-import com.ikesocial.pvas.domain.model.AssistenteSocial;
 import com.ikesocial.pvas.domain.model.Documento;
+import com.ikesocial.pvas.domain.model.Profissional;
 import com.ikesocial.pvas.domain.model.enums.TipoDocumento;
-import com.ikesocial.pvas.domain.repository.AssistenteSocialRepository;
+import com.ikesocial.pvas.domain.repository.ProfissionalRepository;
 
 @Service
 public class CressStrategy implements DocumentoStrategy {
 
 	@Autowired
-	private AssistenteSocialRepository assistenteSocialRepository;
+	private ProfissionalRepository profissionalRepository;
 
 	@Autowired
 	private CadastroEstadoService estadoService;
 
 	@Override
-	public Documento definirDocumento(Documento documento, AssistenteSocial assistenteSocial) {
+	public Documento definirDocumento(Documento documento, Profissional profissional) {
 
 		validaCressExistente(documento, documento.getEstado().getId());
 
@@ -34,7 +34,7 @@ public class CressStrategy implements DocumentoStrategy {
 					.comCodigo(documento.getCodigo())
 					.comTipoDocumento(TipoDocumento.CARTEIRA_PROFISSIONAL)
 					.comEstado(estadoService.buscarOuFalhar(documento.getEstado().getId()))
-					.comPessoaFisica(assistenteSocial).construir();
+					.comPessoaFisica(profissional).construir();
 		} else {
 
 			documentoNovo = new DocumentoBuilder()
@@ -42,7 +42,7 @@ public class CressStrategy implements DocumentoStrategy {
 					.comCodigo(documento.getCodigo())
 					.comTipoDocumento(TipoDocumento.CARTEIRA_PROFISSIONAL)
 					.comEstado(estadoService.buscarOuFalhar(documento.getEstado().getId()))
-					.comPessoaFisica(assistenteSocial).construir();
+					.comPessoaFisica(profissional).construir();
 
 		}
 
@@ -51,12 +51,12 @@ public class CressStrategy implements DocumentoStrategy {
 
 	private void validaCressExistente(Documento documento, Long estadoId) {
 
-		Optional<Documento> cressExistente = assistenteSocialRepository.buscarCressRegiao(estadoId,
+		Optional<Documento> cressExistente = profissionalRepository.buscarCressRegiao(estadoId,
 				documento.getCodigo());
 
 		if (cressExistente.isPresent() && !cressExistente.get().equals(documento)) {
 			throw new NegocioException(
-					String.format("Já existe uma pessoa física cadastrado com o CRESS %s", documento.getCodigo()));
+					String.format("Já existe um profissional cadastrado com o CRESS %s", documento.getCodigo()));
 		}
 
 	}

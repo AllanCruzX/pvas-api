@@ -10,8 +10,8 @@ import com.ikesocial.pvas.api.client.dto.EnderecoDto;
 import com.ikesocial.pvas.domain.builder.EnderecoBuilder;
 import com.ikesocial.pvas.domain.model.Cidade;
 import com.ikesocial.pvas.domain.model.Endereco;
-import com.ikesocial.pvas.domain.repository.AssistenteSocialRepository;
 import com.ikesocial.pvas.domain.repository.CidadeRepository;
+import com.ikesocial.pvas.domain.repository.ProfissionalRepository;
 
 @Service
 public class EnderecoService {
@@ -20,7 +20,7 @@ public class EnderecoService {
 	private CidadeRepository cidadeRepository;
 	
 	@Autowired
-	private AssistenteSocialRepository assistenteSocialRepository;
+	private ProfissionalRepository profissionalRepository;
 	
 	@Autowired
 	private EnderecoClient enderecoClient;
@@ -64,7 +64,7 @@ public class EnderecoService {
 	
 	private Optional<Endereco> consultarEndecoBancoDeDados (String cep) {
 	   
-	  return assistenteSocialRepository.buscarEnderecoPorCep(cep);
+	  return profissionalRepository.buscarEnderecoPorCep(cep);
 	   
    }
 	

@@ -32,11 +32,13 @@ public class Curso  implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	@EqualsAndHashCode.Include
 	@Column(name = "nome", length = 100, nullable = false)
 	private String nome;
 	
 	@Column(name = "chaga_horaria", nullable = false)
 	private Long chagaHoraria;
+	
 	
 	@Column(name = "data_cadastro", columnDefinition = "datetime", nullable = false)
 	@CreationTimestamp
@@ -47,8 +49,12 @@ public class Curso  implements Serializable{
 	private OffsetDateTime dataAlteracao;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "assistente_social_id",
-				foreignKey = @ForeignKey(name = "fk_curso_assistente_social"))
-	private AssistenteSocial assistenteSocial;
+	@JoinColumn(name = "curriculo_id",
+				foreignKey = @ForeignKey(name = "fk_curso_curriculo"))
+	private Curriculo curriculo;
+	
+	public boolean isNovo() {
+	    return getId() == null;
+	}
 
 }

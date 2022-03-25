@@ -31,7 +31,7 @@ public class CursoModelAssembler  extends RepresentationModelAssemblerSupport<Cu
 		CursoModel cursoModel = createModelWithId(curso.getId() , curso);
 		modelMapper.map(curso, cursoModel);
 		
-		cursoModel.add(pvasLinks.linkToCursos("cursos"));
+		cursoModel.add(pvasLinks.linkToCursosDoCurriculo(curso.getCurriculo().getId(),"cursos"));
 		
 		return cursoModel;
 	}

@@ -15,7 +15,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
-@Api(tags = "Assistentes Sociais")
+@Api(tags = "Curriculos")
 public interface IdiomaControllerOpenApi {
 	
 	@ApiOperation("Listar idiomas")
@@ -32,14 +32,4 @@ public interface IdiomaControllerOpenApi {
 		})
 	IdiomaModel buscar(@ApiParam(value = "ID de um idioma", example = "1", required = true)Long idiomaId);
 	
-	
-	@ApiOperation("Busca os idiomas do assistente social")
-	@ApiResponses({
-		@ApiResponse(responseCode = "400", description = "Código do assistente social inválido", 
-				content = @Content(schema = @Schema(implementation = Problem.class))),
-		@ApiResponse(responseCode = "404", description = "Idioma  não encontrada", 
-				content = @Content(schema = @Schema(implementation = Problem.class)))
-		})
-	CollectionModel<IdiomaModel> buscarIdiomasDoAssistenteSocial(@ApiParam(value = "Código de uma assistente social", example = "fc60f245-6c65-4302-9025-89a9d05346a6" , required = true) String codigoAssistenteSocial);
-
 }

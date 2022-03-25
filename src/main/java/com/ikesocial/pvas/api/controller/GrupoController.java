@@ -14,7 +14,7 @@ import com.ikesocial.pvas.api.assembler.GrupoModelAssembler;
 import com.ikesocial.pvas.api.model.output.GrupoModel;
 import com.ikesocial.pvas.api.openapi.controller.GrupoControllerOpenApi;
 import com.ikesocial.pvas.core.security.CheckSecurity;
-import com.ikesocial.pvas.domain.exception.AssistenteSocialNaoEncontradoException;
+import com.ikesocial.pvas.domain.exception.ProfissionalNaoEncontradoException;
 import com.ikesocial.pvas.domain.exception.NegocioException;
 import com.ikesocial.pvas.domain.model.Grupo;
 import com.ikesocial.pvas.domain.repository.GrupoRepository;
@@ -60,7 +60,7 @@ public class GrupoController implements GrupoControllerOpenApi  {
 			
 			 grupos = cadastroGrupoService.listarGruposDaAssistenteSocial(codigoAssistenteSocial);
 			
-		} catch (AssistenteSocialNaoEncontradoException e) {
+		} catch (ProfissionalNaoEncontradoException e) {
 			throw new NegocioException(e.getMessage(), e);
 		}
 

@@ -26,9 +26,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.fasterxml.classmate.TypeResolver;
 import com.ikesocial.pvas.api.exceptionhandler.Problem;
-import com.ikesocial.pvas.api.model.output.AssistenteSocialEstatisticaModel;
-import com.ikesocial.pvas.api.model.output.AssistenteSocialResumoModel;
+import com.ikesocial.pvas.api.model.output.ProfissionalEstatisticaModel;
+import com.ikesocial.pvas.api.model.output.ProfissionalResumoModel;
 import com.ikesocial.pvas.api.model.output.CidadeModel;
+import com.ikesocial.pvas.api.model.output.CurriculoModel;
 import com.ikesocial.pvas.api.model.output.CursoModel;
 import com.ikesocial.pvas.api.model.output.EspecialidadeModel;
 import com.ikesocial.pvas.api.model.output.EspecializacaoModel;
@@ -38,11 +39,13 @@ import com.ikesocial.pvas.api.model.output.ExperienciaProfissionalModel;
 import com.ikesocial.pvas.api.model.output.GrupoModel;
 import com.ikesocial.pvas.api.model.output.IdiomaModel;
 import com.ikesocial.pvas.api.model.output.PermissaoModel;
+import com.ikesocial.pvas.api.model.output.ProfissaoModel;
 import com.ikesocial.pvas.api.model.output.SexoModel;
 import com.ikesocial.pvas.api.model.output.SubEspecialidadeModel;
-import com.ikesocial.pvas.api.openapi.model.AssistenteSociaisModelOpenApi;
-import com.ikesocial.pvas.api.openapi.model.AssistentesSociaisEstatisticasModelOpenApi;
+import com.ikesocial.pvas.api.openapi.model.ProfissionaisModelOpenApi;
+import com.ikesocial.pvas.api.openapi.model.ProfissionaisEstatisticasModelOpenApi;
 import com.ikesocial.pvas.api.openapi.model.CidadesModelOpenApi;
+import com.ikesocial.pvas.api.openapi.model.CurriculosModelOpenApi;
 import com.ikesocial.pvas.api.openapi.model.CursosModelOpenApi;
 import com.ikesocial.pvas.api.openapi.model.EspecialidadesModelOpenApi;
 import com.ikesocial.pvas.api.openapi.model.EspecializacoesModelOpenApi;
@@ -54,6 +57,7 @@ import com.ikesocial.pvas.api.openapi.model.IdiomasModelOpenApi;
 import com.ikesocial.pvas.api.openapi.model.LinksModelOpenApi;
 import com.ikesocial.pvas.api.openapi.model.PageableModelOpenApi;
 import com.ikesocial.pvas.api.openapi.model.PermissoesModelOpenApi;
+import com.ikesocial.pvas.api.openapi.model.ProfissoesModelOpenApi;
 import com.ikesocial.pvas.api.openapi.model.SexosModelOpenApi;
 import com.ikesocial.pvas.api.openapi.model.SubEspecialidadesModelOpenApi;
 
@@ -100,8 +104,8 @@ public class SpringFoxConfig implements WebMvcConfigurer  {
 				.directModelSubstitute(Pageable.class, PageableModelOpenApi.class)
 				.directModelSubstitute(Links.class, LinksModelOpenApi.class)
 				.alternateTypeRules(AlternateTypeRules.newRule(
-						typeResolver.resolve(PagedModel.class, AssistenteSocialResumoModel.class),
-						AssistenteSociaisModelOpenApi.class))
+						typeResolver.resolve(PagedModel.class, ProfissionalResumoModel.class),
+						ProfissionaisModelOpenApi.class))
 				.alternateTypeRules(AlternateTypeRules.newRule(
 						typeResolver.resolve(CollectionModel.class, CidadeModel.class),
 						CidadesModelOpenApi.class))
@@ -139,26 +143,31 @@ public class SpringFoxConfig implements WebMvcConfigurer  {
 				        typeResolver.resolve(CollectionModel.class, SubEspecialidadeModel.class),
 				        SubEspecialidadesModelOpenApi.class))
 				.alternateTypeRules(AlternateTypeRules.newRule(
-				        typeResolver.resolve(CollectionModel.class, AssistenteSocialEstatisticaModel.class),
-				        AssistentesSociaisEstatisticasModelOpenApi.class))
+				        typeResolver.resolve(CollectionModel.class, ProfissionalEstatisticaModel.class),
+				        ProfissionaisEstatisticasModelOpenApi.class))
+				.alternateTypeRules(AlternateTypeRules.newRule(
+				        typeResolver.resolve(CollectionModel.class, ProfissaoModel.class),
+				        ProfissoesModelOpenApi.class))
+				.alternateTypeRules(AlternateTypeRules.newRule(
+				        typeResolver.resolve(CollectionModel.class, CurriculoModel.class),
+				        CurriculosModelOpenApi.class))
 				.apiInfo(apiInfo())
 				.additionalModels(typeResolver.resolve(Problem.class))
 				
 				.securitySchemes(List.of(authenticationScheme()))
 				.securityContexts(List.of(securityContext()))
 				
-				.tags(new Tag("Cidades", "Gerencia as cidades"),
+				.tags(
+					  new Tag("Profissionais", "Gerencia as profissionais"),
+					  new Tag("Curriculos", "Gerencia os curriculos"),
+					  new Tag("Cidades", "Gerencia as cidades"),
 					  new Tag("Estados", "Gerencia os estados"),
 					  new Tag("Enderecos", "Consulta os endereços"),
-					  new Tag("Especialidades", "Gerencia as especialidades"),
-					  new Tag("Especializacoes", "Gerencia as especializações "),
-					  new Tag("Cursos", "Gerencia os cursos"),
 					  new Tag("Grupos", "Gerencia os grupos"),
 					  new Tag("Permissões ", "Gerencia as permissões"),
-					  new Tag("Experiências profissionais", "Gerencia as experiências profissionais"),
-					  new Tag("SubEspecialidades", "Gerencia as subespecialidades"),
-					  new Tag("Estatísticas", "Estatísticas da PVAS"),
-				 	  new Tag("Assistentes Sociais", "Gerencia as sssistentes sociais"));
+					  new Tag("Estatísticas", "Estatísticas da PVAS")
+					 
+				 	  );
 	        
 	    }
 	 	

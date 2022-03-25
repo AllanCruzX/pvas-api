@@ -12,46 +12,52 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ikesocial.pvas.api.assembler.AssistenteSocialEstatisticaModelAssembler;
-import com.ikesocial.pvas.api.model.output.AssistenteSocialEstatisticaModel;
+import com.ikesocial.pvas.api.assembler.ProfissionalEstatisticaModelAssembler;
+import com.ikesocial.pvas.api.model.output.ProfissionalEstatisticaModel;
 import com.ikesocial.pvas.api.openapi.controller.EstatisticasControllerOpenApi;
 import com.ikesocial.pvas.core.security.CheckSecurity;
-import com.ikesocial.pvas.domain.filter.AssistenteSocialEstatisticaFilter;
-import com.ikesocial.pvas.domain.model.dto.AssistenteSocialEstatistica;
-import com.ikesocial.pvas.domain.service.AssistenteSocialQueryService;
-import com.ikesocial.pvas.domain.service.AssitenteSocialReportService;
+import com.ikesocial.pvas.domain.dto.ProfissionalEstatistica;
+import com.ikesocial.pvas.domain.filter.ProfissionalEstatisticaFilter;
+import com.ikesocial.pvas.domain.service.ProfissionalQueryService;
+import com.ikesocial.pvas.domain.service.ProfissionalReportService;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @RestController
 @RequestMapping(path = "/estatisticas")
 public class EstatisticasController implements EstatisticasControllerOpenApi {
 
 	@Autowired
-	private AssistenteSocialQueryService assistenteSocialQueryService;
+	private ProfissionalQueryService profissionalQueryService;
 	
 	@Autowired
-	private AssitenteSocialReportService  assitenteSocialReportService;
+	private ProfissionalReportService  profissionalReportService;
 	
 	@Autowired
-	private AssistenteSocialEstatisticaModelAssembler assistenteSocialEstatisticaModelAssembler;
+	private ProfissionalEstatisticaModelAssembler profissionalEstatisticaModelAssembler;
 	
 
 	@CheckSecurity.Relatorios.PodeConsultar
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-	public CollectionModel<AssistenteSocialEstatisticaModel> consultarAssistenteSocialEstatisticas(AssistenteSocialEstatisticaFilter filtro,
+	public CollectionModel<ProfissionalEstatisticaModel> consultarProfissionalEstatisticas(ProfissionalEstatisticaFilter filtro,
 			@RequestParam(required = false, defaultValue = "+00:00") String timeOffset) {
+		log.info("C=EstatisticasController, M=consultarProfissionalEstatisticas, consultado estatistica ...");
 		
-		List<AssistenteSocialEstatistica> lista = assistenteSocialQueryService.consultarAssistenteSocialEstatisticas(filtro, timeOffset);
+		List<ProfissionalEstatistica> lista = profissionalQueryService.consultarProfissionalEstatisticas(filtro, timeOffset);
 		
 		
-		return assistenteSocialEstatisticaModelAssembler.toCollectionModel(lista);
+		return profissionalEstatisticaModelAssembler.toCollectionModel(lista);
 	}
 	
 	@CheckSecurity.Relatorios.PodeConsultar
 	@GetMapping(produces = MediaType.APPLICATION_PDF_VALUE)
-	public ResponseEntity<byte[]> consultarAssistenteSocialEstatisticasPdf(AssistenteSocialEstatisticaFilter filtro,
+	public ResponseEntity<byte[]> consultarProfissionalEstatisticasPdf(ProfissionalEstatisticaFilter filtro,
 			@RequestParam(required = false, defaultValue = "+00:00") String timeOffset) {
+		log.info("C=EstatisticasController, M=consultarProfissionalEstatisticasPdf, consultado estatistica ...");
+
 		
-		byte[] bytesPdf = assitenteSocialReportService.emitirAssistenteSocialEstatisticas(filtro, timeOffset);
+		byte[] bytesPdf = profissionalReportService.emitirProfissionalEstatisticas(filtro, timeOffset);
 		
 		var headers = new HttpHeaders();
 		headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=assistente-social-estatistica.pdf");

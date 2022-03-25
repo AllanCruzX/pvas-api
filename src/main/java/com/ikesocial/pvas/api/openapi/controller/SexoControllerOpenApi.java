@@ -15,13 +15,13 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
-@Api(tags = "Assistentes Sociais")
+@Api(tags = "Profissionais")
 public interface SexoControllerOpenApi {
 	
 	@ApiOperation("Lista de sexos")
 	@io.swagger.annotations.ApiResponses(value = {
 			@io.swagger.annotations.ApiResponse(code = 200, message = "OK", response = SexosModelOpenApi.class) })
-	ResponseEntity<CollectionModel<SexoModel>> listarSexo();
+	ResponseEntity<CollectionModel<SexoModel>> listar();
 	
 	@ApiOperation("Busca um sexo por ID")
 	@ApiResponses({

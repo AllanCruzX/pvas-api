@@ -15,7 +15,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
-@Api(tags = "Especializacoes")
+@Api(tags = "Curriculos")
 public interface EspecializacaoControllerOpenApi {
 
 	@ApiOperation("Listar as especializacoes")
@@ -30,11 +30,11 @@ public interface EspecializacaoControllerOpenApi {
 	public EspecializacaoModel buscar(
 			@ApiParam(value = "ID de uma especializacao", example = "1", required = true) Long especializacaoId);
 
-	@ApiOperation("Busca as especializacoes do assistente social")
-	@ApiResponses({
-			@ApiResponse(responseCode = "400", description = "Assistente social inválido", content = @Content(schema = @Schema(implementation = Problem.class))),
-			@ApiResponse(responseCode = "404", description = "Especializacao não encontrada", content = @Content(schema = @Schema(implementation = Problem.class))) })
-	CollectionModel<EspecializacaoModel> buscarEspecializacoesAssistenteSocial(
-			@ApiParam(value = "Código de uma assistente social", example = "fc60f245-6c65-4302-9025-89a9d05346a6", required = true) String codigoAssistenteSocial);
+//	@ApiOperation("Busca as especializacoes do assistente social")
+//	@ApiResponses({
+//			@ApiResponse(responseCode = "400", description = "Assistente social inválido", content = @Content(schema = @Schema(implementation = Problem.class))),
+//			@ApiResponse(responseCode = "404", description = "Especializacao não encontrada", content = @Content(schema = @Schema(implementation = Problem.class))) })
+//	CollectionModel<EspecializacaoModel> buscarEspecializacoesAssistenteSocial(
+//			@ApiParam(value = "Código de uma assistente social", example = "fc60f245-6c65-4302-9025-89a9d05346a6", required = true) String codigoAssistenteSocial);
 
 }

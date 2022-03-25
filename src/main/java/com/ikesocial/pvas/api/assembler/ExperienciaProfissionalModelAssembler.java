@@ -33,7 +33,7 @@ public class ExperienciaProfissionalModelAssembler
 				experienciaProfissional);
 		modelMapper.map(experienciaProfissional, experienciaProfissionalModel);
 		
-		experienciaProfissionalModel.add(pvasLinks.linkToExperienciasProfissionais("experiencias-profissionais"));
+		experienciaProfissionalModel.add(pvasLinks.linkToExperienciaProfissionalDoCurriculo(experienciaProfissional.getCurriculo().getId() ,"experiencias-profissionais"));
 
 		return experienciaProfissionalModel;
 	}

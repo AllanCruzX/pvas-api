@@ -2,7 +2,7 @@ package com.ikesocial.pvas.domain.builder;
 
 import com.ikesocial.pvas.domain.model.Documento;
 import com.ikesocial.pvas.domain.model.Estado;
-import com.ikesocial.pvas.domain.model.AssistenteSocial;
+import com.ikesocial.pvas.domain.model.Profissional;
 import com.ikesocial.pvas.domain.model.enums.TipoDocumento;
 
 public class DocumentoBuilder {
@@ -28,9 +28,9 @@ public class DocumentoBuilder {
 		return this;
 	}
 	
-	public DocumentoBuilder comPessoaFisica(AssistenteSocial assistenteSocial) {
-		documento.setPessoa(new AssistenteSocial());
-		documento.setPessoa(assistenteSocial);
+	public DocumentoBuilder comPessoaFisica(Profissional profissional) {
+		documento.setPessoa(new Profissional());
+		documento.setPessoa(profissional);
 		return this;
 	}
 	

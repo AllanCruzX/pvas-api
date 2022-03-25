@@ -1,7 +1,5 @@
 package com.ikesocial.pvas.api.model.input;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 
 import com.ikesocial.pvas.core.validation.LetraNumeroEAcento;
@@ -22,8 +20,5 @@ public class CursoInput {
 	@PositiveOrZero
 	private int chagaHoraria;
 	
-	@Valid
-	@NotNull
-	private AssistenteSocialCodigoInput  assistenteSocial;
 }
 

@@ -13,8 +13,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.ikesocial.pvas.domain.model.Especialidade;
 import com.ikesocial.pvas.domain.model.SubEspecialidade;
-import com.ikesocial.pvas.domain.repository.EspecialidadeRepository;
-import com.ikesocial.pvas.domain.repository.SubEspecialidadeRepository;
 import com.ikesocial.pvas.util.DatabaseCleaner;
 
 import io.restassured.RestAssured;
@@ -33,11 +31,6 @@ public class CadastroSubEspecialidadeIT {
 	@Autowired
 	private DatabaseCleaner databaseCleaner;
 	
-	@Autowired
-	private SubEspecialidadeRepository subEspecialidadeRepository;
-	
-	@Autowired
-	private EspecialidadeRepository especialidadeRepository;
 	
 	private SubEspecialidade subEspecialidadeAtencaoDomiciliar;
 	
@@ -96,21 +89,21 @@ public class CadastroSubEspecialidadeIT {
 		
 		Especialidade especialidadeSaude = new Especialidade();
 		especialidadeSaude.setNome("SAUDE");
-		especialidadeSaude = especialidadeRepository.save(especialidadeSaude);
+		//especialidadeSaude = especialidadeRepository.save(especialidadeSaude);
 		
 		Especialidade especialidadeEducacao = new Especialidade();
 		especialidadeEducacao.setNome("EDUCACAO");
-		especialidadeEducacao = especialidadeRepository.save(especialidadeEducacao);
+		//especialidadeEducacao = especialidadeRepository.save(especialidadeEducacao);
 		
 		subEspecialidadeAtencaoDomiciliar = new SubEspecialidade();
 		subEspecialidadeAtencaoDomiciliar.setNome("ATECAO DOMICILIAR");
 		subEspecialidadeAtencaoDomiciliar.setEspecialidade(especialidadeSaude);
-		subEspecialidadeRepository.save(subEspecialidadeAtencaoDomiciliar);
+		//subEspecialidadeRepository.save(subEspecialidadeAtencaoDomiciliar);
 		
 		SubEspecialidade subEspecialidadeApoioEscolar = new SubEspecialidade();
 		subEspecialidadeApoioEscolar.setNome("APOIO ESCOLAR");
 		subEspecialidadeApoioEscolar.setEspecialidade(especialidadeEducacao);
-		subEspecialidadeRepository.save(subEspecialidadeApoioEscolar);
+		//subEspecialidadeRepository.save(subEspecialidadeApoioEscolar);
 		
 	}
 

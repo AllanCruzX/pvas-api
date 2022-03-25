@@ -4,14 +4,16 @@ import org.springframework.hateoas.RepresentationModel;
 import org.springframework.hateoas.server.core.Relation;
 
 import io.swagger.annotations.ApiModelProperty;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
 @Relation(collectionRelation = "idiomas")
 @Getter
 @Setter
-public class IdiomaModel extends RepresentationModel<IdiomaModel> {
+public class IdiomaModel extends RepresentationModel<IdiomaModel>  {
 	
+	@EqualsAndHashCode.Include
 	@ApiModelProperty(example = "1")
 	private Long id;
 	
