@@ -52,10 +52,13 @@ class CadastroCidadeServiceTest {
 	@Test
 	void cadatraUmaCidadeComSucesso() {
 		
+		//cenario
 		Mockito.when(estadoService.buscarOuFalhar(estado.getId())).thenReturn(estado);
 		
+		//acao
 		cidadeService.salvar(cidade);
 		
+		//verificacao
 		assertEquals(1L, cidade.getEstado().getId());
 		
 		Mockito.verify(cidadeRepository).save(cidade);

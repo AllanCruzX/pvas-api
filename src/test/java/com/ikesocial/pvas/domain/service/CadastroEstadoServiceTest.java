@@ -1,7 +1,6 @@
 package com.ikesocial.pvas.domain.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.OffsetDateTime;
 import java.util.Optional;
@@ -12,7 +11,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
@@ -40,10 +38,15 @@ class CadastroEstadoServiceTest {
 
 	@Test
 	void cadatraUmaEstadoComSucesso() {
+		//cenario
+		Mockito.when(estadoRepository.save(estado)).thenReturn(estado);
 		
+		//acao
 		cadastroEstadoService.salvar(estado);
 		
+		//verificacao
 		Mockito.verify(estadoRepository).save(estado);
+		assertEquals("BA" , estado.getSigla());
 		
 	}
 	

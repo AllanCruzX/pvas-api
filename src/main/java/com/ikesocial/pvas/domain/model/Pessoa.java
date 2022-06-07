@@ -196,6 +196,10 @@ public class Pessoa extends AbstractAggregateRoot<Pessoa> implements Serializabl
 		return getGrupos().add(grupo);
 	}
 	
+	public boolean adicionarDocumento(Documento documento) {
+		return getDocumentos().add(documento);
+	}
+	
 	public void ativar() {
 		setDataIntivacao(null);
 		setAtivo(true);

@@ -29,7 +29,7 @@ public class ManipuladorDeDocumentoDoProfissional extends ManipuladorDeProfissio
 		return tratarProximo(profissional);
 	}
 
-	private Documento montaDocumento(Documento documento, Profissional profissional) {
+	protected Documento montaDocumento(Documento documento, Profissional profissional) {
 		
 		logDocumento(documento, profissional);
 
