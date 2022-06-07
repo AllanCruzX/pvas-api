@@ -2,6 +2,7 @@ package com.ikesocial.pvas.domain.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.Mockito.verify;
@@ -16,7 +17,9 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.ikesocial.pvas.domain.exception.CidadeNaoEncontradoException;
 import com.ikesocial.pvas.domain.exception.NegocioException;
+import com.ikesocial.pvas.domain.exception.ProfissionalNaoEncontradoException;
 import com.ikesocial.pvas.domain.model.Profissional;
 import com.ikesocial.pvas.domain.repository.ProfissionalRepository;
 
@@ -84,7 +87,7 @@ class CadastroProfissionalServiceTest {
 	}
 
 	@Test
-	public void ativarProfissionalComSucesso() {
+	public void inativarProfissionalComSucesso() {
 
 		// Cenario
 		
@@ -100,6 +103,46 @@ class CadastroProfissionalServiceTest {
 		assertFalse(profissional.getAtivo());
 		assertTrue(profissional.getDataIntivacao() != null);
 
+	}
+	
+	@Test
+	public void ativarProfissionalComSucesso() {
+
+		// Cenario
+		
+		Mockito.when(profissionalRepository.findByCodigo(profissional.getCodigo()))
+		.thenReturn(Optional.of(profissional));
+
+		// Acao
+		
+		cadastroProfissionalService.ativar(profissional.getCodigo());
+
+		// Verificacao
+		verify(profissionalRepository).findByCodigo(profissional.getCodigo());
+		assertTrue(profissional.getAtivo());
+		assertTrue(profissional.getDataIntivacao() == null);
+
+	}
+	
+	@Test
+	void buscaLazyProfissionalComErro() {
+		
+		assertThrows(ProfissionalNaoEncontradoException.class, () -> {
+			
+			Mockito.when(cadastroProfissionalService.buscarOuFalharLazy(profissional.getCodigo())).thenThrow(ProfissionalNaoEncontradoException.class);
+		});
+		
+	}
+	
+	
+	@Test
+	void buscaEagerProfissionalComErro() {
+		
+		assertThrows(ProfissionalNaoEncontradoException.class, () -> {
+			
+			Mockito.when(cadastroProfissionalService.buscarOuFalharEager(profissional.getCodigo())).thenThrow(ProfissionalNaoEncontradoException.class);
+		});
+		
 	}
 	
 	private void iniciaSenhasDoProfissional() {
