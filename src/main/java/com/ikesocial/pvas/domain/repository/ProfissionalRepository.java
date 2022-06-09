@@ -20,16 +20,16 @@ public interface ProfissionalRepository extends CustomJpaRepository<Profissional
 	@Query(" SELECT p FROM Profissional p WHERE p.codigo = :codigo ")
 	Optional<Profissional> findByCodigo(String codigo);
 	
-	@Query(" SELECT d FROM Documento d WHERE d.codigo = :codigo AND d.tipoDocumento = com.ikesocial.pvas.domain.model.enums.TipoDocumento.CPF ")
+	@Query(" SELECT d FROM Documento d WHERE d.codigo = :codigo AND d.tipoDocumento = com.ikesocial.pvas.domain.enums.TipoDocumento.CPF ")
 	Optional<Documento> buscarCPF(String codigo);
 
-	@Query(" SELECT d FROM Documento d  WHERE d.codigo = :codigo AND d.pessoa.id = :profissionalId AND d.tipoDocumento = com.ikesocial.pvas.domain.model.enums.TipoDocumento.CPF ")
+	@Query(" SELECT d FROM Documento d  WHERE d.codigo = :codigo AND d.pessoa.id = :profissionalId AND d.tipoDocumento = com.ikesocial.pvas.domain.enums.TipoDocumento.CPF ")
 	Optional<Documento> buscarCPF(Long profissionalId,  String codigo);
 
-	@Query(" SELECT d FROM Documento d INNER JOIN FETCH d.estado INNER JOIN FETCH d.pessoa dp  WHERE d.codigo = :codigo AND dp.id = :profissionalId AND d.tipoDocumento = com.ikesocial.pvas.domain.model.enums.TipoDocumento.CARTEIRA_PROFISSIONAL ")
+	@Query(" SELECT d FROM Documento d INNER JOIN FETCH d.estado INNER JOIN FETCH d.pessoa dp  WHERE d.codigo = :codigo AND dp.id = :profissionalId AND d.tipoDocumento = com.ikesocial.pvas.domain.enums.TipoDocumento.CARTEIRA_PROFISSIONAL ")
 	Optional<Documento> buscarCress( Long profissionalId,  String codigo);
 
-	@Query(" SELECT d FROM Documento d INNER JOIN FETCH d.estado de WHERE d.codigo = :codigo AND de.id = :estadoId AND d.tipoDocumento = com.ikesocial.pvas.domain.model.enums.TipoDocumento.CARTEIRA_PROFISSIONAL ")
+	@Query(" SELECT d FROM Documento d INNER JOIN FETCH d.estado de WHERE d.codigo = :codigo AND de.id = :estadoId AND d.tipoDocumento = com.ikesocial.pvas.domain.enums.TipoDocumento.CARTEIRA_PROFISSIONAL ")
 	Optional<Documento> buscarCressRegiao( Long estadoId,  String codigo);
 	
 	@Query(" SELECT d FROM Documento d WHERE d.pessoa.codigo = :codigoDoProfissioanl ")

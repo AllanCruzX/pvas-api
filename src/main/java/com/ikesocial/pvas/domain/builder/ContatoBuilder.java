@@ -1,8 +1,8 @@
 package com.ikesocial.pvas.domain.builder;
 
+import com.ikesocial.pvas.domain.enums.TipoContato;
 import com.ikesocial.pvas.domain.model.Contato;
 import com.ikesocial.pvas.domain.model.Profissional;
-import com.ikesocial.pvas.domain.model.enums.TipoContato;
 
 public class ContatoBuilder {
 	

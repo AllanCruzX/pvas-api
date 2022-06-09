@@ -18,7 +18,7 @@ import com.ikesocial.pvas.api.assembler.EstadoCivilModelAssembler;
 import com.ikesocial.pvas.api.model.output.EstadoCivilModel;
 import com.ikesocial.pvas.api.openapi.controller.EstadoCivilControllerOpenApi;
 import com.ikesocial.pvas.core.security.CheckSecurity;
-import com.ikesocial.pvas.domain.model.enums.EstadoCivil;
+import com.ikesocial.pvas.domain.enums.EstadoCivil;
 
 import lombok.extern.slf4j.Slf4j;
 

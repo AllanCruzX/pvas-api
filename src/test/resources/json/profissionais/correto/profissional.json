@@ -1,0 +1,39 @@
+{
+    "nome" : "Allan Cruz" ,
+    "senha":"123",
+    "contato":{
+            "celular":"71992587319",
+            "email":"allancruzrosa@gmail.com",
+            "facebook":"https://www.facebook.com/allan.cruz.509/",
+            "instagram":"https://www.instagram.com/allancruzrosa/",
+            "youtube":"https://www.youtube.com/channel/UCku0_K6LlkscSoVfE5J_LsQ",
+            "linkedin":"https://www.linkedin.com/in/allan-cruz-81aaa581/",
+            "site":"https://ikesocial.com/banco-de-talentos/jania-medeiros/"
+             },             
+    "endereco":{
+            "cep":"41500350",
+            "logradouro":"Rua São Gerado",
+            "bairro": "São Cristovão",
+            "numero": "533",
+            "complemento": "Ap 14",        
+            "cidade": {
+                "id": 1
+            }
+        },
+    "nomeMae":"Maria",
+    "pne": false,
+    "dataNascimento": "1988-05-01",
+    "documento":{
+        "cpf":"01110539517",
+        "cress":"0000002",
+        "estadoCress":{
+            "id":1
+        }
+    },
+    "estadoCivil":{
+          "id":1
+    },
+    "sexo":{
+        "id":0
+    }
+}

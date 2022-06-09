@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import com.ikesocial.pvas.api.PvasLinks;
 import com.ikesocial.pvas.api.controller.SexoController;
 import com.ikesocial.pvas.api.model.output.SexoModel;
-import com.ikesocial.pvas.domain.model.enums.Sexo;
+import com.ikesocial.pvas.domain.enums.Sexo;
 
 @Component
 public class SexoModelAssembler extends RepresentationModelAssemblerSupport<Sexo, SexoModel>{

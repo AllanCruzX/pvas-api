@@ -1,9 +1,9 @@
 package com.ikesocial.pvas.domain.builder;
 
+import com.ikesocial.pvas.domain.enums.TipoDocumento;
 import com.ikesocial.pvas.domain.model.Documento;
 import com.ikesocial.pvas.domain.model.Estado;
 import com.ikesocial.pvas.domain.model.Profissional;
-import com.ikesocial.pvas.domain.model.enums.TipoDocumento;
 
 public class DocumentoBuilder {
 	

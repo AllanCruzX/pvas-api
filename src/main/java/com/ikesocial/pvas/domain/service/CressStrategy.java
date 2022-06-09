@@ -6,10 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ikesocial.pvas.domain.builder.DocumentoBuilder;
+import com.ikesocial.pvas.domain.enums.TipoDocumento;
 import com.ikesocial.pvas.domain.exception.NegocioException;
 import com.ikesocial.pvas.domain.model.Documento;
 import com.ikesocial.pvas.domain.model.Profissional;
-import com.ikesocial.pvas.domain.model.enums.TipoDocumento;
 import com.ikesocial.pvas.domain.repository.ProfissionalRepository;
 
 @Service

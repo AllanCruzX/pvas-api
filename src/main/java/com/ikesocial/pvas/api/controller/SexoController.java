@@ -17,7 +17,7 @@ import com.ikesocial.pvas.api.assembler.SexoModelAssembler;
 import com.ikesocial.pvas.api.model.output.SexoModel;
 import com.ikesocial.pvas.api.openapi.controller.SexoControllerOpenApi;
 import com.ikesocial.pvas.core.security.CheckSecurity;
-import com.ikesocial.pvas.domain.model.enums.Sexo;
+import com.ikesocial.pvas.domain.enums.Sexo;
 
 import lombok.extern.slf4j.Slf4j;
 

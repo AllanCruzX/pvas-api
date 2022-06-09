@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import com.ikesocial.pvas.api.PvasLinks;
 import com.ikesocial.pvas.api.controller.EstadoCivilController;
 import com.ikesocial.pvas.api.model.output.EstadoCivilModel;
-import com.ikesocial.pvas.domain.model.enums.EstadoCivil;
+import com.ikesocial.pvas.domain.enums.EstadoCivil;
 
 @Component
 public class EstadoCivilModelAssembler extends RepresentationModelAssemblerSupport<EstadoCivil, EstadoCivilModel> {

@@ -1,4 +1,4 @@
-package com.ikesocial.pvas.domain.model.enums;
+package com.ikesocial.pvas.domain.enums;
 
 import java.util.Arrays;
 import java.util.List;

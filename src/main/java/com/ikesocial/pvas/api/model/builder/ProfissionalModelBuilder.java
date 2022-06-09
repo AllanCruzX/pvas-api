@@ -12,12 +12,12 @@ import com.ikesocial.pvas.api.model.output.EstadoCivilModel;
 import com.ikesocial.pvas.api.model.output.EstadoModel;
 import com.ikesocial.pvas.api.model.output.ProfissionalModel;
 import com.ikesocial.pvas.api.model.output.SexoModel;
+import com.ikesocial.pvas.domain.enums.EstadoCivil;
+import com.ikesocial.pvas.domain.enums.Sexo;
 import com.ikesocial.pvas.domain.model.Contato;
 import com.ikesocial.pvas.domain.model.Curriculo;
 import com.ikesocial.pvas.domain.model.Documento;
 import com.ikesocial.pvas.domain.model.Endereco;
-import com.ikesocial.pvas.domain.model.enums.EstadoCivil;
-import com.ikesocial.pvas.domain.model.enums.Sexo;
 
 public class ProfissionalModelBuilder {
 

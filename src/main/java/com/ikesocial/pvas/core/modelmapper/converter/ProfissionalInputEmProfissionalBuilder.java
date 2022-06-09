@@ -9,6 +9,10 @@ import org.springframework.util.StringUtils;
 import com.ikesocial.pvas.api.model.input.EnderecoInput;
 import com.ikesocial.pvas.api.model.input.EstadoCivilIdInput;
 import com.ikesocial.pvas.api.model.input.SexoIdInput;
+import com.ikesocial.pvas.domain.enums.EstadoCivil;
+import com.ikesocial.pvas.domain.enums.Sexo;
+import com.ikesocial.pvas.domain.enums.TipoContato;
+import com.ikesocial.pvas.domain.enums.TipoDocumento;
 import com.ikesocial.pvas.domain.model.Cidade;
 import com.ikesocial.pvas.domain.model.Contato;
 import com.ikesocial.pvas.domain.model.Documento;
@@ -16,10 +20,6 @@ import com.ikesocial.pvas.domain.model.Endereco;
 import com.ikesocial.pvas.domain.model.Estado;
 import com.ikesocial.pvas.domain.model.Grupo;
 import com.ikesocial.pvas.domain.model.Profissional;
-import com.ikesocial.pvas.domain.model.enums.EstadoCivil;
-import com.ikesocial.pvas.domain.model.enums.Sexo;
-import com.ikesocial.pvas.domain.model.enums.TipoContato;
-import com.ikesocial.pvas.domain.model.enums.TipoDocumento;
 
 public class ProfissionalInputEmProfissionalBuilder {
 

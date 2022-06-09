@@ -16,8 +16,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-
-import com.ikesocial.pvas.domain.model.enums.TipoDocumento;
+import com.ikesocial.pvas.domain.enums.TipoDocumento;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

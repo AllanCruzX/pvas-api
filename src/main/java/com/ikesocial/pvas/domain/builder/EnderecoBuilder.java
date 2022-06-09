@@ -1,9 +1,9 @@
 package com.ikesocial.pvas.domain.builder;
 
+import com.ikesocial.pvas.domain.enums.TipoEndereco;
 import com.ikesocial.pvas.domain.model.Cidade;
 import com.ikesocial.pvas.domain.model.Endereco;
 import com.ikesocial.pvas.domain.model.Profissional;
-import com.ikesocial.pvas.domain.model.enums.TipoEndereco;
 
 public class EnderecoBuilder {
 	

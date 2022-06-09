@@ -15,8 +15,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
-import com.ikesocial.pvas.domain.model.enums.EstadoCivil;
-import com.ikesocial.pvas.domain.model.enums.Sexo;
+import com.ikesocial.pvas.domain.enums.EstadoCivil;
+import com.ikesocial.pvas.domain.enums.Sexo;
 
 import lombok.Getter;
 import lombok.Setter;

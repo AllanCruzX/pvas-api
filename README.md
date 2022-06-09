@@ -30,7 +30,8 @@ O PVAS é uma API RESTful (Nível 3 do RMM)
 * Cache ETags (Shallow ETags e Deep ETags)
 * OpenAPI (Swagger UI e SringFox)
 * Logs (Logback, SLF4J e Loggly)
-* Testes de integração (REST Assured, JUnit e AssertJ)
+* Testes de integração (JUnit e REST Assured)
+* Testes unitários (JUnit, AssertJ e Mockito)
 * UUIDs
 * SendGrid
 * Gzip

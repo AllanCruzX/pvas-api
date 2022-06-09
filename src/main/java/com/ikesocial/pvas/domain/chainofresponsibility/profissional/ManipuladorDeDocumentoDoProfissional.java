@@ -7,8 +7,8 @@ import org.springframework.stereotype.Component;
 
 import com.ikesocial.pvas.domain.model.Profissional;
 import com.ikesocial.pvas.domain.chainofresponsibility.PrioridadeConstants;
+import com.ikesocial.pvas.domain.enums.TipoDocumento;
 import com.ikesocial.pvas.domain.model.Documento;
-import com.ikesocial.pvas.domain.model.enums.TipoDocumento;
 import com.ikesocial.pvas.domain.service.DocumentoStrategy;
 
 import lombok.extern.slf4j.Slf4j;

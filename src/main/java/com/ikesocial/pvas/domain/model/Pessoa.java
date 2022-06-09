@@ -28,10 +28,10 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.domain.AbstractAggregateRoot;
 
+import com.ikesocial.pvas.domain.enums.TipoContato;
+import com.ikesocial.pvas.domain.enums.TipoDocumento;
+import com.ikesocial.pvas.domain.enums.TipoEndereco;
 import com.ikesocial.pvas.domain.event.PessoaCadastradaEvent;
-import com.ikesocial.pvas.domain.model.enums.TipoContato;
-import com.ikesocial.pvas.domain.model.enums.TipoDocumento;
-import com.ikesocial.pvas.domain.model.enums.TipoEndereco;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
