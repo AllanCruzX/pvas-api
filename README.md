@@ -47,6 +47,8 @@ O PVAS é uma API RESTful (Nível 3 do RMM)
 ![diagarama_topo](https://user-images.githubusercontent.com/26599676/174293897-4bef9a1e-3f21-4bc5-a0aa-615561a4c045.png)
 ![diagarama_foot](https://user-images.githubusercontent.com/26599676/174294415-b81c0fdc-bd21-48ef-83f0-39b341423e6e.png)
 
+### Subindo o Docker Compose
+Navegue até a pasta docker e digite sudo docker-compose up -d {{nome_do_servico}}, os serviços disponibilizados serão configurados e executados a partir de um container docker. Para visualizar o log digite sudo docker-compose logs {{nome_do_servico}} ou sudo docker-compose logs -f {{nome_do_servico}} para acompanhar os últimos logs em tempo real.
 
 
 
